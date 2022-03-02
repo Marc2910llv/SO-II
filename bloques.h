@@ -7,7 +7,7 @@
 #include <errno.h>    //errno
 #include <string.h>   // strerror()
 
-int const BLOCKSIZE 1024 // bytes
+#define BLOCKSIZE 1024 // bytes
 static int descriptor = 0;
 
 int bmount(const char *camino);

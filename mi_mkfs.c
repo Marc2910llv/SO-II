@@ -9,12 +9,12 @@
 
 int main(int argc, char **argv)
 {
-    fd = bumount(argv[1]);
+    int fd = bmount(argv[1]);
     unsigned char *buf;
     memset(buf, 0, BLOCKSIZE);
-    for (int i = 0; i < argv[2]; i++)
+    for (int i = 0; i < *argv[2]; i++)
     {
         bwrite(i, buf);
     }
-    bmount();
+    bumount();
 }

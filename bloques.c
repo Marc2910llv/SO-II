@@ -2,7 +2,8 @@
 
 int bmount(const char *camino)
 {
-    descriptor = open(*camino, O_RDWR | O_CREAT, 0666);
+    umask(000);
+    descriptor = open(camino, O_RDWR | O_CREAT);
     if (descriptor == -1)
     {
         perror("Error");
@@ -13,17 +14,15 @@ int bmount(const char *camino)
 
 int bumount()
 {
-    umask(000);
     int x = close(descriptor);
     return x;
 }
 
 int bwrite(unsigned int nbloque, const void *buf)
 {
-    int nbytesEscritos;
     int desplazamiento = nbloque * BLOCKSIZE;
     lseek(descriptor, desplazamiento, SEEK_SET);
-    nbytes = write(descriptor, buf, BLOCKSIZE);
+    int nbytesEscritos = write(descriptor, buf, BLOCKSIZE);
     if (nbytesEscritos < 0)
     {
         perror("Error");
@@ -37,7 +36,7 @@ int bread(unsigned int nbloque, void *buf)
     int nbytesLeidos;
     int desplazamiento = nbloque * BLOCKSIZE;
     lseek(descriptor, desplazamiento, SEEK_SET);
-    nbytes = read(descriptor, buf, BLOCKSIZE);
+    nbytesLeidos = read(descriptor, buf, BLOCKSIZE);
     if (nbytesLeidos < 0)
     {
         perror("Error");
