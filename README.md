@@ -1,2 +1,3 @@
 # SO-II
-Práctica Sistemas Operativos II
+Práctica Sistemas Operativos
+bon dia
