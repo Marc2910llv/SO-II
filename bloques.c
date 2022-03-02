@@ -49,3 +49,4 @@ int bread(unsigned int nbloque, void *buf)
 // int close(int descriptor);
 // off_t lseek(int descriptor, off_t desplazamiento, int punto_de_referencia);
 // size_t write(int descriptor, const void *buf, size_t nbytes);
+//provaaaa
