@@ -9,10 +9,11 @@
 
 int main(int argc, char **argv)
 {
-    int fd = bmount(argv[1]);
+    int fb = bmount(argv[1]);
     unsigned char *buf;
     memset(buf, 0, BLOCKSIZE);
-    for (int i = 0; i < *argv[2]; i++)
+    int nbloques= *argv[2];
+    for (int i = 0; i < nbloques; i++)
     {
         bwrite(i, buf);
     }
