@@ -1,6 +1,6 @@
 #include "bloques.h"
 
-int bmount(const char *camino)
+int bmount(const char *camino) //abrir fichero
 {
     umask(000);
     descriptor = open(camino, O_RDWR | O_CREAT);
@@ -12,10 +12,10 @@ int bmount(const char *camino)
     return descriptor;
 }
 
-int bumount()
+int bumount() //para cerrar el fichero
 {
     int x = close(descriptor);
-    return x;
+    return x; //retorna un 0 si se ha cerrado correctamente, -1 en caso de error
 }
 
 int bwrite(unsigned int nbloque, const void *buf)
@@ -44,9 +44,3 @@ int bread(unsigned int nbloque, void *buf)
     }
     return nbytesLeidos;
 }
-
-// int open(const char *camino, int oﬂags, mode_t mode);
-// int close(int descriptor);
-// off_t lseek(int descriptor, off_t desplazamiento, int punto_de_referencia);
-// size_t write(int descriptor, const void *buf, size_t nbytes);
-//provaaaa

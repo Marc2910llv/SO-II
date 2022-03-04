@@ -9,13 +9,12 @@
 
 int main(int argc, char *argv[])
 {
-    int fd = bmount(argv[1]);
-    unsigned char *buf[BLOCKSIZE];
+    int fd = bmount(argv[1]); //se pasa por parámetro el camino para poder abrir el fichero
+    unsigned char *buf[BLOCKSIZE]; 
     memset(buf, 0, BLOCKSIZE);
     for (int i = 0; i < atoi(argv[2]); i++)
     {
-        bwrite(i, buf);
+        bwrite(i, buf); //escribimos los nbloques
     }
-    bumount();
-    
+    bumount();   // cerramos el fichero
 }

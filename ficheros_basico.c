@@ -1,104 +1,92 @@
-#include "bloques.h"
-
-#define posSB 0 // el superbloque se escribe en el primer bloque de nuestro FS
-#define tamSB 1
-
-struct superbloque
-{
-    unsigned int posPrimerBloqueMB;                      // Posición absoluta del primer bloque del mapa de bits
-    unsigned int posUltimoBloqueMB;                      // Posición absoluta del último bloque del mapa de bits
-    unsigned int posPrimerBloqueAI;                      // Posición absoluta del primer bloque del array de inodos
-    unsigned int posUltimoBloqueAI;                      // Posición absoluta del último bloque del array de inodos
-    unsigned int posPrimerBloqueDatos;                   // Posición absoluta del primer bloque de datos
-    unsigned int posUltimoBloqueDatos;                   // Posición absoluta del último bloque de datos
-    unsigned int posInodoRaiz;                           // Posición del inodo del directorio raíz (relativa al AI)
-    unsigned int posPrimerInodoLibre;                    // Posición del primer inodo libre (relativa al AI)
-    unsigned int cantBloquesLibres;                      // Cantidad de bloques libres (en todo el disco)
-    unsigned int cantInodosLibres;                       // Cantidad de inodos libres (en el AI)
-    unsigned int totBloques;                             // Cantidad total de bloques del disco
-    unsigned int totInodos;                              // Cantidad total de inodos (heurística)
-    char padding[BLOCKSIZE - 12 * sizeof(unsigned int)]; // Relleno para ocupar el bloque completo
-};
-
-#define INODOSIZE 128 // tamaño en bytes de un inodo
-
-struct inodo
-{                           // comprobar que ocupa 128 bytes haciendo un sizeof(inodo)!!!
-    unsigned char tipo;     // Tipo ('l':libre, 'd':directorio o 'f':fichero)
-    unsigned char permisos; // Permisos (lectura y/o escritura y/o ejecución)
-
-    /* Por cuestiones internas de alineación de estructuras, si se está utilizando
-     un tamaño de palabra de 4 bytes (microprocesadores de 32 bits):
-    unsigned char reservado_alineacion1 [2];
-    en caso de que la palabra utilizada sea del tamaño de 8 bytes
-    (microprocesadores de 64 bits): unsigned char reservado_alineacion1 [6]; */
-    unsigned char reservado_alineacion1[6];
-
-    time_t atime; // Fecha y hora del último acceso a datos: atime
-    time_t mtime; // Fecha y hora de la última modificación de datos: mtime
-    time_t ctime; // Fecha y hora de la última modificación del inodo: ctime
-
-    /* comprobar el tamaño del tipo time_t para vuestra plataforma/compilador:
-    printf ("sizeof time_t is: %d\n", sizeof(time_t)); */
-
-    unsigned int nlinks;             // Cantidad de enlaces de entradas en directorio
-    unsigned int tamEnBytesLog;      // Tamaño en bytes lógicos
-    unsigned int numBloquesOcupados; // Cantidad de bloques ocupados zona de datos
-
-    unsigned int punterosDirectos[12];  // 12 punteros a bloques directos
-    unsigned int punterosIndirectos[3]; /* 3 punteros a bloques indirectos:
-    1 indirecto simple, 1 indirecto doble, 1 indirecto triple */
-
-    /* Utilizar una variable de alineación si es necesario  para vuestra plataforma/compilador   */
-    char padding[INODOSIZE - 2 * sizeof(unsigned char) - 3 * sizeof(time_t) - 18 * sizeof(unsigned int) - 6 * sizeof(unsigned char)];
-    // Hay que restar también lo que ocupen las variables de alineación utilizadas!!!
-};
+#include "ficheros_basico.h"
 
 int tamMB(unsigned int nbloques)
 {
-    int tamBM;
-    if ((nbloques / 8) % BLOCKSIZE != 0)
+    int restoMB = ((nbloques / 8) % BLOCKSIZE);
+
+    if (restoMB > 0)
     {
-        tamMB = ((nbloques / 8) / BLOCKSIZE) + 1;
+        return ((nbloques / 8) / BLOCKSIZE) + 1);
     }
     else
     {
-        tamMB = (nbloques / 8) / BLOCKSIZE;
+        return ((nbloques / 8) / BLOCKSIZE);
     }
 }
 
 int tamAI(unsigned int ninodos)
 {
-    int tamAI;
-    if ((ninodos * INODOSIZE) % BLOCKSIZE != 0)
+    int restoAI = ((ninodos * INODOSIZE) % BLOCKSIZE);
+    if (restoAI > 0)
     {
-        tamAI = ((ninodos * INODOSIZE) / BLOCKSIZE) + 1;
+        return ((ninodos * INODOSIZE) / BLOCKSIZE) + 1;
     }
     else
     {
-        tamAI = (ninodos * INODOSIZE) / BLOCKSIZE;
+        return (ninodos * INODOSIZE) / BLOCKSIZE;
     }
 }
 
-int initSB(unsigned int bloques, unsigned int ninodos)
+int initSB(unsigned int nbloques, unsigned int ninodos)
 {
+    struct superbloque SB;
+
     SB.posPrimerBloqueMB = posSB + tamSB; // posSB = 0, tamSB = 1
-    SB.posUltimoBloqueMB = SB.posPrimerBloqueMB + tamMB(100000) - 1;
+    SB.posUltimoBloqueMB = SB.posPrimerBloqueMB + tamMB(nbloques) - 1;
     SB.posPrimerBloqueAI = SB.posUltimoBloqueMB + 1;
     SB.posUltimoBloqueAI = SB.posPrimerBloqueAI + tamAI(ninodos) - 1;
     SB.posPrimerBloqueDatos = SB.posUltimoBloqueAI + 1;
-    SB.posUltimoBloqueDatos = 100000 - 1;
+    SB.posUltimoBloqueDatos = nbloques - 1;
     SB.posInodoRaiz = 0;
     SB.posPrimerInodoLibre = 0;
-    SB.cantBloquesLibres = 100000;
+    SB.cantBloquesLibres = nbloques;
     SB.cantInodosLibres = ninodos;
     SB.totBloques = nbloques;
+    SB.totinodos = ninodos;
+
+    bwrite(posSB, &SB);
 }
 
-int initMB()
+int initMB() // Inicializa el mapa de bits
 {
+    //inicializamos mapa de bits a 0
+    unsigned char buf[BLOCKSIZE]; 
+    memset(buf, 0, BLOCKSIZE); 
+
+    //leemos el superbloque
+    struct superbloque SB; 
+    bread(??,&SB); 
+
+    //Escribimos
+    for (int i = 0; i < ¿?; i++)
+    {
+        bwrite(i, buf);
+    }
 }
 
 int initAI()
 {
+    //SB.totinodos = ninodos;
+    struct inodo inodos[BLOCKSIZE / INODOSIZE];
+
+    int contInodos = SB.posPrimerInodoLibre + 1;                       // si hemos inicializado SB.posPrimerInodoLibre = 0
+    for (int i = SB.posPrimerBloqueAI; i <= SB.posUltimoBloqueAI; i++) // para cada bloque del AI
+    {
+    bread(¿?,&inodos[i]);
+    for (int j = 0; j < BLOCKSIZE / INODOSIZE; j++) // para cada inodo del AI
+    {
+        inodos[j].tipo : = 'l'; // libre
+        if (contInodos < SB.totInodos) // si no hemos llegado al último inodo
+        {
+            inodos[j].punterosDirectos[0] = contInodos; // enlazamos con el siguiente
+            contInodos++;
+        }
+        else // hemos llegado al último inodo
+        {
+            inodos[j].punterosDirectos[0] = NULL;
+            // hay que salir del bucle, el último bloque no tiene por qué estar completo !!!
+        }
+    }
+        bwrite(¿?,&inodo[i]);
+    }
 }
