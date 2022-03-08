@@ -12,13 +12,15 @@ int main(int argc, char *argv[])
     int fd = bmount(argv[1]);
     unsigned char *buf[BLOCKSIZE];
     memset(buf, 0, BLOCKSIZE);
-    initSB(atoi(argv[2]),atoi(argv[2])/4);
-    initMB();
-    initAI();
+
     for (int i = 0; i < atoi(argv[2]); i++)
     {
         bwrite(i, buf);
     }
+
+    initSB(atoi(argv[2]),atoi(argv[2])/4);
+    initMB();
+    //initAI();    
     bumount();
     
 }
