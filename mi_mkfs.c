@@ -1,6 +1,6 @@
 #include <string.h>
-#include "bloques.h"
-#include "ficheros_basico.h"
+#include "bloques.c"
+#include "ficheros_basico.c"
 
 // Primera versión
 //  argv[0]="mi_mkfs"
@@ -10,16 +10,16 @@
 
 int main(int argc, char *argv[])
 {
-    initSB();
-    initMB();
-    initAI();
-    printf("sizeof struct inodo is: %lu\n", sizeof(struct inodo));
-    int fd = bmount(argv[1]); // se pasa por parámetro el camino para poder abrir el fichero
+    int fd = bmount(argv[1]);
     unsigned char *buf[BLOCKSIZE];
     memset(buf, 0, BLOCKSIZE);
+    initSB(atoi(argv[2]),atoi(argv[2])/4);
+    initMB();
+    initAI();
     for (int i = 0; i < atoi(argv[2]); i++)
     {
-        bwrite(i, buf); // escribimos los nbloques
+        bwrite(i, buf);
     }
-    bumount(); // cerramos el fichero
+    bumount();
+    
 }
