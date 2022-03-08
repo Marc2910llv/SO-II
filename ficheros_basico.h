@@ -54,3 +54,7 @@ struct inodo
     char padding[INODOSIZE - 2 * sizeof(unsigned char) - 3 * sizeof(time_t) - 18 * sizeof(unsigned int) - 6 * sizeof(unsigned char)];
     // Hay que restar también lo que ocupen las variables de alineación utilizadas!!!
 };
+
+int initSB(unsigned int nbloques, unsigned int ninodos);
+int initMB();
+int initAI();

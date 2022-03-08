@@ -1,6 +1,5 @@
 #include <string.h>
-#include "bloques.c"
-#include "ficheros_basico.c"
+#include "ficheros_basico.h"
 
 // Primera versión
 //  argv[0]="mi_mkfs"
