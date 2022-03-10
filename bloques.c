@@ -1,9 +1,9 @@
 #include "bloques.h"
 
-int bmount(const char *camino) //abrir fichero
+int bmount(const char *camino) // abrir fichero
 {
     umask(000);
-    descriptor = open(camino, O_RDWR | O_CREAT);
+    descriptor = open(camino, O_RDWR | O_CREAT, 0666);
     if (descriptor == -1)
     {
         perror("Error");
@@ -12,10 +12,10 @@ int bmount(const char *camino) //abrir fichero
     return descriptor;
 }
 
-int bumount() //para cerrar el fichero
+int bumount() // para cerrar el fichero
 {
     int x = close(descriptor);
-    return x; //retorna un 0 si se ha cerrado correctamente, -1 en caso de error
+    return x; // retorna un 0 si se ha cerrado correctamente, -1 en caso de error
 }
 
 int bwrite(unsigned int nbloque, const void *buf)

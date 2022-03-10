@@ -54,8 +54,7 @@ int initMB(){ // Inicializa el mapa de bits
     unsigned char *buf[BLOCKSIZE]; 
     memset(buf, 0, BLOCKSIZE); 
 
-    //leemos el superbloque, revisar
-    void *punter;
+    //leemos el superbloque
     struct superbloque SB;
     bread(0,&SB);
     //SB = punter;
