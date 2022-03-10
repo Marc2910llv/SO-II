@@ -1,4 +1,6 @@
+#include <string.h>
 #include "ficheros_basico.h"
+
 
 int tamMB(unsigned int nbloques)
 {
@@ -44,24 +46,30 @@ int initSB(unsigned int nbloques, unsigned int ninodos)
     SB.totBloques = nbloques;
     SB.totInodos = ninodos;
 
-    bwrite(posSB, &SB); //fer cridada al sistema
+    bwrite(posSB, &SB); 
 }
 
-int initMB() // Inicializa el mapa de bits
-{
+int initMB(){ // Inicializa el mapa de bits
     //inicializamos mapa de bits a 0
-    unsigned char buf[BLOCKSIZE]; 
+    unsigned char *buf[BLOCKSIZE]; 
     memset(buf, 0, BLOCKSIZE); 
 
-    //leemos el superbloque
+    //leemos el superbloque, revisar
+    void *punter;
     struct superbloque SB;
-    int pos = SB.posPrimerBloqueMB;
-    int tam = SB.posUltimoBloqueMB-pos;
-
+    bread(0,&SB);
+    //SB = punter;
+    //int tamany;
+    
+    
+    unsigned int pos = SB.posPrimerBloqueMB;
+    unsigned int fin = SB.posUltimoBloqueMB;
+    //tamany = tamMB(SB.totBloques);
+    
     //Escribimos
-    for (int i = 0; i < tam; i++)
+    for (int i = pos; i < fin; i++)
     {
-        bwrite(pos++, buf); //fer cridada al sistema
+        bwrite(i, buf); //fer cridada al sistema
     }
 }
 
@@ -69,7 +77,9 @@ int initAI()
 {
     //SB.totinodos = ninodos;
     struct inodo inodos[BLOCKSIZE / INODOSIZE];
-    struct superbloque SB;
+    struct superbloque SB; //revisar
+    int j = bread(0,&SB);
+
     int contInodos = SB.cantInodosLibres +1;                       // si hemos inicializado SB.posPrimerInodoLibre = 0
     for (int i = SB.posPrimerBloqueAI; i <= SB.posUltimoBloqueAI; i++) // para cada bloque del AI
     {

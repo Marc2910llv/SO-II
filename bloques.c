@@ -22,7 +22,7 @@ int bwrite(unsigned int nbloque, const void *buf)
 {
     int desplazamiento = nbloque * BLOCKSIZE;
     lseek(descriptor, desplazamiento, SEEK_SET);
-    int nbytesEscritos = write(descriptor, buf, BLOCKSIZE);
+    size_t nbytesEscritos = write(descriptor, buf, BLOCKSIZE);
     if (nbytesEscritos < 0)
     {
         perror("Error");
@@ -33,7 +33,7 @@ int bwrite(unsigned int nbloque, const void *buf)
 
 int bread(unsigned int nbloque, void *buf)
 {
-    int nbytesLeidos;
+    size_t nbytesLeidos;
     int desplazamiento = nbloque * BLOCKSIZE;
     lseek(descriptor, desplazamiento, SEEK_SET);
     nbytesLeidos = read(descriptor, buf, BLOCKSIZE);

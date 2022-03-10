@@ -17,10 +17,11 @@ int main(int argc, char *argv[])
     {
         bwrite(i, buf);
     }
+    
 
     initSB(atoi(argv[2]),atoi(argv[2])/4);
     initMB();
-    //initAI();    
+    initAI();    
     bumount();
     
 }
