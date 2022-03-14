@@ -1,13 +1,15 @@
 #include <string.h>
 #include "ficheros_basico.h"
 
-int main(int argc, char *argv[]){
+int main(int argc, char *argv[])
+{
     int fd = bmount(argv[1]);
     void *punter;
     struct superbloque *SB;
-    int j= bread(0,punter);
+    int j = bread(0, punter);
     SB = punter;
-    if(j==-1){
+    if (j == -1)
+    {
         perror("Error");
         return -1;
     }
@@ -25,6 +27,10 @@ int main(int argc, char *argv[]){
     printf("totBloques = %d\n", (*SB).totBloques);
     printf("totInodos = %d\n", (*SB).totInodos);
     printf("Sizeof struct superbloque = %ld\n", sizeof(*SB));
-    printf("Sizeof struct Inodo = %ld\n",sizeof(struct inodo));
-
+    printf("Sizeof struct Inodo = %ld\n", sizeof(struct inodo));
 }
+
+ - -gs (/// MRROBOT)
+
+
+

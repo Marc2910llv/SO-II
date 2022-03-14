@@ -81,7 +81,6 @@ int initAI()
     int contInodos = SB.cantInodosLibres + 1;                          // si hemos inicializado SB.posPrimerInodoLibre = 0
     for (int i = SB.posPrimerBloqueAI; i <= SB.posUltimoBloqueAI; i++) // para cada bloque del AI
     {
-        // bread(¿?,&inodos[i]);
         for (int j = 0; j < BLOCKSIZE / INODOSIZE; j++) // para cada inodo del AI
         {
             inodos[j].tipo = 'l';          // libre
@@ -100,18 +99,45 @@ int initAI()
     }
 }
 
+int escribir_bit(unsigned int nbloque, unsigned int bit)
+{
+    int posbyte;
+    int posbit;
+    int nbloqueMB;
+    int nbloqueabs;
+    struct superbloque SB;
+    unsigned char *buf[BLOCKSIZE];
+    bread(0, &SB);
+
+    posbyte = nbloque / 8;
+    posbit = nbloque % 8;
+    nbloqueMB = posbyte / BLOCKSIZE;               // en qué bloque está el bit
+    nbloqueabs = SB.posPrimerBloqueMB + nbloqueMB; // pos absoluta del disp virtual en dnd se encuentra el bloque
+    posbyte = posbyte % BLOCKSIZE;                 // posició des byte dins del bloc
+    unsigned char mascara = 128;                   // 10000000
+    mascara >>= posbit;                            // desplazamiento de bits a la derecha
+    if (bit == 1)
+    {
+        bufferMB[posbyte] | = mascara; //  operador OR para bits
+    }
+    else
+    {
+        bufferMB[posbyte] &= ~mascara; // operadores AND y NOT para bits
+    }
+}
+
 int escribir_inodo(unsigned int ninodo, struct inodo inodo)
 {
     // leemos el superbloque
     struct superbloque SB;
     bread(0, &SB);
 
-    int nBloqueArray = ninodo / (BLOCKSIZE / INODOSIZE); // Obtenemos el nº de bloque del array de inodos que tiene el inodo solicitado
+    int nBloqueArray = SB.posPrimerBloqueAI + (ninodo / (BLOCKSIZE / INODOSIZE)); // Obtenemos el nº de bloque del array de inodos que tiene el inodo solicitado
     struct inodo inodos[BLOCKSIZE / INODOSIZE];
     bread(nBloqueArray, &inodos); // Lo leemos de su posición absoluta del dispositivo
 
     int id = ninodo % (BLOCKSIZE / INODOSIZE);
-    inodos[id] = inodo; // escribimos el inodo en el lugar correspondiente del array
+    inodos[ninodo % (BLOCKSIZE / INODOSIZE)] = inodo; // escribimos el inodo en el lugar correspondiente del array
 
     int error = bwrite(nBloqueArray, &inodos); // El bloque modificado lo escribimos en el dispositivo virtual, devolvemos 0 si todo ha ido bien
 
