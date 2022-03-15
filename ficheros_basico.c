@@ -101,29 +101,60 @@ int initAI()
 
 int escribir_bit(unsigned int nbloque, unsigned int bit)
 {
-    int posbyte;
-    int posbit;
-    int nbloqueMB;
-    int nbloqueabs;
     struct superbloque SB;
-    unsigned char *buf[BLOCKSIZE];
     bread(0, &SB);
 
-    posbyte = nbloque / 8;
-    posbit = nbloque % 8;
-    nbloqueMB = posbyte / BLOCKSIZE;               // en qué bloque está el bit
-    nbloqueabs = SB.posPrimerBloqueMB + nbloqueMB; // pos absoluta del disp virtual en dnd se encuentra el bloque
-    posbyte = posbyte % BLOCKSIZE;                 // posició des byte dins del bloc
-    unsigned char mascara = 128;                   // 10000000
-    mascara >>= posbit;                            // desplazamiento de bits a la derecha
+    int posbyte = nbloque / 8;
+    int posbit = nbloque % 8;
+    int nbloqueMB = posbyte / BLOCKSIZE;               // en qué bloque está el bit
+    int nbloqueabs = SB.posPrimerBloqueMB + nbloqueMB; // pos absoluta del disp virtual en dnd se encuentra el bloque
+    unsigned char bufferMB[BLOCKSIZE];
+    posbyte = posbyte % BLOCKSIZE; // posició des byte dins del bloc
+    unsigned char mascara = 128;   // 10000000
+    mascara >>= posbit;            // desplazamiento de bits a la derecha
+
     if (bit == 1)
     {
-        bufferMB[posbyte] | = mascara; //  operador OR para bits
+        bufferMB[posbyte] |= mascara; //  operador OR para bits
     }
     else
     {
         bufferMB[posbyte] &= ~mascara; // operadores AND y NOT para bits
     }
+
+    bwrite(nbloqueabs, bufferMB); // REVISAR
+}
+
+char leer_bit(unsigned int nbloque)
+{
+    struct superbloque SB;
+    bread(0, &SB);
+
+    int posbyte = nbloque / 8;
+    int posbit = nbloque % 8;
+    int nbloqueMB = posbyte / BLOCKSIZE;               // en qué bloque está el bit
+    int nbloqueabs = SB.posPrimerBloqueMB + nbloqueMB; // pos absoluta del disp virtual en dnd se encuentra el bloque
+    unsigned char bufferMB[BLOCKSIZE];
+    posbyte = posbyte % BLOCKSIZE; // posició des byte dins del bloc
+    unsigned char mascara = 128;   // 10000000
+    mascara >>= posbit;            // desplazamiento de bits a la derecha
+    mascara &= bufferMB[posbyte];  // operador AND para bits
+    mascara >>= (7 - posbit);      // desplazamiento de bits a la derecha
+    return mascara;
+}
+
+int reservar_bloque()
+{
+    struct superbloque SB;
+    (bread(posSB, &SB);
+
+    if (SB.cantBloquesLibres == 0)
+    {
+        perror("Error");
+        return -1;
+    }
+
+    unsigned char bufferMB[BLOCKSIZE];
 }
 
 int escribir_inodo(unsigned int ninodo, struct inodo inodo)
