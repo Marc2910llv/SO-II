@@ -115,14 +115,14 @@ int escribir_bit(unsigned int nbloque, unsigned int bit)
 
     if (bit == 1)
     {
-        bufferMB[posbyte] |= mascara; //  operador OR para bits
+        bufferMB[posbyte]|=mascara; //  operador OR para bits
     }
     else
     {
-        bufferMB[posbyte] &= ~mascara; // operadores AND y NOT para bits
+        bufferMB[posbyte]&=~mascara; // operadores AND y NOT para bits
     }
 
-    bwrite(nbloqueabs, bufferMB); // REVISAR
+    bwrite(nbloqueabs, bufferMB);
 }
 
 char leer_bit(unsigned int nbloque)
@@ -146,15 +146,73 @@ char leer_bit(unsigned int nbloque)
 int reservar_bloque()
 {
     struct superbloque SB;
-    (bread(posSB, &SB);
+    bread(posSB, &SB);
 
-    if (SB.cantBloquesLibres == 0)
+    if (SB.cantBloquesLibres == 0) // Comprobamos la variable del superbloque que nos indica si quedan bloques libres
     {
         perror("Error");
         return -1;
     }
+    // si aún quedan, hemos de localizar el 1er bloque libre del dispositivo virtual consultando cuál es el primer bit a 0 en el MB
 
+    // localizamos la posición en el dispositivo virtual, del primer bloque del MB que tenga algún bit a 0, nbloqueabs y lo leemos
     unsigned char bufferMB[BLOCKSIZE];
+    unsigned char bufferAux[BLOCKSIZE];
+
+    memset(bufferAux, 255, BLOCKSIZE); // llenamos el buffer auxiliar con 1s
+    unsigned int nbloqueabs = SB.posPrimerBloqueMB;
+
+    int iguales = 0;
+    while (iguales == 0)
+    {
+        bread(nbloqueabs, bufferMB);                      // recorremos los bloques del MB (iterando con nbloqueabs) y los iremos cargando en bufferMB
+        iguales = memcmp(bufferMB, bufferAux, BLOCKSIZE); // comparamos cada bloque leído del MB
+        nbloqueabs++;
+    }
+
+    // localizamos qué byte dentro de ese bloque tiene algún 0
+    int posbyte = 0;
+    while (bufferMB[posbyte] == 255)
+    {
+        posbyte++;
+    }
+
+    // localizamos el primer bit dentro de ese byte que vale 0
+    unsigned char mascara = 128; // 10000000
+    int posbit = 0;
+    // encontrar el primer bit a 0 en ese byte
+    while (bufferMB[posbyte] & mascara)
+    {                            // operador AND para bits
+        bufferMB[posbyte] <<= 1; // desplazamiento de bits a la izquierda
+        posbit++;
+    }
+
+    // determinar cuál es finalmente el nº de bloque físico(nbloque) que podemos reservar(posición absoluta del dispositivo)
+    int nbloque = ((nbloqueabs - SB.posPrimerBloqueMB) * BLOCKSIZE + posbyte) * 8 + posbit;
+    escribir_bit(nbloque, 1); // utilizamos la función escribit_bit() pasándole como parámetro ese nº de bloque y un 1 para indicar que el bloque está reservado
+    SB.cantBloquesLibres--;
+    bwrite(posSB, &SB); // decrementamos la cantidad de bloques libres en el campo correspondiente del superbloque, y salvamos el superbloque
+    // limpiamos ese bloque en la zona de datos, grabando un buffer de 0s en la posición del nbloque del dispositivo,
+    // por si había basura (podría tratarse de un bloque reutilizado por el sistema de ficheros)
+    memset(bufferAux, 0, BLOCKSIZE);
+    bwrite(SB.posPrimerBloqueDatos + nbloque - 1, bufferAux);
+
+    return nbloque;
+}
+
+int liberar_bloque(unsigned int nbloque)
+{
+    struct superbloque SB;
+    bread(posSB, &SB);
+
+    // ponemos a 0 el bit del MB correspondiente al bloque nbloque
+    escribir_bit(nbloque, 0);
+
+    // incrementamos la cantidad de bloques libres en el superbloque
+    SB.cantBloquesLibres++;
+    bwrite(posSB, &SB);
+
+    return nbloque;
 }
 
 int escribir_inodo(unsigned int ninodo, struct inodo inodo)
