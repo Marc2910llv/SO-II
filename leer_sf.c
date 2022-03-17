@@ -1,5 +1,6 @@
 #include <string.h>
 #include "ficheros_basico.h"
+#include <time.h> //esta librería incluirla en ficheros_basico.h
 
 int main(int argc, char *argv[])
 {
@@ -28,9 +29,23 @@ int main(int argc, char *argv[])
     printf("totInodos = %d\n", (*SB).totInodos);
     printf("Sizeof struct superbloque = %ld\n", sizeof(*SB));
     printf("Sizeof struct Inodo = %ld\n", sizeof(struct inodo));
+
+    struct tm *ts;
+    char atime[80];
+    char mtime[80];
+    char ctime[80];
+
+    struct inodo inodo;
+    int ninodo;
+
+    leer_inodo(ninodo, &inodo);
+    ts = localtime(&inodo.atime);
+    strftime(atime, sizeof(atime), "%a %Y-%m-%d %H:%M:%S", ts);
+    ts = localtime(&inodo.mtime);
+    strftime(mtime, sizeof(mtime), "%a %Y-%m-%d %H:%M:%S", ts);
+    ts = localtime(&inodo.ctime);
+    strftime(ctime, sizeof(ctime), "%a %Y-%m-%d %H:%M:%S", ts);
+    printf("ID: %d ATIME: %s MTIME: %s CTIME: %s\n", ninodo, atime, mtime, ctime);
 }
 
  - -gs (/// MRROBOT)
-
-
-
