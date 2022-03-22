@@ -3,9 +3,9 @@
 
 int main(int argc, char *argv[])
 {
-    int fd = bmount(argv[1]);
     unsigned char *buf[BLOCKSIZE];
     memset(buf, 0, BLOCKSIZE);
+    bmount(argv[1]);
 
     for (int i = 0; i < atoi(argv[2]); i++)
     {
