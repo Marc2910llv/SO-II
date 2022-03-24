@@ -297,7 +297,7 @@ int reservar_inodo(unsigned char tipo, unsigned char permisos)
         aux.punterosDirectos[i] = 0;
     }
 
-    escribir_inodo(posInodoReservado, inodos);
+    escribir_inodo(posInodoReservado, aux);
 
     bwrite(posSB, &SB);
 
@@ -374,7 +374,7 @@ int obtener_indice(unsigned int nblogico, int nivel_punteros)
 
 int traducir_bloque_inodo(unsigned int ninodo, unsigned int nblogico, char reservar)
 {
-    struct inodo inodo[BLOCKSIZE / INODOSIZE];
+    struct inodo inodo;
     int ptr, ptr_ant, salvar_inodo, nRangoBL, nivel_punteros, indice;
     int buffer[NPUNTEROS];
 
@@ -405,7 +405,7 @@ int traducir_bloque_inodo(unsigned int ninodo, unsigned int nblogico, char reser
                     buffer[indice] = ptr; // (imprimirlo para test)
                     bwrite(ptr_ant, buffer);
                 }
-                memset(buffer, 0, BLOCKSIZE) // ponemos todos los punteros del buffer a 0
+                memset(buffer, 0, BLOCKSIZE); // ponemos todos los punteros del buffer a 0
             }
         }
         else
