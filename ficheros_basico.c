@@ -270,37 +270,36 @@ int reservar_inodo(unsigned char tipo, unsigned char permisos)
     struct superbloque SB; // revisar
     int j = bread(0, &SB);
 
-    int libres = 0;
-    int posInodoReservado;
-    for (int i = 0; i < inodos; i++)
-    {
-        if ((inodos[i].tipo == 'l') && (libres = 0))
-        {
-            posInodoReservado = i;
-            libres = 1;
-        }
-    }
-
-    if (libres == 0)
+    if (SB.cantBloquesLibres == 0)
     {
         return -1;
     }
 
-    SB.posPrimerInodoLibre = posInodoReservado + 1;
-    inodos[posInodoReservado].tipo = tipo;
-    inodos[posInodoReservado].permisos = permisos;
-    inodos[posInodoReservado].nlinks = 1;
-    inodos[posInodoReservado].tamEnBytesLog = 0;
-    inodos[posInodoReservado]->atime = time(NULL);
-    inodos[posInodoReservado]->mtime = time(NULL);
-    inodos[posInodoReservado]->ctime = time(NULL);
-    inodos[posInodoReservado].numBloquesOcupados = 0;
-    inodos[posInodoReservado].punterosDirectos = 0;
-    inodos[posInodoReservado].punterosIndirectos = 0;
+    unsigned int posInodoReservado = SB.posPrimerInodoLibre;
+    SB.posPrimerInodoLibre++;
+    SB.cantInodosLibres--;
+
+    struct inodo aux;
+    aux.tipo = tipo;
+    aux.permisos = permisos;
+    aux.nlinks = 1;
+    aux.tamEnBytesLog = 0;
+    aux.atime = time(NULL);
+    aux.mtime = time(NULL);
+    aux.ctime = time(NULL);
+    aux.numBloquesOcupados = 0;
+    for (int i = 0; i < 12; i++)
+    {
+        for (int j = 0; j < 3; j++)
+        {
+            aux.punterosIndirectos[j] = 0;
+        }
+        aux.punterosDirectos[i] = 0;
+    }
 
     escribir_inodo(posInodoReservado, inodos);
 
-    SB.cantInodosLibres = SB.cantBloquesLibres + 1;
+    bwrite(posSB, &SB);
 
     return posInodoReservado;
 }
