@@ -1,7 +1,7 @@
 #include <string.h>
 #include "ficheros_basico.h"
 
-int tamMB(unsigned int nbloques)
+int tamMB(unsigned int nbloques) // Calcula el tamaño en bloques necesario para el mapa de bits
 {
     int restoMB = ((nbloques / 8) % BLOCKSIZE); // miramos el resto
 
@@ -15,7 +15,7 @@ int tamMB(unsigned int nbloques)
     }
 }
 
-int tamAI(unsigned int ninodos)
+int tamAI(unsigned int ninodos) // Calcula el tamaño en bloques del array de inodos
 {
     int restoAI = ((ninodos * INODOSIZE) % BLOCKSIZE); // miramos el resto
     if (restoAI > 0)                                   // en el caso de que mod no sea 0
@@ -28,28 +28,42 @@ int tamAI(unsigned int ninodos)
     }
 }
 
-int initSB(unsigned int nbloques, unsigned int ninodos)
+int initSB(unsigned int nbloques, unsigned int ninodos) // Inicializa los datos del superbloque
 {
     struct superbloque SB;
 
+    // Posición del primer bloque del mapa de bits
     SB.posPrimerBloqueMB = posSB + tamSB; // posSB = 0, tamSB = 1
+    // Posición del último bloque del mapa de bits
     SB.posUltimoBloqueMB = SB.posPrimerBloqueMB + tamMB(nbloques) - 1;
+    // Posición del primer bloque del array de inodos
     SB.posPrimerBloqueAI = SB.posUltimoBloqueMB + 1;
+    // Posición del último bloque del array de inodos
     SB.posUltimoBloqueAI = SB.posPrimerBloqueAI + tamAI(ninodos) - 1;
+    // Posición del primer bloque de datos
     SB.posPrimerBloqueDatos = SB.posUltimoBloqueAI + 1;
+    // Posición del último bloque de datos
     SB.posUltimoBloqueDatos = nbloques - 1;
+    // Posición del inodo del directorio raíz en el array de inodos
     SB.posInodoRaiz = 0;
+    // Posición del primer inodo libre en el array de inodos
     SB.posPrimerInodoLibre = 0;
+    // Cantidad de bloques libres en el SF
     SB.cantBloquesLibres = nbloques;
+    // Cantidad de inodos libres en el array de inodos
     SB.cantInodosLibres = ninodos;
+    // Cantidad total de bloques
     SB.totBloques = nbloques;
+    // Cantidad total de inodos
     SB.totInodos = ninodos;
 
-    bwrite(posSB, &SB);
+    bwrite(posSB, &SB); // se escribe la estructura en el bloque posSB
+
+    return 1;
 }
 
-int initMB()
-{ // Inicializa el mapa de bits
+int initMB() // Inicializa el mapa de bits poniendo a 1 los bits que representan los metadatos
+{
     // inicializamos mapa de bits a 0
     unsigned char *buf[BLOCKSIZE];
     memset(buf, 0, BLOCKSIZE);
@@ -57,21 +71,23 @@ int initMB()
     // leemos el superbloque
     struct superbloque SB;
     bread(0, &SB);
-    // SB = punter;
-    // int tamany;
 
-    unsigned int pos = SB.posPrimerBloqueMB;
-    unsigned int fin = SB.posUltimoBloqueMB;
-    // tamany = tamMB(SB.totBloques);
+    int tamMB = SB.posUltimoBloqueMB - SB.posPrimerBloqueMB;
 
-    // Escribimos
-    for (int i = pos; i < fin; i++)
+    for (int i = SB.posPrimerBloqueMB; i <= SB.posUltimoBloqueMB; i++)
     {
         bwrite(i, buf); // fer cridada al sistema
     }
+
+    for (int i = posSB; i < SB.posPrimerBloqueDatos; i++)
+    {
+        reservar_bloque();
+    }
+
+    return 1;
 }
 
-int initAI()
+int initAI() // Inicializar la lista de inodos libres
 {
     // SB.totinodos = ninodos;
     struct inodo inodos[BLOCKSIZE / INODOSIZE];
@@ -97,6 +113,8 @@ int initAI()
         }
         bwrite(i, inodos); // revisar, cridada al sistema
     }
+
+    return 1;
 }
 
 int escribir_bit(unsigned int nbloque, unsigned int bit)
@@ -123,6 +141,8 @@ int escribir_bit(unsigned int nbloque, unsigned int bit)
     }
 
     bwrite(nbloqueabs, bufferMB);
+
+    return 1;
 }
 
 char leer_bit(unsigned int nbloque)
