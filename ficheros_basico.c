@@ -1,7 +1,7 @@
 #include <string.h>
 #include "ficheros_basico.h"
 
-int tamMB(unsigned int nbloques) // Calcula el tamaño en bloques necesario para el mapa de bits
+int tamMB(unsigned int nbloques)
 {
     int restoMB = ((nbloques / 8) % BLOCKSIZE); // miramos el resto
 
@@ -15,7 +15,7 @@ int tamMB(unsigned int nbloques) // Calcula el tamaño en bloques necesario para
     }
 }
 
-int tamAI(unsigned int ninodos) // Calcula el tamaño en bloques del array de inodos
+int tamAI(unsigned int ninodos)
 {
     int restoAI = ((ninodos * INODOSIZE) % BLOCKSIZE); // miramos el resto
     if (restoAI > 0)                                   // en el caso de que mod no sea 0
@@ -28,66 +28,61 @@ int tamAI(unsigned int ninodos) // Calcula el tamaño en bloques del array de in
     }
 }
 
-int initSB(unsigned int nbloques, unsigned int ninodos) // Inicializa los datos del superbloque
+int initSB(unsigned int nbloques, unsigned int ninodos)
 {
     struct superbloque SB;
 
-    // Posición del primer bloque del mapa de bits
     SB.posPrimerBloqueMB = posSB + tamSB; // posSB = 0, tamSB = 1
-    // Posición del último bloque del mapa de bits
     SB.posUltimoBloqueMB = SB.posPrimerBloqueMB + tamMB(nbloques) - 1;
-    // Posición del primer bloque del array de inodos
     SB.posPrimerBloqueAI = SB.posUltimoBloqueMB + 1;
-    // Posición del último bloque del array de inodos
     SB.posUltimoBloqueAI = SB.posPrimerBloqueAI + tamAI(ninodos) - 1;
-    // Posición del primer bloque de datos
     SB.posPrimerBloqueDatos = SB.posUltimoBloqueAI + 1;
-    // Posición del último bloque de datos
     SB.posUltimoBloqueDatos = nbloques - 1;
-    // Posición del inodo del directorio raíz en el array de inodos
     SB.posInodoRaiz = 0;
-    // Posición del primer inodo libre en el array de inodos
     SB.posPrimerInodoLibre = 0;
-    // Cantidad de bloques libres en el SF
     SB.cantBloquesLibres = nbloques;
-    // Cantidad de inodos libres en el array de inodos
     SB.cantInodosLibres = ninodos;
-    // Cantidad total de bloques
     SB.totBloques = nbloques;
-    // Cantidad total de inodos
     SB.totInodos = ninodos;
 
-    bwrite(posSB, &SB); // se escribe la estructura en el bloque posSB
-
-    return 1;
+    bwrite(posSB, &SB);
 }
 
-int initMB() // Inicializa el mapa de bits poniendo a 1 los bits que representan los metadatos
-{
+int initMB()
+{ // Inicializa el mapa de bits
     // inicializamos mapa de bits a 0
-    unsigned char *buf[BLOCKSIZE];
+    unsigned char buf[BLOCKSIZE];
     memset(buf, 0, BLOCKSIZE);
+    
 
     // leemos el superbloque
     struct superbloque SB;
     bread(0, &SB);
+    int tam = tamSB+tamMB(SB.totBloques)+tamAI(SB.totInodos);
+    // SB = punter;
+    // int tamany;
 
-    int tamMB = SB.posUltimoBloqueMB - SB.posPrimerBloqueMB;
+    unsigned int pos = SB.posPrimerBloqueMB;
+    unsigned int fin = SB.posUltimoBloqueMB;
+    // tamany = tamMB(SB.totBloques);
 
-    for (int i = SB.posPrimerBloqueMB; i <= SB.posUltimoBloqueMB; i++)
+    // Escribimos
+    for (int i = pos; i < fin; i++)
     {
         bwrite(i, buf); // fer cridada al sistema
     }
-
-    for (int i = posSB; i < SB.posPrimerBloqueDatos; i++)
-    {
-        reservar_bloque();
+    char prova;
+    for(int j=0;j<tam-1;j++){
+        escribir_bit(j,1);
     }
+    SB.cantBloquesLibres = SB.cantBloquesLibres-tam;
+    bwrite(posSB,&SB);
+        
+    
 
-    return 1;
 }
 
-int initAI() // Inicializar la lista de inodos libres
+int initAI()
 {
     // SB.totinodos = ninodos;
     struct inodo inodos[BLOCKSIZE / INODOSIZE];
@@ -113,8 +108,6 @@ int initAI() // Inicializar la lista de inodos libres
         }
         bwrite(i, inodos); // revisar, cridada al sistema
     }
-
-    return 1;
 }
 
 int escribir_bit(unsigned int nbloque, unsigned int bit)
@@ -127,6 +120,7 @@ int escribir_bit(unsigned int nbloque, unsigned int bit)
     int nbloqueMB = posbyte / BLOCKSIZE;               // en qué bloque está el bit
     int nbloqueabs = SB.posPrimerBloqueMB + nbloqueMB; // pos absoluta del disp virtual en dnd se encuentra el bloque
     unsigned char bufferMB[BLOCKSIZE];
+    bread(nbloqueabs,bufferMB);
     posbyte = posbyte % BLOCKSIZE; // posició des byte dins del bloc
     unsigned char mascara = 128;   // 10000000
     mascara >>= posbit;            // desplazamiento de bits a la derecha
@@ -141,8 +135,6 @@ int escribir_bit(unsigned int nbloque, unsigned int bit)
     }
 
     bwrite(nbloqueabs, bufferMB);
-
-    return 1;
 }
 
 char leer_bit(unsigned int nbloque)
@@ -155,11 +147,13 @@ char leer_bit(unsigned int nbloque)
     int nbloqueMB = posbyte / BLOCKSIZE;               // en qué bloque está el bit
     int nbloqueabs = SB.posPrimerBloqueMB + nbloqueMB; // pos absoluta del disp virtual en dnd se encuentra el bloque
     unsigned char bufferMB[BLOCKSIZE];
+    bread(nbloqueabs,bufferMB);
     posbyte = posbyte % BLOCKSIZE; // posició des byte dins del bloc
     unsigned char mascara = 128;   // 10000000
     mascara >>= posbit;            // desplazamiento de bits a la derecha
     mascara &= bufferMB[posbyte];  // operador AND para bits
     mascara >>= (7 - posbit);      // desplazamiento de bits a la derecha
+
     return mascara;
 }
 
@@ -187,6 +181,9 @@ int reservar_bloque()
     {
         bread(nbloqueabs, bufferMB);                      // recorremos los bloques del MB (iterando con nbloqueabs) y los iremos cargando en bufferMB
         iguales = memcmp(bufferMB, bufferAux, BLOCKSIZE); // comparamos cada bloque leído del MB
+        if(iguales!=0){
+            break;
+        }
         nbloqueabs++;
     }
 
@@ -243,12 +240,12 @@ int escribir_inodo(unsigned int ninodo, struct inodo inodo)
 
     int nBloqueArray = SB.posPrimerBloqueAI + (ninodo / (BLOCKSIZE / INODOSIZE)); // Obtenemos el nº de bloque del array de inodos que tiene el inodo solicitado
     struct inodo inodos[BLOCKSIZE / INODOSIZE];
-    bread(nBloqueArray, &inodos); // Lo leemos de su posición absoluta del dispositivo
+    bread(nBloqueArray, inodos); // Lo leemos de su posición absoluta del dispositivo
 
     int id = ninodo % (BLOCKSIZE / INODOSIZE);
     inodos[ninodo % (BLOCKSIZE / INODOSIZE)] = inodo; // escribimos el inodo en el lugar correspondiente del array
 
-    int error = bwrite(nBloqueArray, &inodos); // El bloque modificado lo escribimos en el dispositivo virtual, devolvemos 0 si todo ha ido bien
+    int error = bwrite(nBloqueArray, inodos); // El bloque modificado lo escribimos en el dispositivo virtual, devolvemos 0 si todo ha ido bien
 
     // inodi.mtime = time(NULL);
 
@@ -267,21 +264,13 @@ int leer_inodo(unsigned int ninodo, struct inodo *inodo)
     // leemos el superbloque
     struct superbloque SB;
     bread(0, &SB);
-
-    int nBloqueArray = ninodo / (BLOCKSIZE / INODOSIZE); // Obtenemos el nº de bloque del array de inodos que tiene el inodo solicitado
+    int nBloqueArray = SB.posPrimerBloqueAI+(ninodo / (BLOCKSIZE / INODOSIZE)); // Obtenemos el nº de bloque del array de inodos que tiene el inodo solicitado
     struct inodo inodos[BLOCKSIZE / INODOSIZE];
-    int error = bread(nBloqueArray, &inodos); // Lo leemos de su posición absoluta del dispositivo
+    int error = bread(nBloqueArray, inodos); // Lo leemos de su posición absoluta del dispositivo
 
     // inodi -> mtime = time(NULL);
-
-    if (error = -1)
-    {
-        return error;
-    }
-    else
-    {
-        return 0;
-    }
+    *inodo = inodos[ninodo%(BLOCKSIZE/INODOSIZE)]; //inodo que volem dins l'array d'inodos que hem llegit
+    return 0;
 }
 
 int reservar_inodo(unsigned char tipo, unsigned char permisos)
@@ -290,38 +279,37 @@ int reservar_inodo(unsigned char tipo, unsigned char permisos)
     struct superbloque SB; // revisar
     int j = bread(0, &SB);
 
-    if (SB.cantBloquesLibres == 0)
-    {
+    if(SB.cantInodosLibres==0){
+        perror("Error");
         return -1;
     }
 
-    unsigned int posInodoReservado = SB.posPrimerInodoLibre;
+    unsigned int posInodo = SB.posPrimerInodoLibre;
     SB.posPrimerInodoLibre++;
     SB.cantInodosLibres--;
 
-    struct inodo aux;
-    aux.tipo = tipo;
-    aux.permisos = permisos;
-    aux.nlinks = 1;
-    aux.tamEnBytesLog = 0;
-    aux.atime = time(NULL);
-    aux.mtime = time(NULL);
-    aux.ctime = time(NULL);
-    aux.numBloquesOcupados = 0;
-    for (int i = 0; i < 12; i++)
-    {
-        for (int j = 0; j < 3; j++)
-        {
-            aux.punterosIndirectos[j] = 0;
-        }
-        aux.punterosDirectos[i] = 0;
+    struct inodo nou;
+    nou.tipo = tipo;
+    nou.permisos = permisos;
+    nou.nlinks = 1;
+    nou.tamEnBytesLog=0;
+    nou.atime = time(NULL);
+    nou.mtime = time(NULL);
+    nou.ctime = time(NULL);
+    nou.numBloquesOcupados =0;
+
+    //posar a 0 els punters
+    for(int i=0;i<12;i++){
+        
+        nou.punterosDirectos[i]=0;
     }
+    for(int j=0;j<3;j++){
+        nou.punterosIndirectos[j] =0;
+    }
+    escribir_inodo(posInodo, nou);
+    bwrite(0,&SB);
 
-    escribir_inodo(posInodoReservado, aux);
-
-    bwrite(posSB, &SB);
-
-    return posInodoReservado;
+    return 0;
 }
 
 int obtener_nRangoBL(struct inodo *inodo, unsigned int nblogico, unsigned int *ptr)
