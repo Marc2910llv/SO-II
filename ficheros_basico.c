@@ -342,6 +342,7 @@ int obtener_nRangoBL(struct inodo *inodo, unsigned int nblogico, unsigned int *p
     }
 }
 
+
 int obtener_indice(unsigned int nblogico, int nivel_punteros)
 {
     if (nblogico < DIRECTOS)
@@ -383,8 +384,9 @@ int obtener_indice(unsigned int nblogico, int nivel_punteros)
 int traducir_bloque_inodo(unsigned int ninodo, unsigned int nblogico, char reservar)
 {
     struct inodo inodo;
-    int ptr, ptr_ant, salvar_inodo, nRangoBL, nivel_punteros, indice;
-    int buffer[NPUNTEROS];
+    unsigned int ptr, ptr_ant; 
+    int salvar_inodo, nRangoBL, nivel_punteros, indice;
+    unsigned int buffer[NPUNTEROS];
 
     leer_inodo(ninodo, &inodo);
     ptr = 0, ptr_ant = 0, salvar_inodo = 0;

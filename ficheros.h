@@ -1,4 +1,5 @@
 #include "ficheros_basico.h"
+#include <stdlib.h>
 
 struct STAT {     // comprobar que ocupa 128 bytes haciendo un sizeof(inodo)!!!
    char tipo;     // Tipo ('l':libre, 'd':directorio o 'f':fichero)
