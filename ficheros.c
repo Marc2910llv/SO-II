@@ -3,60 +3,95 @@
 
 int mi_write_f(unsigned int ninodo, const void *buf_original, unsigned int offset, unsigned int nbytes)
 {
-    //var
+    //VARIABLES
     unsigned char *buf_bloque[BLOCKSIZE];
     int primerBL, ultimoBL, desp1, desp2,nbfisico, bytesEscritos;
-    
-    if ((inodo.permisos & 2) != 2) // necesitamos tener los permisos para escrbibir
+
+    //Leemos para verificar permiso luego
+        if(leer_inodo(ninodo,&inodo) == -1){
+        return -1;
+        }   
+
+    //PERMISO PARA ESCRIBIR
+    if ((inodo.permisos & 2) != 2)                               
     {
-        fprintf(stderr," El inodo no tiene permisos necesarios para escribir "\n);
-        return EXIT_FAILURE;
+        return -1;
     }
-        primerBL = offset / BLOCKSIZE; //primer bloque lógico
-        ultimoBL = (offset + nbytes - 1) / BLOCKSIZE; //último bloque lógico
-        desp1 = offset % BLOCKSIZE; //desplazamiento para el offset
-        desp2 = (offset + nbytes - 1) % BLOCKSIZE; // para ver dnd llegan los nbytes
+        //DECLARACIONES
+        primerBL = offset / BLOCKSIZE;                           
+        ultimoBL = (offset + nbytes - 1) / BLOCKSIZE;            
+        desp1 = offset % BLOCKSIZE;                             
+        desp2 = (offset + nbytes - 1) % BLOCKSIZE;               
         nbfisico =  traducir_bloque_inodo(ninodo, primerBL, 1);   
-        bytesEscritos = 0, aux = 0;
+        bytesEscritos = 0;
 
-        if (primerBL == ultimoBL) //1) cabe en el bloque físico
+        //CASO A = <Lo que queremos ESCRIBIR cabe en el bloque físico>
+        if (primerBL == ultimoBL)                                
         {
-            bread(nbfisico, buf_bloque);
+            if(bread(nbfisico, buf_bloque) == -1)
+            {
+                return -1;
+            }
             memcpy(buf_bloque + desp1, buf_original, nbytes);
-            bwrite(nbfisico, buf_bloque);
-            bytesEscritos += nbytes; // si cabe simplemente habremos escrito los nbytes
+            if(bwrite(nbfisico, buf_bloque) == -1)
+            {
+                return -1;
+            }
+            bytesEscritos = nbytes;                             
 
-        }else if(primerBL < ultimoBL) //2) Ocupa más de un bloque físico
+        }
+        //CASO B = <Lo que queremos ESCRIBIR ocupa más de un bloque físico>
+        else if(primerBL < ultimoBL)                            
         {
 
-         //primer bloque lógico
-            bread(nbfisico,buf_bloque);
+        //1) Primer bloque lógico
+            if(bread(nbfisico, buf_bloque) == -1)
+            {
+                return -1;
+            }
             memcpy(buf_bloque + desp1, buf_original, BLOCKSIZE-desp1);
-            aux = bwrite(nbfisico,buf_bloque);
-            bytesEscritos += aux - desp1; //bytes escritos habiendo corrido desp1 y estando situados ya en el primer bloque
-        //bloques lógicos intermedios
+            if(bwrite(nbfisico, buf_bloque) == -1)
+            {
+                return -1;
+            }
+            //Bytes escritos habiendo corrido desp1 y estando situados ya en el primer bloque
+            bytesEscritos += BLOCKSIZE - desp1; 
+
+        //2) Bloques lógicos intermedios
             for(int i = primerBL + 1; i< ultimoBL;i++)
             {
-            nbfisico = traducir_bloque_inodo(ninodo, i, 1); //obtenemos cada bloque intermedio
-            aux = bwrite(nbfisico, buf_original + (BLOCKSIZE - desp1) + (i - primerBL - 1) * BLOCKSIZE);  //y lo escribimos
-            bytesEscritos += aux;
+            //Obtenemos cada bloque intermedio
+            nbfisico = traducir_bloque_inodo(ninodo, i, 1); 
+            if(bwrite(nbfisico, buf_original + (BLOCKSIZE - desp1) + (i - primerBL - 1) * BLOCKSIZE) == -1)
+            {
+                return -1;
+            }  
+            bytesEscritos += BLOCKSIZE;
             }
-        //último bloque lógico
-            nbfisico =  traducir_bloque_inodo(ninodo, primerBL, 1); 
-             bread(nbfisico,buf_bloque);
-             memcpy(buf_bloque, buf_original + (nbytes - desp2 - 1), desp2 + 1);
-             bwrite(nbfisico, buf_bloque);
+
+        //3) Último bloque lógico
+            nbfisico =  traducir_bloque_inodo(ninodo, ultimoBL, 1); 
+            if(bread(nbfisico, buf_bloque) == -1)
+            {
+                return -1;
+            }
+            memcpy(buf_bloque, buf_original + (nbytes - desp2 - 1), desp2 + 1);
+            if(bwrite(nbfisico, buf_bloque) == -1)
+            {
+                return -1;
+            }
             bytesEscritos += desp2 + 1;
         }
 
-        //ACTUALIZAMOS la metainformación del inodo
-        leer_inodo(ninodo,&inodo); //Leer el inodo actualizado
-
-        if(inodo.tamEnBytesLog < (nbytes + offset))   //Actualizar el tamaño en bytes lógico (si hemos escrito más allá del final del fichero)
+        //ACTUALIZAMOS METAINFORMACIÓN DEL INODO
+        //Leer el inodo actualizado
+        leer_inodo(ninodo,&inodo); 
+        //Actualizar el tamaño en bytes lógico (si hemos escrito más allá del final del fichero)
+        if(inodo.tamEnBytesLog < (nbytes + offset))   
         {
-        inodo.ctime = time(NULL); //y por tanto el ctime si modificamos cualquier campo del inodo
+        inodo.ctime = time(NULL); 
         }
-        //Actualizar el mtime  (porque hemos escrito en la zona de datos)
+        //Actualizar el mtime (porque hemos escrito en la zona de datos)
         inodo.mtime = time(NULL);
         //Escribir el inodo
         escribir_inodo(ninodo,inodo);
@@ -66,20 +101,112 @@ int mi_write_f(unsigned int ninodo, const void *buf_original, unsigned int offse
 
 
 int mi_read_f(unsigned int ninodo, void *buf_original, unsigned int offset, unsigned int nbytes)
-{
-    if ((inodo.permisos & 4) != 4)
-    {
+{       
+    //VARIABLES
+    unsigned char *buf_bloque[BLOCKSIZE];
+    int primerBL, ultimoBL, desp1, desp2,nbfisico, bytesLeidos;
+    struct inodo inodo;
+
+        //Leemos para verificar permiso luego
+        if(leer_inodo(ninodo,&inodo) == -1){
+        return -1;
+        }
+        
+        //PERMISO PARA LEER
+        if ((inodo.permisos & 4) != 4)
+        {
+            return -1;
+        }
+        
         if (offset >= inodo.tamEnBytesLog)
         {
-            int leidos = 0; // No podemos leer nada
-            return leidos;
+            //No podemos leer nada
+            bytesLeidos = 0; 
+            return bytesLeidos;
         }
+
         if ((offset + nbytes) >= inodo.tamEnBytesLog)
-        { // pretende leer más allá de EOF
+        {   //Pretende leer más allá de EOF
             nbytes = inodo.tamEnBytesLog - offset;
-            // leemos sólo los bytes que podemos desde el offset hasta EOF
+            //Leemos sólo los bytes que podemos desde el offset hasta EOF
         }
+
+        //DECLARACIONES
+        bytesLeidos = 0;
+        primerBL = offset / BLOCKSIZE; 
+        ultimoBL = (offset + nbytes - 1) / BLOCKSIZE; 
+        desp1 = offset % BLOCKSIZE; 
+        desp2 = (offset + nbytes - 1) % BLOCKSIZE; 
+       
+      
+        //CASO A = <Lo que queremos LEER cabe en el bloque físico>
+        if (primerBL == ultimoBL) 
+        {
+            nbfisico =  traducir_bloque_inodo(ninodo, primerBL, 0);
+            if(nbfisico != -1) //si hay bloques físicos para cierto bloque lógico 
+            {
+            if(bread(nbloque, buf_bloque) == -1){
+                    return -1;
+                }
+            memcpy(buf_original, buf_bloque + desp1, nbytes);
+            }
+            bytesLeidos = nbytes;
+
+        }
+        //CASO B = <Lo que queremos LEER ocupa más de un bloque físico>
+        else if(primerBL < ultimoBL) 
+        {
+          //1) Primer bloque lógico
+            nbfisico =  traducir_bloque_inodo(ninodo, primerBL, 0);
+            if(nbfisico != -1) 
+            {
+            if(bread(nbfisico,buf_bloque) == -1)
+            {
+                return -1
+            }
+            memcpy( buf_original, buf_bloque + desp1, BLOCKSIZE-desp1);
+            }
+            bytesLeidos += BLOCKSIZE - desp1; 
+
+        //2) Bloques lógicos intermedios
+            for(int i = primerBL + 1; i< ultimoBL;i++)
+            {
+            nbfisico = traducir_bloque_inodo(ninodo, i, 0); //obtenemos cada bloque intermedio
+            if(nbfisico != -1)
+            {
+            if(bread(nbfisico,buf_bloque) == -1) //****
+            {
+                return -1
+            }
+            memcpy(( buf_original + (BLOCKSIZE - desp1) + (i - primerBL - 1) * BLOCKSIZE), buf_bloque, BLOCKSIZE);
+            }
+            bytesLeidos += BLOCKSIZE;
+            }
+
+        //3) Último bloque lógico
+            nbfisico =  traducir_bloque_inodo(ninodo, ultimoBL, 0); 
+             if(nbfisico != -1)
+            {
+            if(bread(nbfisico,buf_bloque) == -1)
+            {
+                return -1
+            }
+             memcpy( buf_original + (nbytes - desp2 - 1), buf_bloque, desp2 + 1);
+            }
+            bytesLeidos += desp2 + 1;
+        }
+
+        //ACTUALIZAMOS METAINFORMACIÓN DEL INODO
+        //Leer el inodo actualizado
+        leer_inodo(ninodo,&inodo); 
+        //Actualizar el atime 
+        inodo.atime = time(NULL);
+        //Escribir el inodo
+        escribir_inodo(ninodo,inodo);
+        //Devolver cantidad de bytes leidos:
+        return bytesLeidos;
     }
+    
 }
 
 int mi_stat_f(unsigned int ninodo, struct STAT *p_stat)
