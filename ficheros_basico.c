@@ -337,11 +337,10 @@ int obtener_nRangoBL(struct inodo *inodo, unsigned int nblogico, unsigned int *p
     else
     {
         *ptr = 0;
-        error("Bloque lógico fuera de rango");
+        perror("Bloque lógico fuera de rango");
         return -1;
     }
 }
-
 
 int obtener_indice(unsigned int nblogico, int nivel_punteros)
 {
@@ -355,26 +354,26 @@ int obtener_indice(unsigned int nblogico, int nivel_punteros)
     } // ej nblogico=204
     else if (nblogico < INDIRECTOS1)
     { // ej nblogico=30.004
-        if (nivel_punteros = 2)
+        if (nivel_punteros == 2)
         {
             return (nblogico - INDIRECTOS0) / NPUNTEROS;
         }
-        else if (nivel_punteros = 1)
+        else if (nivel_punteros == 1)
         {
             return (nblogico - INDIRECTOS0) % NPUNTEROS;
         }
     }
     else if (nblogico < INDIRECTOS2)
     { // ej nblogico=400.004
-        if (nivel_punteros = 3)
+        if (nivel_punteros == 3)
         {
             return (nblogico - INDIRECTOS1) / (NPUNTEROS * NPUNTEROS);
         }
-        else if (nivel_punteros = 2)
+        else if (nivel_punteros == 2)
         {
             return ((nblogico - INDIRECTOS1) % (NPUNTEROS * NPUNTEROS)) / NPUNTEROS;
         }
-        else if (nivel_punteros = 1)
+        else if (nivel_punteros == 1)
         {
             return ((nblogico - INDIRECTOS1) % (NPUNTEROS * NPUNTEROS)) % NPUNTEROS;
         }
@@ -384,9 +383,8 @@ int obtener_indice(unsigned int nblogico, int nivel_punteros)
 int traducir_bloque_inodo(unsigned int ninodo, unsigned int nblogico, char reservar)
 {
     struct inodo inodo;
-    unsigned int ptr, ptr_ant; 
-    int salvar_inodo, nRangoBL, nivel_punteros, indice;
-    unsigned int buffer[NPUNTEROS];
+    int ptr, ptr_ant, salvar_inodo, nRangoBL, nivel_punteros, indice;
+    int buffer[NPUNTEROS];
 
     leer_inodo(ninodo, &inodo);
     ptr = 0, ptr_ant = 0, salvar_inodo = 0;
@@ -394,9 +392,9 @@ int traducir_bloque_inodo(unsigned int ninodo, unsigned int nblogico, char reser
     nivel_punteros = nRangoBL;                           // el nivel_punteros +alto es el que cuelga del inodo
     while (nivel_punteros > 0)
     { // iterar para cada nivel de indirectos
-        if (ptr = 0)
+        if (ptr == 0)
         { // no cuelgan bloques de punteros
-            if (reservar = 0)
+            if (reservar == 0)
             {
                 return -1;
             } // bloque inexistente -> no imprimir nada por pantalla!!!
@@ -406,13 +404,15 @@ int traducir_bloque_inodo(unsigned int ninodo, unsigned int nblogico, char reser
                 ptr = reservar_bloque(); // de punteros
                 inodo.numBloquesOcupados++;
                 inodo.ctime = time(NULL); // fecha actual
-                if (nivel_punteros = nRangoBL)
+                if (nivel_punteros == nRangoBL)
                 {                                                 // el bloque cuelga directamente del inodo
                     inodo.punterosIndirectos[nRangoBL - 1] = ptr; // (imprimirlo para test)
+                    //printf("traducir_bloque_inodo()→ inodo.punterosIndirectos[%i] = %i (reservado BF %i para BL %i)\n", nRangoBL,ptr,ptr,nivel_punteros);
                 }
                 else
                 {                         // el bloque cuelga de otro bloque de punteros
                     buffer[indice] = ptr; // (imprimirlo para test)
+                    //printf("traducir_bloque_inodo()→ inodo.punterosIndirectos[%i] = %i (reservado BF %i para BL %i)\n", nivel_punteros,ptr,ptr,nivel_punteros);
                     bwrite(ptr_ant, buffer);
                 }
                 memset(buffer, 0, BLOCKSIZE); // ponemos todos los punteros del buffer a 0
@@ -427,9 +427,9 @@ int traducir_bloque_inodo(unsigned int ninodo, unsigned int nblogico, char reser
         ptr = buffer[indice]; // y lo desplazamos al siguiente nivel
         nivel_punteros--;
     } // al salir de este bucle ya estamos al nivel de datos
-    if (ptr = 0)
+    if (ptr == 0)
     { // no existe bloque de datos
-        if (reservar = 0)
+        if (reservar == 0)
         {
             return -1;
         } // error lectura ∄ bloque
@@ -439,18 +439,20 @@ int traducir_bloque_inodo(unsigned int ninodo, unsigned int nblogico, char reser
             ptr = reservar_bloque(); // de datos
             inodo.numBloquesOcupados++;
             inodo.ctime = time(NULL);
-            if (nRangoBL = 0)
+            if (nRangoBL == 0)
             {
                 inodo.punterosDirectos[nblogico] = ptr; // (imprimirlo para test)
+                //printf("traducir_bloque_inodo()→ inodo.punterosDirectos[%i] = %i (reservado BF %i para BL %i)\n", nblogico,ptr,ptr,nblogico);
             }
             else
             {
                 buffer[indice] = ptr; // (imprimirlo para test)
+                //printf("traducir_bloque_inodo()→ inodo.punterosDirectos[%i] = %i (reservado BF %i para BL %i)\n", indice,ptr,ptr,nblogico);
                 bwrite(ptr_ant, buffer);
             }
         }
     }
-    if (salvar_inodo = 1)
+    if (salvar_inodo == 1)
     {
         escribir_inodo(ninodo, inodo); // sólo si lo hemos actualizado
     }
