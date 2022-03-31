@@ -8,11 +8,16 @@ int mi_write_f(unsigned int ninodo, const void *buf_original, unsigned int offse
     size_t bytesEscritos;
 
     struct inodo inodo;
-    leer_inodo(ninodo, &inodo);
+    if (leer_inodo(ninodo, &inodo) != 0)
+    {
+        perror("ERROR EN mi_write_f AL LEER EL INODO");
+        return -1;
+    }
 
     if ((inodo.permisos & 2) != 2) // Comprobamos si tenemos permisos de escritura
     {
-        perror("NO HAY PERMISO DE ESCRITURA") return -1;
+        perror("NO HAY PERMISO DE ESCRITURA");
+        return -1;
     }
 
     primerBL = offset / BLOCKSIZE;
@@ -24,9 +29,17 @@ int mi_write_f(unsigned int ninodo, const void *buf_original, unsigned int offse
     if (primerBL == ultimoBL)
     {
         nbfisico = traducir_bloque_inodo(ninodo, primerBL, 1); // Obtenemos el nº de bloque físico
-        bread(nbfisico, buf_bloque);
+        if (bread(nbfisico, buf_bloque) == -1)
+        {
+            perror("ERROR EN mi_write_f AL LEER EL BLOQUE FÍSICO EN EL CASO 1");
+            return -1;
+        }
         memcpy(buf_bloque + desp1, buf_original, nbytes); // Utilizamos memcpy() para escribir los nbytes
-        bwrite(nbfisico, buf_bloque);
+        if (bwrite(nbfisico, buf_bloque) == -1)
+        {
+            perror("ERROR EN mi_write_f AL ESCRIBIR EL BLOQUE FÍSICO EN EL CASO 1");
+            return -1;
+        }
 
         bytesEscritos = nbytes;
     }
@@ -35,9 +48,17 @@ int mi_write_f(unsigned int ninodo, const void *buf_original, unsigned int offse
     {
         // 1) Primer bloque lógico (BL8)
         nbfisico = traducir_bloque_inodo(ninodo, primerBL, 1); // Obtenemos el nº de bloque físico
-        bread(nbfisico, buf_bloque);
+        if (bread(nbfisico, buf_bloque) == -1)
+        {
+            perror("ERROR EN mi_write_f AL LEER EL BLOQUE FÍSICO EN EL CASO 2");
+            return -1;
+        }
         memcpy(buf_bloque + desp1, buf_original, BLOCKSIZE - desp1);
-        bwrite(nbfisico, buf_bloque);
+        if (bwrite(nbfisico, buf_bloque) == -1)
+        {
+            perror("ERROR EN mi_write_f AL ESCRIBIR EL BLOQUE FÍSICO EN EL CASO 2");
+            return -1;
+        }
 
         // Bytes escritos habiendo corrido desp1 y estando situados ya en el primer bloque
         bytesEscritos = bytesEscritos + BLOCKSIZE - desp1;
@@ -47,7 +68,11 @@ int mi_write_f(unsigned int ninodo, const void *buf_original, unsigned int offse
         {
             // Obtenemos cada bloque intermedio
             nbfisico = traducir_bloque_inodo(ninodo, i, 1);
-            bwrite(nbfisico, buf_original + (BLOCKSIZE - desp1) + (i - primerBL - 1) * BLOCKSIZE);
+            if (bwrite(nbfisico, buf_original + (BLOCKSIZE - desp1) + (i - primerBL - 1) * BLOCKSIZE) == -1)
+            {
+                perror("ERROR EN mi_write_f AL ESCRIBIR EN LOS BLOQUES LÓGICOS INTERMEDIOS, CASO 2");
+                return -1;
+            }
 
             bytesEscritos = bytesEscritos + BLOCKSIZE;
         }
