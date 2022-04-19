@@ -287,6 +287,10 @@ int mi_truncar_f(unsigned int ninodo, unsigned int nbytes)
     struct STAT stat;
     mi_stat_f(ninodo, &stat);
     muriki = stat.permisos;
+    if((muriki&2)!=2){
+        perror("No tiene permisos de lectura");
+        return -1;
+    }
     
     if (
 
