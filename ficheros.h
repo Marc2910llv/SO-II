@@ -1,7 +1,8 @@
 #include "ficheros_basico.h"
 #include <stdlib.h>
 
-struct STAT {     // comprobar que ocupa 128 bytes haciendo un sizeof(inodo)!!!
+struct STAT
+{                 // comprobar que ocupa 128 bytes haciendo un sizeof(inodo)!!!
    char tipo;     // Tipo ('l':libre, 'd':directorio o 'f':fichero)
    char permisos; // Permisos (lectura y/o escritura y/o ejecución)
 
@@ -18,3 +19,4 @@ int mi_write_f(unsigned int ninodo, const void *buf_original, unsigned int offse
 int mi_read_f(unsigned int ninodo, void *buf_original, unsigned int offset, unsigned int nbytes);
 int mi_stat_f(unsigned int ninodo, struct STAT *p_stat);
 int mi_chmod_f(unsigned int ninodo, unsigned char permisos);
+int mi_truncar_f(unsigned int ninodo, unsigned int nbytes);

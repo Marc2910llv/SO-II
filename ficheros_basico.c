@@ -546,7 +546,7 @@ int traducir_bloque_inodo(unsigned int ninodo, unsigned int nblogico, char reser
 }
 
 // Liberar un inodo implica por un lado, que tal inodo pasará a la cabeza de la lista de inodos libres y tendremos un inodo más libre en el sistema
-/*int liberar_inodo(unsigned int ninodo)
+int liberar_inodo(unsigned int ninodo)
 {
     struct inodo inodo;
     if (leer_inodo(ninodo, &inodo) != 0)
@@ -707,9 +707,3 @@ int liberar_bloques_inodo(unsigned int primerBL, struct inodo *inodo)
     }
     return liberados;
 }
-
-// Trunca un fichero/directorio a los bytes indicados como nbytes, liberando los bloques necesarios
-int mi_truncar_f(unsigned int ninodo, unsigned int nbytes)
-{
-    
-}*/

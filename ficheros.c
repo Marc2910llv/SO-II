@@ -42,7 +42,7 @@ int mi_write_f(unsigned int ninodo, const void *buf_original, unsigned int offse
             return -1;
         }
 
-        bytesEscritos = bytesEscritos+ nbytes;
+        bytesEscritos = bytesEscritos + nbytes;
     }
     // CASO 2º (la operación de escritura ocupa más de un bloque)
     else if (primerBL < ultimoBL)
@@ -120,7 +120,7 @@ int mi_write_f(unsigned int ninodo, const void *buf_original, unsigned int offse
 }
 
 // Lee información de un fichero/directorio y la almacena en un buffer de memoria, buf_original
-int mi_read_f(unsigned int ninodo, void *buf_original, unsigned int offset, unsigned int nbytes) //////////////REVISAR//////////////////
+int mi_read_f(unsigned int ninodo, void *buf_original, unsigned int offset, unsigned int nbytes)
 {
     // VARIABLES
     unsigned char buf_bloque[BLOCKSIZE];
@@ -131,13 +131,14 @@ int mi_read_f(unsigned int ninodo, void *buf_original, unsigned int offset, unsi
     if (leer_inodo(ninodo, &inodo) == -1)
     {
         perror("ERROR EN mi_read_f AL LEER EL INODO PARA VERIFICAR EL PERMISO");
-        return -1;
+        return 0;
     }
 
     // PERMISO PARA LEER
     if ((inodo.permisos & 4) != 4)
     {
-        return -1;
+        perror("ERROR EN mi_read_f, NO HAY PERMISOS DE LECTURA");
+        return 0;
     }
 
     if (offset >= inodo.tamEnBytesLog)
@@ -160,20 +161,22 @@ int mi_read_f(unsigned int ninodo, void *buf_original, unsigned int offset, unsi
     desp1 = offset % BLOCKSIZE;
     desp2 = (offset + nbytes - 1) % BLOCKSIZE;
 
-    // CASO A = <Lo que queremos LEER cabe en el bloque físico>
+    // CASO 1º (el buffer cabe en un solo bloque)
     if (primerBL == ultimoBL)
     {
         nbfisico = traducir_bloque_inodo(ninodo, primerBL, 0);
         if (nbfisico != -1) // si hay bloques físicos para cierto bloque lógico
         {
-            ///////////////////////////////////////////////////////////
-            bread(nbfisico, buf_bloque);//revisar
-            //////////////////////////////////////////////////////////
+            if (bread(nbfisico, buf_bloque) == -1)
+            {
+                perror("ERROR EL mi_read_f AL LEER EN EL CASO 1");
+                return -1;
+            }
             memcpy(buf_original, buf_bloque + desp1, nbytes);
         }
         bytesLeidos = nbytes;
     }
-    // CASO B = <Lo que queremos LEER ocupa más de un bloque físico>
+    // CASO 2º (la operación de escritura ocupa más de un bloque)
     else if (primerBL < ultimoBL)
     {
         // 1) Primer bloque lógico
@@ -195,7 +198,7 @@ int mi_read_f(unsigned int ninodo, void *buf_original, unsigned int offset, unsi
             nbfisico = traducir_bloque_inodo(ninodo, i, 0); // obtenemos cada bloque intermedio
             if (nbfisico != -1)
             {
-                if (bread(nbfisico, buf_bloque) == -1) //****
+                if (bread(nbfisico, buf_bloque) == -1)
                 {
                     perror("ERROR EL mi_read_f AL LEER EN LOS BLOQUES LÓGICOS INTERMEDIOS");
                     return -1;
@@ -238,7 +241,7 @@ int mi_read_f(unsigned int ninodo, void *buf_original, unsigned int offset, unsi
     return bytesLeidos;
 }
 
-int mi_stat_f(unsigned int ninodo, struct STAT *p_stat) 
+int mi_stat_f(unsigned int ninodo, struct STAT *p_stat)
 {
     struct inodo inodo;
     if (leer_inodo(ninodo, &inodo) == -1)
@@ -275,4 +278,18 @@ int mi_chmod_f(unsigned int ninodo, unsigned char permisos) ////////////REVISAR/
     }
     inodo.ctime = time(NULL);
     return 1;
+}
+
+// Trunca un fichero/directorio a los bytes indicados como nbytes, liberando los bloques necesarios
+int mi_truncar_f(unsigned int ninodo, unsigned int nbytes)
+{
+    char muriki;
+    struct STAT stat;
+    mi_stat_f(ninodo, &stat);
+    muriki = stat.permisos;
+
+    if (
+
+        //  la salchicheta adelaida subete
+    )
 }
