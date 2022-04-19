@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
 
         if (bread(0, &SB) == -1)
         {
-            perror("ERROR EN leer_sf AL LEER EL SUPERBLOQUE");
+            perror("ERROR EN leer.c AL LEER EL SUPERBLOQUE");
             return -1;
         }
 
