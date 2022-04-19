@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
             perror("ERROR EN leer_sf AL LEER EL SUPERBLOQUE");
             return -1;
         }
-        
+
         leidos = mi_read_f(ninodo, buffer_texto, offset, tambuffer);
         while (leidos > 0)
         {
@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
             offset = tambuffer + offset;
             leidos = mi_read_f(ninodo, buffer_texto, offset, tambuffer);
         }
-  tamany bytes logics        leer_inodo(ninodo, &inodo);
+        leer_inodo(ninodo, &inodo);
         fprintf(stderr, "tamEnBytesLog: %d\n", inodo.tamEnBytesLog);
         fprintf(sterr, "bytes llegits: %d\ntamEnBytesLog: %d\n", bytesllegits, inodo.tamEnBytesLog);
         bumount();

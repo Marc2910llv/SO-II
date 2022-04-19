@@ -287,7 +287,7 @@ int mi_truncar_f(unsigned int ninodo, unsigned int nbytes)
     struct STAT stat;
     mi_stat_f(ninodo, &stat);
     muriki = stat.permisos;
-
+    
     if (
 
         //  la salchicheta adelaida subete
