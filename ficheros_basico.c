@@ -1,5 +1,6 @@
 #include <string.h>
 #include "ficheros_basico.h"
+#include <time.h>
 
 int tamMB(unsigned int nbloques)
 {
@@ -46,7 +47,7 @@ int initSB(unsigned int nbloques, unsigned int ninodos) // Inicializa los datos 
 
     if (bwrite(posSB, &SB) == -1)
     {
-        perror("ERROR EN initSB")
+        perror("ERROR EN initSB");
     }
 }
 
@@ -215,7 +216,7 @@ int reservar_bloque()
     {
         if (bread(nbloqueabs, bufferMB) == -1) // recorremos los bloques del MB (iterando con nbloqueabs) y los iremos cargando en bufferMB
         {
-            perror("ERROR EN reservar_bloque AL LEER")
+            perror("ERROR EN reservar_bloque AL LEER");
         }
         iguales = memcmp(bufferMB, bufferAux, BLOCKSIZE); // comparamos cada bloque leído del MB
         if (iguales != 0)
@@ -308,7 +309,7 @@ int escribir_inodo(unsigned int ninodo, struct inodo inodo)
 
     // inodi.mtime = time(NULL);
 
-    if (bwrite(nBloqueArray, inodos) = -1) // El bloque modificado lo escribimos en el dispositivo virtual, devolvemos 0 si todo ha ido bien
+    if (bwrite(nBloqueArray, inodos) == -1) // El bloque modificado lo escribimos en el dispositivo virtual, devolvemos 0 si todo ha ido bien
     {
         perror("ERROR EN escribir_inodo AL ESCRIBIR EL BLOQUE MODIFICADO EN EL DISPOSITIVO VIRTUAL");
         return -1;
@@ -545,7 +546,7 @@ int traducir_bloque_inodo(unsigned int ninodo, unsigned int nblogico, char reser
 }
 
 // Liberar un inodo implica por un lado, que tal inodo pasará a la cabeza de la lista de inodos libres y tendremos un inodo más libre en el sistema
-int liberar_inodo(unsigned int ninodo)
+/*int liberar_inodo(unsigned int ninodo)
 {
     struct inodo inodo;
     if (leer_inodo(ninodo, &inodo) != 0)
@@ -711,4 +712,4 @@ int liberar_bloques_inodo(unsigned int primerBL, struct inodo *inodo)
 int mi_truncar_f(unsigned int ninodo, unsigned int nbytes)
 {
     
-}
+}*/

@@ -1,4 +1,5 @@
 #include "ficheros.h"
+#include <time.h>
 
 // Escribe el contenido procedente de un buffer de memoria, buf_original, de tamaño nbytes, en un fichero/directorio.
 int mi_write_f(unsigned int ninodo, const void *buf_original, unsigned int offset, unsigned int nbytes)
@@ -41,7 +42,7 @@ int mi_write_f(unsigned int ninodo, const void *buf_original, unsigned int offse
             return -1;
         }
 
-        bytesEscritos = nbytes;
+        bytesEscritos = bytesEscritos+ nbytes;
     }
     // CASO 2º (la operación de escritura ocupa más de un bloque)
     else if (primerBL < ultimoBL)
@@ -122,7 +123,7 @@ int mi_write_f(unsigned int ninodo, const void *buf_original, unsigned int offse
 int mi_read_f(unsigned int ninodo, void *buf_original, unsigned int offset, unsigned int nbytes) //////////////REVISAR//////////////////
 {
     // VARIABLES
-    unsigned char *buf_bloque[BLOCKSIZE];
+    unsigned char buf_bloque[BLOCKSIZE];
     int primerBL, ultimoBL, desp1, desp2, nbfisico, bytesLeidos;
     struct inodo inodo;
 
@@ -166,7 +167,7 @@ int mi_read_f(unsigned int ninodo, void *buf_original, unsigned int offset, unsi
         if (nbfisico != -1) // si hay bloques físicos para cierto bloque lógico
         {
             ///////////////////////////////////////////////////////////
-            bread(nbloque, buf_bloque) == -1);//**********************
+            bread(nbfisico, buf_bloque);//revisar
             //////////////////////////////////////////////////////////
             memcpy(buf_original, buf_bloque + desp1, nbytes);
         }
@@ -182,11 +183,11 @@ int mi_read_f(unsigned int ninodo, void *buf_original, unsigned int offset, unsi
             if (bread(nbfisico, buf_bloque) == -1)
             {
                 perror("ERROR EL mi_read_f AL LEER EN EL PRIMER BLOQUE LÓGICO");
-                return -1
+                return -1;
             }
             memcpy(buf_original, buf_bloque + desp1, BLOCKSIZE - desp1);
         }
-        bytesLeidos += BLOCKSIZE - desp1;
+        bytesLeidos = BLOCKSIZE - desp1;
 
         // 2) Bloques lógicos intermedios
         for (int i = primerBL + 1; i < ultimoBL; i++)
@@ -197,7 +198,7 @@ int mi_read_f(unsigned int ninodo, void *buf_original, unsigned int offset, unsi
                 if (bread(nbfisico, buf_bloque) == -1) //****
                 {
                     perror("ERROR EL mi_read_f AL LEER EN LOS BLOQUES LÓGICOS INTERMEDIOS");
-                    return -1
+                    return -1;
                 }
                 memcpy((buf_original + (BLOCKSIZE - desp1) + (i - primerBL - 1) * BLOCKSIZE), buf_bloque, BLOCKSIZE);
             }
@@ -211,7 +212,7 @@ int mi_read_f(unsigned int ninodo, void *buf_original, unsigned int offset, unsi
             if (bread(nbfisico, buf_bloque) == -1)
             {
                 perror("ERROR EL mi_read_f AL LEER EN EL ÚLTIMO BLOQUE LÓGICO");
-                return -1
+                return -1;
             }
             memcpy(buf_original + (nbytes - desp2 - 1), buf_bloque, desp2 + 1);
         }
@@ -237,7 +238,7 @@ int mi_read_f(unsigned int ninodo, void *buf_original, unsigned int offset, unsi
     return bytesLeidos;
 }
 
-int mi_stat_f(unsigned int ninodo, struct STAT *p_stat) ////////////REVISAR////////////
+int mi_stat_f(unsigned int ninodo, struct STAT *p_stat) 
 {
     struct inodo inodo;
     if (leer_inodo(ninodo, &inodo) == -1)

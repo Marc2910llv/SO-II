@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
     void *punter;
     int bloque_reservado;
     struct superbloque SB;
-    if (bread(0, &SB); == -1)
+    if (bread(0, &SB) == -1)
     {
         perror("ERROR EN leer_sf AL LEER EL SUPERBLOQUE");
         return -1;
