@@ -1,6 +1,7 @@
 #include <string.h>
 #include "ficheros.h"
 #include <time.h> 
+#include <stdlib.h>
 
 int main(int argc, char *argv[]){
     int numero;
@@ -21,9 +22,6 @@ int main(int argc, char *argv[]){
     numero=reservar_inodo('f',6);
 
     for(int i=0;i<5;i++){
-        if(atoi(argv[3])!=0){ //si es diferent de 0, per a cada offset reservarem un inodo diferent
-            numero=reservar_inodo('f',6);
-        }
         printf("Numero inodo reservado: %d \n",numero);
         cantidad= mi_write_f(numero,argv[2],offset[i],strlen(argv[2]));
         printf("Offset: %d \n",offset[i]);
@@ -36,6 +34,11 @@ int main(int argc, char *argv[]){
         if(stats ==-1){
             return -1;
         }
+
+        if(atoi(argv[3])!=0){ //si es diferent de 0, per a cada offset reservarem un inodo diferent
+            numero=reservar_inodo('f',6);
+        }
+
         printf("stat.tamEnBytesLog = %d\n", stat.tamEnBytesLog);
         printf("stat.numBloquesOcupados = %d\n", stat.numBloquesOcupados);
         printf("Problema: %d",stat.tamEnBytesLog);
@@ -43,6 +46,6 @@ int main(int argc, char *argv[]){
     }
 
         bumount();
+        return 0;
   }
 }
-

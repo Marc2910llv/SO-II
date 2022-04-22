@@ -30,7 +30,8 @@ int main(int argc, char *argv[])
     printf("totInodos = %d\n", SB.totInodos);
     printf("Sizeof struct superbloque = %ld\n", sizeof(SB));
     printf("Sizeof struct Inodo = %ld\n", sizeof(struct inodo));
-
+    
+    /*
     printf("RESERVAMOS UN BLOQUE Y LUEGO LO LIBERAMOS \n");
     bloque_reservado = reservar_bloque();
     if (bread(0, &SB); == -1)
@@ -56,7 +57,7 @@ int main(int argc, char *argv[])
     printf("leer_bit(3139): %i \n", valor);
     valor = leer_bit(99999);
     printf("leer_bit(99999): %i \n", valor);
-
+    */
     if (bumount() == -1)
     {
         perror("ERROR EN leer_sf AL INTENTAR CERRAR EL FICHERO");
