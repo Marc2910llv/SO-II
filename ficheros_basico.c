@@ -549,20 +549,25 @@ int traducir_bloque_inodo(unsigned int ninodo, unsigned int nblogico, char reser
 int liberar_inodo(unsigned int ninodo)
 {
     struct inodo inodo;
-    if (leer_inodo(ninodo, &inodo) != 0)
+    if (leer_inodo(ninodo, &inodo) == -1)
     {
         perror("ERROR EN liberar_inodo AL LEER EL INODO");
         return -1;
     }
 
     int bloquesLiberados = liberar_bloques_inodo(0, &inodo);
+    if (bloquesLiberados == -1)
+    {
+        perror("ERROR EN liberar_inodo AL LIBERAR LOS BLOQUES OCUPADOS");
+        return -1;
+    }
 
     inodo.numBloquesOcupados = inodo.numBloquesOcupados - bloquesLiberados;
 
     inodo.tipo = 'l';
     inodo.tamEnBytesLog = 0;
 
-    if (escribir_inodo(ninodo, &inodo) != 0) // REVISAR
+    if (escribir_inodo(ninodo, &inodo) == -1)
     {
         perror("ERROR EN liberar_inodo AL ACTUALIZAR EL INODO");
         return -1;
@@ -575,7 +580,11 @@ int liberar_inodo(unsigned int ninodo)
         return -1;
     }
 
-    if (escribir_inodo(SB.posPrimerInodoLibre, &inodo) != 0) // REVISAR
+    int aux = SB.posPrimerInodoLibre;
+    SB.posPrimerInodoLibre = ninodo;
+    inodo.punterosDirectos[0] = aux;
+
+    if (escribir_inodo(SB.posPrimerInodoLibre, &inodo) == -1) // REVISAR
     {
         perror("ERROR EN liberar_inodo AL ACTUALIZAR EL SUPERBLOQUE CON EL NUEVO INODO LIBRE");
         return -1;
@@ -595,7 +604,7 @@ int liberar_inodo(unsigned int ninodo)
         return -1;
     }
 
-    return ninodo; // REVISAR
+    return ninodo;
 }
 
 // Libera todos los bloques ocupados
@@ -608,11 +617,10 @@ int liberar_bloques_inodo(unsigned int primerBL, struct inodo *inodo)
     int nRangoBL;
     unsigned int bloques_punteros[3][NPUNTEROS]; // array de bloques de punteros
     unsigned char bufAux_punteros[BLOCKSIZE];
-    int ptr_nivel[3]; // punteros a bloques de punteros de cada nivel
-    int indices[3];   // indices de cada nivel
-    int liberados;    // nº de bloques liberados
+    int ptr_nivel[3];  // punteros a bloques de punteros de cada nivel
+    int indices[3];    // indices de cada nivel
+    int liberados = 0; // nº de bloques liberados
 
-    liberados = 0;
     if (inodo->tamEnBytesLog == 0)
     {
         return 0;
@@ -629,7 +637,7 @@ int liberar_bloques_inodo(unsigned int primerBL, struct inodo *inodo)
     memset(bufAux_punteros, 0, BLOCKSIZE);
     ptr = 0;
 
-    for (nBL = primerBL; nBL = ultimoBL; nBL++)
+    for (nBL = primerBL; nBL <= ultimoBL; nBL++)
     {                                                  // recorrido BLs
         nRangoBL = obtener_nRangoBL(inodo, nBL, &ptr); // 0:D, 1:I0, 2:I1, 3:I2
         if (nRangoBL < 0)
@@ -645,7 +653,11 @@ int liberar_bloques_inodo(unsigned int primerBL, struct inodo *inodo)
             if (indice == 0 || nBL == primerBL)
             {
                 // solo hay que leer del dispositivo si no está ya cargado previamente en un buffer
-              bread(ptr, bloques_punteros[nivel_punteros - 1];
+              if(bread(ptr, bloques_punteros[nivel_punteros - 1] == -1)
+              {
+                    perror("ERROR EN liberar_bloques_inodo AL LEER EL DISPOSITIVO");
+                    return -1;
+              }
             }
             ptr_nivel[nivel_punteros - 1] = ptr;
             indices[nivel_punteros - 1] = indice;

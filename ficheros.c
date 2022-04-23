@@ -42,7 +42,7 @@ int mi_write_f(unsigned int ninodo, const void *buf_original, unsigned int offse
             return -1;
         }
 
-        bytesEscritos = bytesEscritos+ nbytes;
+        bytesEscritos = bytesEscritos + nbytes;
     }
     // CASO 2º (la operación de escritura ocupa más de un bloque)
     else if (primerBL < ultimoBL)
@@ -69,7 +69,7 @@ int mi_write_f(unsigned int ninodo, const void *buf_original, unsigned int offse
         {
             // Obtenemos cada bloque intermedio
             nbfisico = traducir_bloque_inodo(ninodo, i, 1);
-            intermitjos=bwrite(nbfisico, buf_original + (BLOCKSIZE - desp1) + (i - primerBL - 1) * BLOCKSIZE); 
+            intermitjos = bwrite(nbfisico, buf_original + (BLOCKSIZE - desp1) + (i - primerBL - 1) * BLOCKSIZE);
             if (intermitjos == -1)
             {
                 perror("ERROR EN mi_write_f AL ESCRIBIR EN LOS BLOQUES LÓGICOS INTERMEDIOS, CASO 2");
@@ -127,7 +127,7 @@ int mi_read_f(unsigned int ninodo, void *buf_original, unsigned int offset, unsi
     unsigned char buf_bloque[BLOCKSIZE];
     int primerBL, ultimoBL, desp1, desp2, nbfisico, bytesLeidos;
     struct inodo inodo;
-    bytesLeidos=0;
+    bytesLeidos = 0;
 
     // Leemos para verificar permiso luego
     if (leer_inodo(ninodo, &inodo) == -1)
@@ -168,7 +168,7 @@ int mi_read_f(unsigned int ninodo, void *buf_original, unsigned int offset, unsi
         if (nbfisico != -1) // si hay bloques físicos para cierto bloque lógico
         {
             ///////////////////////////////////////////////////////////
-            bread(nbfisico, buf_bloque);//revisar
+            bread(nbfisico, buf_bloque); // revisar
             //////////////////////////////////////////////////////////
             memcpy(buf_original, buf_bloque + desp1, nbytes);
         }
@@ -239,7 +239,7 @@ int mi_read_f(unsigned int ninodo, void *buf_original, unsigned int offset, unsi
     return bytesLeidos;
 }
 
-int mi_stat_f(unsigned int ninodo, struct STAT *p_stat) 
+int mi_stat_f(unsigned int ninodo, struct STAT *p_stat)
 {
     struct inodo inodo;
     if (leer_inodo(ninodo, &inodo) == -1)
@@ -281,35 +281,53 @@ int mi_chmod_f(unsigned int ninodo, unsigned char permisos) ////////////REVISAR/
 // Trunca un fichero/directorio a los bytes indicados como nbytes, liberando los bloques necesarios
 int mi_truncar_f(unsigned int ninodo, unsigned int nbytes)
 {
-    char muriki;
-    struct STAT stat;
+    int i, liberar;
+
     struct inodo inodo;
-    int i, alliberar;
-    leer_inodo(ninodo,&inodo);
-    mi_stat_f(ninodo, &stat);
-    muriki = stat.permisos;
-    
-    if((muriki&2)!=2){
-        perror("No tiene permisos de lectura");
-        return -1;
-    }
-    if(nbytes>stat.tamEnBytesLog){
+    if (leer_inodo(ninodo, &inodo) == -1)
+    {
+        perror("ERROR EN mi_truncar_f AL LEER EL INODO");
         return -1;
     }
 
-    if(nbytes%BLOCKSIZE==0){
-        i= nbytes/BLOCKSIZE;
-    }else{
-        i=(nbytes/BLOCKSIZE)+1;
+    if ((inodo.permisos & 2) != 2)
+    {
+        perror("ERROR EN mi_truncar_f, FALTAN PERMISOS");
+        return -1;
     }
 
-    alliberar = liberar_bloques_inodo(i,&inodo);
+    if (nbytes > inodo.tamEnBytesLog)
+    {
+        perror("ERROR EN mi_truncar_f, NBYTES MAYOR QUE EL TAMAÑO EN BYTES LÓGICOS");
+        return -1;
+    }
+
+    if (nbytes % BLOCKSIZE == 0)
+    {
+        i = nbytes / BLOCKSIZE;
+    }
+    else
+    {
+        i = (nbytes / BLOCKSIZE) + 1;
+    }
+
+    liberar = liberar_bloques_inodo(i, &inodo);
+    if (liberar == -1)
+    {
+        perror("ERROR EN mi_truncar_f AL LIBERAR LOS BLOQUES OCUPADOS");
+        return -1;
+    }
+
     inodo.mtime = time(NULL);
     inodo.ctime = time(NULL);
     inodo.tamEnBytesLog = nbytes;
-    inodo.numBloquesOcupados = inodo.numBloquesOcupados-alliberar;
+    inodo.numBloquesOcupados = inodo.numBloquesOcupados - liberar;
 
-    escribir_inodo(ninodo,inodo);
+    if (escribir_inodo(ninodo, inodo) == -1)
+    {
+        perror("ERROR EN mi_truncar_f AL ESCRIBIR EL INODO");
+        return -1;
+    }
 
-} 
-  
+    return liberar;
+}

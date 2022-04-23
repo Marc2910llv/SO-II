@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
     printf("totInodos = %d\n", SB.totInodos);
     printf("Sizeof struct superbloque = %ld\n", sizeof(SB));
     printf("Sizeof struct Inodo = %ld\n", sizeof(struct inodo));
-    
+
     /*
     printf("RESERVAMOS UN BLOQUE Y LUEGO LO LIBERAMOS \n");
     bloque_reservado = reservar_bloque();
