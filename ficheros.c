@@ -283,15 +283,33 @@ int mi_truncar_f(unsigned int ninodo, unsigned int nbytes)
 {
     char muriki;
     struct STAT stat;
+    struct inodo inodo;
+    int i, alliberar;
+    leer_inodo(ninodo,&inodo);
     mi_stat_f(ninodo, &stat);
     muriki = stat.permisos;
+    
     if((muriki&2)!=2){
         perror("No tiene permisos de lectura");
         return -1;
     }
-    
-    if (
+    if(nbytes>stat.tamEnBytesLog){
+        return -1;
+    }
 
-        //  la salchicheta adelaida subete
-    )
-}
+    if(nbytes%BLOCKSIZE==0){
+        i= nbytes/BLOCKSIZE;
+    }else{
+        i=(nbytes/BLOCKSIZE)+1;
+    }
+
+    alliberar = liberar_bloques_inodo(i,&inodo);
+    inodo.mtime = time(NULL);
+    inodo.ctime = time(NULL);
+    inodo.tamEnBytesLog = nbytes;
+    inodo.numBloquesOcupados = inodo.numBloquesOcupados-alliberar;
+
+    escribir_inodo(ninodo,inodo);
+
+} 
+  
