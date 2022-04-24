@@ -664,7 +664,7 @@ int liberar_bloques_inodo(unsigned int primerBL, struct inodo *inodo)
             if (indice == 0 || nBL == primerBL)
             {
                 // solo hay que leer del dispositivo si no está ya cargado previamente en un buffer
-               if(bread(ptr, bloques_punteros[nivel_punteros - 1] == -1)
+               if(bread(ptr, bloques_punteros[nivel_punteros - 1]) == -1)
               {
                     perror("ERROR EN liberar_bloques_inodo AL LEER EL DISPOSITIVO");
                     return -1;

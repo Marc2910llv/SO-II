@@ -7,7 +7,6 @@
 #include <string.h>   // strerror()
 
 #define BLOCKSIZE 1024 // bytes
-static int descriptor = 0;
 
 int bmount(const char *camino);
 int bumount();

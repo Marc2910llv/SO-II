@@ -1,5 +1,7 @@
 #include "bloques.h"
 
+static int descriptor = 0;
+
 int bmount(const char *camino) // Abrir Fichero
 {
     umask(000);

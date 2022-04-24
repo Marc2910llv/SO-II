@@ -293,7 +293,7 @@ int mi_truncar_f(unsigned int ninodo, unsigned int nbytes)
     if ((inodo.permisos & 2) != 2)
     {
         perror("ERROR EN mi_truncar_f, FALTAN PERMISOS");
-        return -1
+        return -1;
     }
 
     if (nbytes > inodo.tamEnBytesLog)
