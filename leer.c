@@ -12,7 +12,6 @@ int main(int argc, char const *argv[])
     int bytesllegits, offset, cantidad;
     offset = 0;
     struct inodo inodo;
-    struct superbloque SB;
     if (argc < 3)
     {
         printf("Sintaxis : leer <nombre_dispositivo> <ninodo>\n ");

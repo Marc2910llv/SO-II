@@ -110,10 +110,11 @@ int initAI() // Inicializar la lista de inodos libres
             else // hemos llegado al último inodo
             {
                 inodos[j].punterosDirectos[0] = 0; // NULL
+                break;
                 // hay que salir del bucle, el último bloque no tiene por qué estar completo !!!
             }
         }
-        if (bwrite(i, inodos) == -1)
+        if (bwrite(i, &inodos) == -1)
         {
             perror("ERROR EN initMB AL ESCRIBIR ALGUN INODO");
             return -1;
@@ -384,7 +385,7 @@ int reservar_inodo(unsigned char tipo, unsigned char permisos)
         nuevo.punterosIndirectos[j] = 0;
     }
     escribir_inodo(posInodoReservado, nuevo);
-    SB.cantInodosLibres = SB.cantBloquesLibres - 1;
+    SB.cantInodosLibres = SB.cantInodosLibres - 1;
     if (bwrite(posSB, &SB) == -1)
     {
         perror("ERROR EN reservar_inodo AL REESCRIBIR EL SUPERBLOQUE");
@@ -494,7 +495,7 @@ int traducir_bloque_inodo(unsigned int ninodo, unsigned int nblogico, char reser
                 if (nivel_punteros == nRangoBL)
                 {                                                 // el bloque cuelga directamente del inodo
                     inodo.punterosIndirectos[nRangoBL - 1] = ptr; // (imprimirlo para test)
-                    printf("traducir_bloque_inodo()→ inodo.punterosIndirectos[%i] = %i (reservado BF %i para BL %i)\n", nRangoBL, ptr, ptr, nivel_punteros);
+                    printf("traducir_bloque_inodo()→ inodo.punterosIndirectos[%i] = %i (reservado BF %i para BL %i)\n", nRangoBL-1, ptr, ptr, nivel_punteros);
                 }
                 else
                 {                         // el bloque cuelga de otro bloque de punteros
