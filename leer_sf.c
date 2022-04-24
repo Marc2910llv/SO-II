@@ -5,15 +5,12 @@
 int main(int argc, char *argv[])
 {
     bmount(argv[1]);
-    void *punter;
-    int bloque_reservado;
     struct superbloque SB;
     if (bread(0, &SB) == -1)
     {
         perror("ERROR EN leer_sf AL LEER EL SUPERBLOQUE");
         return -1;
     }
-    int posbyte, posbit, nbloqueMB, nbloqueabs;
 
     printf("DATOS DEL SUPERBLOQUE\n");
     printf("posPrimerBloqueMB = %d\n", SB.posPrimerBloqueMB);
