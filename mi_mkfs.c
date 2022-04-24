@@ -3,7 +3,7 @@
 
 int main(int argc, char *argv[])
 {
-    unsigned char *buf[BLOCKSIZE];
+    unsigned char buf[BLOCKSIZE];
     memset(buf, 0, BLOCKSIZE);
     if (bmount(argv[1]) == -1)
     {
