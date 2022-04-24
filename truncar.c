@@ -25,19 +25,19 @@ int main(int argc, char *argv[])
         }
         else
         {
-            mi_truncar_f(ninodo, bytes);
+            mi_truncar_f(ninodo, nbytes);
         }
         leer_inodo(ninodo, &inodo);
 
         printf("DATOS INODO %d\n", ninodo);
         printf("tipo= %c\n", inodo.tipo);
         printf("permisos= %d\n", inodo.permisos);
-        printf("atime: %s\n", inodo.atime);
-        printf("ctime: %s\n", inodo.ctime);
-        printf("mtime: %s\n", inodo.mtime);
+        printf("atime: %ld\n", inodo.atime);
+        printf("ctime: %ld\n", inodo.ctime);
+        printf("mtime: %ld\n", inodo.mtime);
         printf("nlinks: %d\n", inodo.nlinks);
-        printf("tamEnBytesLog= %d\n", p_stat.tamEnBytesLog);
-        printf("numBloquesOcupados= %d\n\n", p_stat.numBloquesOcupados);
+        printf("tamEnBytesLog= %d\n", inodo.tamEnBytesLog);
+        printf("numBloquesOcupados= %d\n\n", inodo.numBloquesOcupados);
 
         bumount();
     }

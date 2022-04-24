@@ -65,14 +65,12 @@ int initMB() // Inicializa el mapa de bits
         perror("ERROR EN initMB AL LEER EL SUPERBLOQUE");
     }
 
-    int tam = tamSB + tamMB(SB.totBloques) + tamAI(SB.totInodos);
-
-    unsigned int inici = SB.posPrimerBloqueMB;
-    unsigned int fin = SB.posUltimoBloqueMB;
+    int inicio = SB.posPrimerBloqueMB;
+    int tamMB = SB.posUltimoBloqueMB - SB.posPrimerBloqueMB;
     // tamany = tamMB(SB.totBloques);
 
     // Escribimos
-    for (int i = inici; i < fin; i++)
+    for (int i = inicio; i <= tamMB + inicio; i++)
     {
         if (bwrite(i, buf) == -1)
         {
@@ -80,18 +78,11 @@ int initMB() // Inicializa el mapa de bits
         }
     }
 
-    for (int j = 0; j < tam; j++)
+    for (int i = posSB; i < SB.posPrimerBloqueDatos; i++)
     {
-        escribir_bit(j, 1);
+        reservar_bloque();
     }
 
-    SB.cantBloquesLibres = SB.cantBloquesLibres - tam;
-
-    if (bwrite(posSB, &SB) == -1)
-    {
-        perror("ERROR EN initMB");
-        return -1;
-    }
     return 0;
 }
 
@@ -664,11 +655,11 @@ int liberar_bloques_inodo(unsigned int primerBL, struct inodo *inodo)
             if (indice == 0 || nBL == primerBL)
             {
                 // solo hay que leer del dispositivo si no está ya cargado previamente en un buffer
-               if(bread(ptr, bloques_punteros[nivel_punteros - 1]) == -1)
-              {
+                if (bread(ptr, bloques_punteros[nivel_punteros - 1]) == -1)
+                {
                     perror("ERROR EN liberar_bloques_inodo AL LEER EL DISPOSITIVO");
                     return -1;
-              }
+                }
             }
             ptr_nivel[nivel_punteros - 1] = ptr;
             indices[nivel_punteros - 1] = indice;
