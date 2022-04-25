@@ -1,3 +1,6 @@
+//Pere Joan Vives Morey
+//Marc Llobera Villalonga
+//Carlos Lozano Alemañy
 #include "ficheros.h"
 #include<stdio.h>
 
@@ -23,16 +26,26 @@ int main(int argc, char *argv[])
         ninodo = atoi(argv[2]);
         if (nbytes == 0)
         {
-            liberar_inodo(ninodo);
+            if(liberar_inodo(ninodo)==-1){
+                perror("ERROR EN truncar.c AL INTENTAR LIBERAR UN INODO");
+                return -1;
+            }
         }
         else
         {
-            mi_truncar_f(ninodo, nbytes);
+            if(mi_truncar_f(ninodo, nbytes)==-1){
+                perror("ERROR EN truncar.c AL TRUNCAR");
+                return -1;
+            }
         }
         //leer_inodo(ninodo, &inodo);
-        mi_stat_f(ninodo,&stat);
+        if(mi_stat_f(ninodo,&stat)==-1){
+            perror("ERROR EN truncar.c AL INTENTAR OBTENER LA INFORMACIÓN DEL INODO");
+            return -1;
+        }
+
         //char *t1,*t2,*t3;
-        char atime [100];
+        char atime [100]; //arrays que contendrán el tiempo
         char ctime[100];
         char mtime[100];
 
@@ -46,10 +59,10 @@ int main(int argc, char *argv[])
         t2=localtime(&b);
         t3=localtime(&c);
 
-        strftime(atime, 100, "%a %Y-%m-%d %H:%M:%S",t1);
+        strftime(atime, 100, "%a %Y-%m-%d %H:%M:%S",t1); //metemos los tiempos en los arrays
         strftime(ctime, 100, "%a %Y-%m-%d %H:%M:%S",t2);
         strftime(mtime, 100, "%a %Y-%m-%d %H:%M:%S",t3);
-
+        //imprimimos la información
         printf("DATOS INODO %d\n", ninodo);
         printf("tipo= %c\n", stat.tipo);
         printf("permisos= %d\n", stat.permisos);
@@ -60,6 +73,9 @@ int main(int argc, char *argv[])
         printf("tamEnBytesLog= %d\n", stat.tamEnBytesLog);
         printf("numBloquesOcupados= %d\n\n", stat.numBloquesOcupados);
 
-        bumount();
+        if(bumount()==-1){
+            perror("ERROR EN truncar.c AL INTENTAR CERRAR EL FICHERO");
+            return -1;
+        }
     }
 }

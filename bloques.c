@@ -1,4 +1,7 @@
 #include "bloques.h"
+//Pere Joan Vives Morey
+//Marc Llobera Villalonga
+//Carlos Lozano Alemañy
 
 static int descriptor = 0;
 

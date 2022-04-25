@@ -1,3 +1,6 @@
+//Pere Joan Vives Morey
+//Marc Llobera Villalonga
+//Carlos Lozano Alemañy
 #include <stdio.h>    //printf(), fprintf(), stderr, stdout, stdin
 #include <fcntl.h>    //O_WRONLY, O_CREAT, O_TRUNC
 #include <sys/stat.h> //S_IRUSR, S_IWUSR

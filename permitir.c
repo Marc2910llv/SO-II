@@ -1,3 +1,6 @@
+//Pere Joan Vives Morey
+//Marc Llobera Villalonga
+//Carlos Lozano Alemañy
 #include "ficheros.h"
 
 int main(int argc, char *argv[])
@@ -23,6 +26,9 @@ int main(int argc, char *argv[])
         return -1;
     }
 
-    bumount();
-    return -1;
+    if(bumount()==-1){
+        perror("ERROR EN permitir.c AL INTENTAR CERRAR EL FICHERO");
+        return -1;
+    }
+    return 0;
 }

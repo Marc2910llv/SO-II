@@ -1,3 +1,6 @@
+//Pere Joan Vives Morey
+//Marc Llobera Villalonga
+//Carlos Lozano Alemañy
 #include <string.h>
 #include "ficheros_basico.h"
 #include <time.h>
@@ -622,6 +625,8 @@ int liberar_bloques_inodo(unsigned int primerBL, struct inodo *inodo)
     int ptr_nivel[3];  // punteros a bloques de punteros de cada nivel
     int indices[3];    // indices de cada nivel
     int liberados = 0; // nº de bloques liberados
+    int breads =0;
+    int bwrites =0;
 
     liberados = 0;
     if (inodo->tamEnBytesLog == 0)
@@ -663,6 +668,7 @@ int liberar_bloques_inodo(unsigned int primerBL, struct inodo *inodo)
                     perror("ERROR EN liberar_bloques_inodo AL LEER EL DISPOSITIVO");
                     return -1;
                 }
+                breads++;
             }
             ptr_nivel[nivel_punteros - 1] = ptr;
             indices[nivel_punteros - 1] = indice;
@@ -717,6 +723,7 @@ int liberar_bloques_inodo(unsigned int primerBL, struct inodo *inodo)
                             perror("ERROR EN liberar_bloques_inodo AL ESCRIBIR EN EL DISPOSITIVO EL BLOQUE DE PUNTEROS MODIFICADO");
                             return -1;
                         }
+                        bwrites++;
                         // hemos de salir del bucle ya que no será necesario liberar los bloques de niveles
                         // superiores de los que cuelga
                         nivel_punteros = nRangoBL + 1;
@@ -725,6 +732,6 @@ int liberar_bloques_inodo(unsigned int primerBL, struct inodo *inodo)
             }
         }
     }
-    printf("[liberar_bloques_inodo()-> total bloques liberados: %d]\n", liberados);
+    printf("[liberar_bloques_inodo()-> total bloques liberados: %d, total breads: %d, total bwrites: %d]\n", liberados,breads,bwrites);
     return liberados;
 }

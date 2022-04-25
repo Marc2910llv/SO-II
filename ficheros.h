@@ -1,3 +1,6 @@
+//Pere Joan Vives Morey
+//Marc Llobera Villalonga
+//Carlos Lozano Alemañy
 #include "ficheros_basico.h"
 #include <stdlib.h>
 #include <time.h>
