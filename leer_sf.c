@@ -24,9 +24,9 @@ int main(int argc, char *argv[])
     printf("cantBloquesLibres = %d\n", SB.cantBloquesLibres);
     printf("cantInodosLibres = %d\n", SB.cantInodosLibres);
     printf("totBloques = %d\n", SB.totBloques);
-    printf("totInodos = %d\n", SB.totInodos);
-    printf("Sizeof struct superbloque = %ld\n", sizeof(SB));
-    printf("Sizeof struct Inodo = %ld\n", sizeof(struct inodo));
+    printf("totInodos = %d\n\n", SB.totInodos);
+    //printf("Sizeof struct superbloque = %ld\n", sizeof(SB));
+    //printf("Sizeof struct Inodo = %ld\n", sizeof(struct inodo));
 
     /*
     printf("RESERVAMOS UN BLOQUE Y LUEGO LO LIBERAMOS \n");

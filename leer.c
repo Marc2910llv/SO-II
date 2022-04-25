@@ -1,8 +1,7 @@
 #include <string.h>
 #include "ficheros.h"
-#include <time.h>
 #include <stdlib.h>
-#define tambuffer 1024
+#define tambuffer 4096
 
 int main(int argc, char const *argv[])
 {
@@ -41,8 +40,8 @@ int main(int argc, char const *argv[])
             }
         }
         leer_inodo(nombre, &inodo);
-        fprintf(stderr, "total_bytesleidos: %d\ntamEnBytesLog: %d\n", bytesllegits, inodo.tamEnBytesLog);
-        fprintf(stderr, "tamEnBytesLog: %d\n", inodo.tamEnBytesLog);
+        fprintf(stderr, "total_bytesleidos: %d\n", bytesllegits);
+        fprintf(stderr, "tamEnBytesLog: %d\n\n", inodo.tamEnBytesLog);
         bumount();
         return 0;
     }

@@ -1,5 +1,6 @@
 #include "ficheros_basico.h"
 #include <stdlib.h>
+#include <time.h>
 
 struct STAT
 {                 // comprobar que ocupa 128 bytes haciendo un sizeof(inodo)!!!

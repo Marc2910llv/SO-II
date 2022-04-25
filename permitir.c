@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
 
     if (mi_chmod_f(ninodo, permisos))
     {
-        perror("Error amb ek canvi de permisos\n");
+        perror("Error amb el canvi de permisos\n");
         return -1;
     }
 

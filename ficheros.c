@@ -259,7 +259,7 @@ int mi_stat_f(unsigned int ninodo, struct STAT *p_stat)
     p_stat->mtime = inodo.mtime;
     p_stat->numBloquesOcupados = inodo.numBloquesOcupados;
 
-    return 1;
+    return 0;
 }
 
 int mi_chmod_f(unsigned int ninodo, unsigned char permisos) ////////////REVISAR////////////
@@ -271,13 +271,15 @@ int mi_chmod_f(unsigned int ninodo, unsigned char permisos) ////////////REVISAR/
         return -1;
     }
     inodo.permisos = permisos;
+    inodo.ctime = time(NULL);
+    
     if (escribir_inodo(ninodo, inodo) == -1)
     {
         perror("ERROR EN mi_chmod_f AL ESCRIBIR EL INODO");
         return -1;
     }
-    inodo.ctime = time(NULL);
-    return 1;
+    
+    return 0;
 }
 
 // Trunca un fichero/directorio a los bytes indicados como nbytes, liberando los bloques necesarios
