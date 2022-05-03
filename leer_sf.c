@@ -3,6 +3,7 @@
 //Carlos Lozano Alemañy
 #include <string.h>
 #include "ficheros_basico.h"
+//#include "directorios.h"
 #include <time.h> //esta librería incluirla en ficheros_basico.h
 
 int main(int argc, char *argv[])
