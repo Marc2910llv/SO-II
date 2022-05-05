@@ -538,7 +538,7 @@ int traducir_bloque_inodo(unsigned int ninodo, unsigned int nblogico, char reser
             else
             {
                 buffer[indice] = ptr; // (imprimirlo para test)
-                printf("traducir_bloque_inodo()→ inodo.punteros_nivel %i[%i] = %i (reservado BF %i para BL %i)\n",nivel_punteros+1, indice, ptr, ptr, nblogico);
+                printf("traducir_bloque_inodo()→ inodo.punteros_nivel %i[%i] = %i (reservado BF %i para punteros_nivel%i)\n",nivel_punteros+1, indice, ptr, ptr, nblogico);
                 bwrite(ptr_ant, buffer);
             }
         }
