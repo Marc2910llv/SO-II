@@ -4,31 +4,32 @@
 #include "directorios.h"
 #include <string.h>
 
+// Dada una cadena de caracteres camino (que comience por '/'), separa su contenido en dos
 int extraer_camino(const char *camino, char *inicial, char *final, char *tipo)
 {
     char delimitador[] = "/";
     char *token;
 
     token = strtok(camino, delimitador);
-    inicial = token;
-    token = strtok(NULL, delimitador);
+    inicial = token;                   // la primera porción siempre es 'inicial'
+    token = strtok(NULL, delimitador); // leemos la siguiente para ver si es NULL
     if (token != NULL)
     {
-        tipo = "d";
+        tipo = "d"; // si no es NULL quiere decir que camino es un directorio
         final = "";
         char *buffer;
-        while (token != NULL)
+        while (token != NULL) // seguimos leyendo lo que queda de camino
         {
             strcat(buffer, "/");
-            strcat(buffer, token);
+            strcat(buffer, token); // lo unimos todo en un solo char
             token = strtok(NULL, delimitador);
         }
-        final = buffer;
-        return 1;
+        final = buffer; // el resto de camino será el final
+        return 0;
     }
     else
     {
-        tipo = "f";
+        tipo = "f"; // si es NULL quiere decir que se trata de un fichero
         final = "";
         return 0;
     }
@@ -36,6 +37,7 @@ int extraer_camino(const char *camino, char *inicial, char *final, char *tipo)
     return -1;
 }
 
+// buscará una determinada entrada (la parte *inicial del *camino_parcial que nos devuelva extraer_camino()) entre las entradas del inodo correspondiente a su directorio padre
 int buscar_entrada(const char *camino_parcial, unsigned int *p_inodo_dir, unsigned int *p_inodo, unsigned int *p_entrada, char reservar, unsigned char permisos)
 {
     struct entrada entrada;
@@ -190,6 +192,8 @@ void mostrar_error_buscar_entrada(int error)
         break;
     }
 }
+
+// Función de la capa de directorios que crea un fichero/directorio y su entrada de directorio
 int mi_creat(const char *camino, unsigned char permisos)
 {
     int p_inodo_dir = 0;
@@ -204,6 +208,8 @@ int mi_creat(const char *camino, unsigned char permisos)
     }
     return 0;
 }
+
+// Función de la capa de directorios que pone el contenido del directorio en un buffer de memoria y devuelve el número de entradas
 int mi_dir(const char *camino, char *buffer)
 {
     struct tm *tm;
@@ -233,11 +239,6 @@ int mi_dir(const char *camino, char *buffer)
     }
 
     char tmp[100];
-
-    if (leer_inodo(p_inodo, &inodo) == -1)
-    {
-        return -1;
-    }
 
     struct entrada entradas[BLOCKSIZE / sizeof(struct entrada)];
     memset(&entradas, 0, sizeof(struct entrada));
@@ -271,6 +272,7 @@ int mi_dir(const char *camino, char *buffer)
     return inodo.tamEnBytesLog / sizeof(struct entrada);
 }
 
+// Buscar la entrada *camino con buscar_entrada() para obtener el nº de inodo (p_inodo).  Si la entrada existe llamamos a la función correspondiente de ficheros.c pasándole el p_inodo
 int mi_chmod(const char *camino, unsigned char permisos)
 {
     int p_inodo_dir = 0;
@@ -293,6 +295,7 @@ int mi_chmod(const char *camino, unsigned char permisos)
     return 0;
 }
 
+// Buscar la entrada *camino con buscar_entrada() para obtener el p_inodo. Si la entrada existe llamamos a la función correspondiente de ficheros.c pasándole el p_inodo
 int mi_stat(const char *camino, struct STAT *p_stat)
 {
     int p_inodo_dir = 0;
