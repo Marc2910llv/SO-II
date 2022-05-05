@@ -39,7 +39,7 @@ int extraer_camino(const char *camino, char *inicial, char *final, char *tipo)
 int buscar_entrada(const char *camino_parcial, unsigned int *p_inodo_dir, unsigned int *p_inodo, unsigned int *p_entrada, char reservar, unsigned char permisos)
 {
     struct entrada entrada;
-    struct inodo inodo *;
+    struct inodo inodo;
     char inicial[sizeof(entrada.nombre)];
     char final[strlen(camino_parcial)];
     char tipo;
@@ -59,10 +59,14 @@ int buscar_entrada(const char *camino_parcial, unsigned int *p_inodo_dir, unsign
     }
 
     // buscamos la entrada cuyo nombre se encuentra en inicial
-    if (leer_inodo(*p_inodo_dir, &inodo_dir) == -1)
+    if (leer_inodo(*p_inodo_dir, &inodo) == -1)
     {
         perror("ERROR EN buscar_entrada AL BUSCAR LA ENTRADA CUYO NOMBRE SE ENCUENTRA EN INICIAL");
         return -1;
+    }
+    if ((inodo.permisos & 4) != 4)
+    {
+        return ERROR_PERMISO_LECTURA;
     }
 
     struct entrada buffer_lectura[BLOCKSIZE / sizeof(struct entrada)];
@@ -101,12 +105,12 @@ int buscar_entrada(const char *camino_parcial, unsigned int *p_inodo_dir, unsign
         case 1: // modo escritura
                 // Creamos la entrada en el directorio referenciado por *p_inodo_dir
             // si es fichero no permitir escritura
-            if (inodo_dir.tipo == 'f')//REVISAR
+            if (inodo.tipo == 'f')
             {
                 return ERROR_NO_SE_PUEDE_CREAR_ENTRADA_EN_UN_FICHERO;
             }
             // si es directorio comprobar que tiene permiso de escritura
-            if ((inodo_dir.permisos & 2) != 2)//REVISAR
+            if ((inodo.permisos & 2) != 2)
             {
                 return ERROR_PERMISO_ESCRITURA;
             }
@@ -185,4 +189,128 @@ void mostrar_error_buscar_entrada(int error)
         fprintf(stderr, "Error: No es un directorio.\n");
         break;
     }
+}
+int mi_creat(const char *camino, unsigned char permisos)
+{
+    int p_inodo_dir = 0;
+    int p_inodo = 0;
+    int p_entrada = 0;
+    int error;
+
+    if ((error = buscar_entrada(camino, &p_inodo_dir, &p_inodo, &p_entrada, 1, permisos)) < 0)
+    {
+        perror("ERROR EN mi_creat AL CREAR UN FICHERO/DIRECTORIO Y SU ENTRADA DE DIRECTORIO");
+        return error;
+    }
+    return 0;
+}
+int mi_dir(const char *camino, char *buffer)
+{
+    struct tm *tm;
+    int p_inodo_dir = 0;
+    int p_inodo = 0;
+    int p_entrada = 0;
+    int error;
+    int nEntradas = 0;
+
+    if ((error = buscar_entrada(camino, &p_inodo_dir, &p_inodo, &p_entrada, 1, permisos)) < 0)
+    {
+        perror("ERROR EN mi_dir AL CREAR UN FICHERO/DIRECTORIO Y SU ENTRADA DE DIRECTORIO");
+        mostrar_error_buscar_entrada(error);
+        return error;
+    }
+
+    struct inodo inodo;
+    if (leer_inodo(p_inodo, &inodo) == -1)
+    {
+        perror("ERROR EN mi_dir AL INTENTAR LEER EL INODO");
+        return -1;
+    }
+    if ((inodo.permisos & 4) != 4)
+    {
+        perror("ERROR EN mi_dir AL AL COMPROBAR LOS PERMISOS DEL INODO");
+        return -1;
+    }
+
+    char tmp[100];
+
+    if (leer_inodo(p_inodo, &inodo) == -1)
+    {
+        return -1;
+    }
+
+    struct entrada entradas[BLOCKSIZE / sizeof(struct entrada)];
+    memset(&entradas, 0, sizeof(struct entrada));
+
+    int offset = 0;
+    offset += mi_read_f(p_inodo, entradas, offset, BLOCKSIZE);
+
+    for (int i = 0; i < inodo.tamEnBytesLog / sizeof(struct entrada); i++)
+    {
+        if (leer_inodo(entradas[i % (BLOCKSIZE / sizeof(struct entrada))].ninodo, &inodo) == -1)
+        {
+            perror("ERROR EN mi_dir AL INTENTAR LEER ALGUNO DE LOS INODOS CORRESPONDIENTES");
+            return -1;
+        }
+
+        strcat(buffer, ((inodo.permisos & 4) == 4) ? "r" : "-");
+        strcat(buffer, ((inodo.permisos & 2) == 2) ? "w" : "-");
+        strcat(buffer, ((inodo.permisos & 1) == 1) ? "x" : "-");
+        strcat(buffer, "|");
+
+        tm = localtime(&inodo.mtime);
+        sprintf(tmp, "%d-%02d-%02d %02d:%02d:%02d", tm->tm_year + 1900, tm->tm_mon + 1, tm->tm_mday, tm->tm_hour, tm->tm_min, tm->tm_sec);
+        strcat(buffer, tmp);
+        strcat(buffer, "|");
+
+        if (offset % (BLOCKSIZE / sizeof(struct entrada)) == 0)
+        {
+            offset += mi_read_f(p_inodo, entradas, offset, BLOCKSIZE);
+        }
+    }
+    return inodo.tamEnBytesLog / sizeof(struct entrada);
+}
+
+int mi_chmod(const char *camino, unsigned char permisos)
+{
+    int p_inodo_dir = 0;
+    int p_inodo = 0;
+    int p_entrada = 0;
+    int error;
+
+    if ((error = buscar_entrada(camino, &p_inodo_dir, &p_inodo, &p_entrada, 1, permisos)) < 0)
+    {
+        perror("ERROR EN mi_chmod AL INTENTAR OBTENER EL Nº INODO");
+        return error;
+    }
+
+    if (mi_chmod_f(p_inodo, permisos) == -1)
+    {
+        perror("ERROR EN mi_chmod");
+        return -1;
+    }
+
+    return 0;
+}
+
+int mi_stat(const char *camino, struct STAT *p_stat)
+{
+    int p_inodo_dir = 0;
+    int p_inodo = 0;
+    int p_entrada = 0;
+    int error;
+
+    if ((error = buscar_entrada(camino, &p_inodo_dir, &p_inodo, &p_entrada, 1, p_stat->permisos)) < 0)
+    {
+        perror("ERROR EN mi_stat AL INTENTAR OBTENER EL P_INODO");
+        return error;
+    }
+
+    if (mi_stat_f(p_inodo, p_stat) == -1)
+    {
+        perror("ERROR EN mi_stat");
+        return -1;
+    }
+
+    return p_inodo;
 }
