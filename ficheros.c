@@ -1,6 +1,6 @@
-//Pere Joan Vives Morey
-//Marc Llobera Villalonga
-//Carlos Lozano Alemañy
+// Pere Joan Vives Morey
+// Marc Llobera Villalonga
+// Carlos Lozano Alemañy
 #include "ficheros.h"
 #include <time.h>
 
@@ -124,7 +124,7 @@ int mi_write_f(unsigned int ninodo, const void *buf_original, unsigned int offse
 }
 
 // Lee información de un fichero/directorio y la almacena en un buffer de memoria, buf_original
-int mi_read_f(unsigned int ninodo, void *buf_original, unsigned int offset, unsigned int nbytes) 
+int mi_read_f(unsigned int ninodo, void *buf_original, unsigned int offset, unsigned int nbytes)
 {
     // VARIABLES
     unsigned char buf_bloque[BLOCKSIZE];
@@ -245,7 +245,7 @@ int mi_read_f(unsigned int ninodo, void *buf_original, unsigned int offset, unsi
     return bytesLeidos;
 }
 
-//añade al struct stat la información del inodo sin los punteros
+// añade al struct stat la información del inodo sin los punteros
 int mi_stat_f(unsigned int ninodo, struct STAT *p_stat)
 {
     struct inodo inodo;
@@ -266,24 +266,24 @@ int mi_stat_f(unsigned int ninodo, struct STAT *p_stat)
 
     return 0;
 }
-//cambia los permisos de un inodo a partir del numero de este
-int mi_chmod_f(unsigned int ninodo, unsigned char permisos) 
+// cambia los permisos de un inodo a partir del numero de este
+int mi_chmod_f(unsigned int ninodo, unsigned char permisos)
 {
     struct inodo inodo;
-    if (leer_inodo(ninodo, &inodo) == -1) //buscamos el inodo y lo leemos
+    if (leer_inodo(ninodo, &inodo) == -1) // buscamos el inodo y lo leemos
     {
         perror("ERROR EN mi_chmod_f AL LEER EL INODO");
         return -1;
     }
-    inodo.permisos = permisos; //le cambiamos los permisos
+    inodo.permisos = permisos; // le cambiamos los permisos
     inodo.ctime = time(NULL);
-    
-    if (escribir_inodo(ninodo, inodo) == -1) //y lo volvemos a escribir
+
+    if (escribir_inodo(ninodo, inodo) == -1) // y lo volvemos a escribir
     {
         perror("ERROR EN mi_chmod_f AL ESCRIBIR EL INODO");
         return -1;
     }
-    
+
     return 0;
 }
 
