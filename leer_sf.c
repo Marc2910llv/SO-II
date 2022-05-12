@@ -3,11 +3,22 @@
 //Carlos Lozano Alemañy
 #include <string.h>
 #include "ficheros_basico.h"
+//#include "directorios.h"
 #include <time.h> //esta librería incluirla en ficheros_basico.h
 
 int main(int argc, char *argv[])
 {
-    bmount(argv[1]);
+    if (argc != 2)
+    {
+        perror("ERROR EN leer_sf, SINTAXIS INCORRECTA");
+        return -1;
+    }
+
+    if(bmount(argv[1])){
+        perror("ERROR EN leer_sf AL ABRIR EL FICHERO");
+        return -1;
+    }
+    
     struct superbloque SB;
     if (bread(0, &SB) == -1)
     {
@@ -27,7 +38,7 @@ int main(int argc, char *argv[])
     printf("cantBloquesLibres = %d\n", SB.cantBloquesLibres);
     printf("cantInodosLibres = %d\n", SB.cantInodosLibres);
     printf("totBloques = %d\n", SB.totBloques);
-    printf("totInodos = %d\n\n", SB.totInodos);
+    printf("totInodos = %d\n", SB.totInodos);
     //printf("Sizeof struct superbloque = %ld\n", sizeof(SB));
     //printf("Sizeof struct Inodo = %ld\n", sizeof(struct inodo));
 
