@@ -388,7 +388,7 @@ int reservar_inodo(unsigned char tipo, unsigned char permisos)
         nuevo.punterosIndirectos[j] = 0;
     }
     escribir_inodo(posInodoReservado, nuevo);
-    SB.cantInodosLibres = SB.cantInodosLibres - 1;
+    //SB.cantInodosLibres = SB.cantInodosLibres - 1;
     if (bwrite(posSB, &SB) == -1)
     {
         perror("ERROR EN reservar_inodo AL REESCRIBIR EL SUPERBLOQUE");
@@ -572,11 +572,11 @@ int liberar_inodo(unsigned int ninodo)
     inodo.tipo = 'l';
     inodo.tamEnBytesLog = 0;
 
-    if (escribir_inodo(ninodo, inodo) == -1)
+    /*if (escribir_inodo(ninodo, inodo) == -1)
     {
         perror("ERROR EN liberar_inodo AL ACTUALIZAR EL INODO");
         return -1;
-    }
+    }*/
 
     struct superbloque SB;
     if (bread(posSB, &SB) == -1)
@@ -589,11 +589,11 @@ int liberar_inodo(unsigned int ninodo)
     SB.posPrimerInodoLibre = ninodo;
     inodo.punterosDirectos[0] = aux;
 
-    if (escribir_inodo(SB.posPrimerInodoLibre, inodo) == -1)
+    /*if (escribir_inodo(SB.posPrimerInodoLibre, inodo) == -1)
     {
         perror("ERROR EN liberar_inodo AL ACTUALIZAR EL SUPERBLOQUE CON EL NUEVO INODO LIBRE");
         return -1;
-    }
+    }*/
 
     SB.cantInodosLibres = SB.cantInodosLibres + 1;
 
@@ -636,11 +636,11 @@ int liberar_bloques_inodo(unsigned int primerBL, struct inodo *inodo)
     // obtenemos el último bloque lógico del inodo
     if (inodo->tamEnBytesLog % BLOCKSIZE == 0)
     {
-        ultimoBL = inodo->tamEnBytesLog / BLOCKSIZE - 1;
+        ultimoBL = ((inodo->tamEnBytesLog) / BLOCKSIZE) - 1;
     }
     else
     {
-        ultimoBL = inodo->tamEnBytesLog / BLOCKSIZE;
+        ultimoBL = (inodo->tamEnBytesLog) / BLOCKSIZE;
     }
     memset(bufAux_punteros, 0, BLOCKSIZE);
     ptr = 0;
