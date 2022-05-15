@@ -7,34 +7,29 @@
 // Dada una cadena de caracteres camino (que comience por '/'), separa su contenido en dos
 int extraer_camino(const char *camino, char *inicial, char *final, char *tipo)
 {
-    char delimitador[] = "/";
+    char delimitador[2] = "/";
+    char str[strlen(camino)];
+    strcpy(str,camino);
     char *token;
 
-    token = strtok(camino, delimitador);
-    inicial = token;                   // la primera porción siempre es 'inicial'
-    token = strtok(NULL, delimitador); // leemos la siguiente para ver si es NULL
-    if (token != NULL)
-    {
-        tipo = "d"; // si no es NULL quiere decir que camino es un directorio
-        final = "";
-        char *buffer;
-        while (token != NULL) // seguimos leyendo lo que queda de camino
-        {
-            strcat(buffer, "/");
-            strcat(buffer, token); // lo unimos todo en un solo char
-            token = strtok(NULL, delimitador);
-        }
-        final = buffer; // el resto de camino será el final
-        return 0;
+    if(camino[0]!='/'){
+        return -1;
     }
-    else
-    {
-        tipo = "f"; // si es NULL quiere decir que se trata de un fichero
-        final = "";
-        return 0;
+
+    char *fin = strchr((camino+1),'/');
+    if(fin){
+        token = strtok(str,delimitador);
+        strcpy(inicial,token);
+        strcpy(final,fin);
+        strcpy(tipo,"d");
+    }else{
+        token = strtok(str,delimitador);
+        strcpy(inicial,token);
+        strcpy(final,"");
+        strcpy(tipo,"f");  
+
     }
-    perror("ERROR EN extraer_camino AL SEPARAR LA RUTA DEL DIRECTORIO O EL FICHERO");
-    return -1;
+return 0;        
 }
 
 // buscará una determinada entrada (la parte *inicial del *camino_parcial que nos devuelva extraer_camino()) entre las entradas del inodo correspondiente a su directorio padre
@@ -42,15 +37,24 @@ int buscar_entrada(const char *camino_parcial, unsigned int *p_inodo_dir, unsign
 {
     struct entrada entrada;
     struct inodo inodo;
+    struct inodo dir_inodo;
     char inicial[sizeof(entrada.nombre)];
     char final[strlen(camino_parcial)];
     char tipo;
     int cant_entradas_inodo, num_entrada_inodo;
 
+    struct superbloque SB;
+
+
     if (!strcmp(camino_parcial, "/"))
     {                               // camino_parcial es “/”
-        *p_inodo = SB.posInodoRaiz; // nuestra raiz siempre estará asociada al inodo 0
-        *p_entrada = 0;
+        if (bread(0, &SB) == -1)
+        {
+            perror("ERROR EN leer_sf AL LEER EL SUPERBLOQUE");
+            return -1;
+        }
+        *(p_inodo) = SB.posInodoRaiz; // nuestra raiz siempre estará asociada al inodo 0
+        *(p_entrada) = 0;
         return 0;
     }
 
@@ -59,6 +63,7 @@ int buscar_entrada(const char *camino_parcial, unsigned int *p_inodo_dir, unsign
         perror("ERROR EN buscar_entrada AL INTENTAR EXTRAER EL CAMINO");
         return -1;
     }
+    printf("[buscar_entrada()->inicial: %s, final: %s, reservar: %d]\n", inicial,final, reservar);
 
     // buscamos la entrada cuyo nombre se encuentra en inicial
     if (leer_inodo(*p_inodo_dir, &inodo) == -1)
@@ -85,7 +90,7 @@ int buscar_entrada(const char *camino_parcial, unsigned int *p_inodo_dir, unsign
             perror("ERROR EN buscar_entrada AL INTENTAR LEER LA ENTRADA");
             return -1;
         }
-        while ((num_entrada_inodo < cant_entradas_inodo) && (inicial != entrada.nombre))
+        while ((num_entrada_inodo < cant_entradas_inodo) && (inicial != entrada.nombre)!=0)
         {
             num_entrada_inodo++;
             // previamente volver a inicializar el buffer de lectura con 0s
@@ -121,9 +126,10 @@ int buscar_entrada(const char *camino_parcial, unsigned int *p_inodo_dir, unsign
                 strcpy(entrada.nombre, inicial);
                 if (tipo == 'd')
                 {
-                    if (fstrcmp(final, "/") == 0)
+                    if (strcmp(final, "/") == 0)
                     {
                         entrada.ninodo = reservar_inodo(tipo, permisos);
+                        printf("[buscar_entrada()->reservado inodo: %d tipo %c con permisos %d para '%s']\n", entrada.ninodo, tipo, permisos, entrada.nombre);
                     }
                     else
                     { // cuelgan más diretorios o ficheros
@@ -133,12 +139,15 @@ int buscar_entrada(const char *camino_parcial, unsigned int *p_inodo_dir, unsign
                 else
                 { // es un fichero
                     entrada.ninodo = reservar_inodo(tipo, permisos);
+                    printf("[buscar()->reservado inodo: %d tipo %c con permisos %d para '%s']\n", entrada.ninodo, tipo, permisos, entrada.nombre);
                 }
+                fprintf(stderr, "[buscar_entrada()->creada entrada: %s, %d] \n", inicial, entrada.ninodo);
                 if (mi_write_f(*p_inodo_dir, &entrada, dir_inodo.tamEnBytesLog, sizeof(struct entrada)) == -1)
                 {
                     if (entrada.ninodo != -1)
                     { // entrada.inodo != -1
                         liberar_inodo(entrada.ninodo);
+                        fprintf(stderr, "[buscar_entrada()-> liberado inodo %i, reservado a %s\n", num_entrada_inodo, inicial);
                     }
                     return -1; //-1
                 }
@@ -192,7 +201,7 @@ void mostrar_error_buscar_entrada(int error)
         break;
     }
 }
-
+/*
 // Función de la capa de directorios que crea un fichero/directorio y su entrada de directorio
 int mi_creat(const char *camino, unsigned char permisos)
 {
@@ -316,4 +325,4 @@ int mi_stat(const char *camino, struct STAT *p_stat)
     }
 
     return p_inodo;
-}
+}*/
