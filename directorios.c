@@ -37,14 +37,15 @@ int buscar_entrada(const char *camino_parcial, unsigned int *p_inodo_dir, unsign
 {
     struct entrada entrada;
     struct inodo inodo;
-    struct inodo dir_inodo;
     char inicial[sizeof(entrada.nombre)];
     char final[strlen(camino_parcial)];
     char tipo;
     int cant_entradas_inodo, num_entrada_inodo;
 
     struct superbloque SB;
-
+    memset(inicial, 0, sizeof(entrada.nombre));
+    memset(final, 0, strlen(camino_parcial));
+    memset(entrada.nombre, 0, sizeof(entrada.nombre));
 
     if (!strcmp(camino_parcial, "/"))
     {                               // camino_parcial es “/”
@@ -81,7 +82,7 @@ int buscar_entrada(const char *camino_parcial, unsigned int *p_inodo_dir, unsign
     // el buffer de lectura puede ser un struct tipo entrada
     // o mejor un array de las entradas que caben en un bloque, para optimizar la lectura en RAM
 
-    cant_entradas_inodo = dir_inodo.tamEnBytesLog / sizeof(struct entrada); // cantidad de entradas que contiene el inodo
+    cant_entradas_inodo = inodo.tamEnBytesLog / sizeof(struct entrada); // cantidad de entradas que contiene el inodo
     num_entrada_inodo = 0;                                                  // nº de entrada inicial
     if (cant_entradas_inodo > 0)
     {
@@ -90,7 +91,7 @@ int buscar_entrada(const char *camino_parcial, unsigned int *p_inodo_dir, unsign
             perror("ERROR EN buscar_entrada AL INTENTAR LEER LA ENTRADA");
             return -1;
         }
-        while ((num_entrada_inodo < cant_entradas_inodo) && (inicial != entrada.nombre)!=0)
+        while ((num_entrada_inodo < cant_entradas_inodo) && strcmp(inicial,entrada.nombre)!=0)
         {
             num_entrada_inodo++;
             // previamente volver a inicializar el buffer de lectura con 0s
@@ -102,7 +103,7 @@ int buscar_entrada(const char *camino_parcial, unsigned int *p_inodo_dir, unsign
         }
     }
 
-    if (inicial != entrada.nombre)
+    if (num_entrada_inodo == cant_entradas_inodo && (inicial != buffer_lectura[num_entrada_inodo % (BLOCKSIZE / sizeof(struct entrada))].nombre))//copiat->únic fallo
     { // la entrada no existe
         switch (reservar)
         {
@@ -142,7 +143,7 @@ int buscar_entrada(const char *camino_parcial, unsigned int *p_inodo_dir, unsign
                     printf("[buscar()->reservado inodo: %d tipo %c con permisos %d para '%s']\n", entrada.ninodo, tipo, permisos, entrada.nombre);
                 }
                 fprintf(stderr, "[buscar_entrada()->creada entrada: %s, %d] \n", inicial, entrada.ninodo);
-                if (mi_write_f(*p_inodo_dir, &entrada, dir_inodo.tamEnBytesLog, sizeof(struct entrada)) == -1)
+                if (mi_write_f(*p_inodo_dir, &entrada, inodo.tamEnBytesLog, sizeof(struct entrada)) == -1)
                 {
                     if (entrada.ninodo != -1)
                     { // entrada.inodo != -1
