@@ -6,9 +6,9 @@
 
 int main(int argc, char const *argv[])
 {
-    if (argc != 4)
+    if (argc<4)
     {
-        perror("ERROR DE SINTAXIS EN mi_mkdir.c");
+        perror("Error de sintaxis: ./mi_mkdir <disco> <permisos> </ruta>\n");
         return -1;
     }
 
@@ -25,7 +25,7 @@ int main(int argc, char const *argv[])
             perror("ERROR EN mi_mkdir.c AL INTENTAR MONTAR EL DISCO EN EL SISTEMA");
             return -1;
         }
-        int error= mi_creat(argv[3], atoi(argv[2]);
+        int error= mi_creat(argv[3], atoi(argv[2]));
         if (error < 0)
         {
             mostrar_error_buscar_entrada(error);
@@ -37,20 +37,7 @@ int main(int argc, char const *argv[])
     }
     else
     {
-        if (bmount(argv[1]) == -1)
-        {
-            perror("ERROR EN mi_mkdir.c AL INTENTAR MONTAR EL DISCO EN EL SISTEMA");
-            return -1;
-        }
-        int error = mi_creat(argv[3], atoi(argv[2]);
-        if (error < 0)
-        {
-            mostrar_error_buscar_entrada(error);
-            return -1;
-        }
-        if(bumount() == -1){
-            perror("ERROR EN mi_mkfs.c AL INTENTAR CERRAR EL FICHERO");
-        }
+        
     }
     return 0;
 }

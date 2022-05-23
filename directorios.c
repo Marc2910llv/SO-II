@@ -23,8 +23,7 @@ int extraer_camino(const char *camino, char *inicial, char *final, char *tipo)
         strcpy(final,fin);
         strcpy(tipo,"d");
     }else{
-        token = strtok(str,delimitador);
-        strcpy(inicial,token);
+        strcpy(inicial, (camino + 1));
         strcpy(final,"");
         strcpy(tipo,"f");  
 
@@ -62,7 +61,7 @@ int buscar_entrada(const char *camino_parcial, unsigned int *p_inodo_dir, unsign
     if (extraer_camino(camino_parcial, inicial, final, &tipo) == -1)
     {
         perror("ERROR EN buscar_entrada AL INTENTAR EXTRAER EL CAMINO");
-        return -1;
+        return ERROR_CAMINO_INCORRECTO;
     }
     printf("[buscar_entrada()->inicial: %s, final: %s, reservar: %d]\n", inicial,final, reservar);
 
@@ -84,26 +83,23 @@ int buscar_entrada(const char *camino_parcial, unsigned int *p_inodo_dir, unsign
 
     cant_entradas_inodo = inodo.tamEnBytesLog / sizeof(struct entrada); // cantidad de entradas que contiene el inodo
     num_entrada_inodo = 0;                                                  // nº de entrada inicial
+    int b_leidos = 0;
     if (cant_entradas_inodo > 0)
     {
-        if (mi_read_f(*p_inodo_dir, &entrada, num_entrada_inodo * sizeof(struct entrada), sizeof(struct entrada)) < 0)
+        b_leidos += mi_read_f(*p_inodo_dir, &buffer_lectura, b_leidos, BLOCKSIZE);
+
+        while ((num_entrada_inodo < cant_entradas_inodo) && (strcmp(inicial, buffer_lectura[num_entrada_inodo].nombre) != 0))
         {
-            perror("ERROR EN buscar_entrada AL INTENTAR LEER LA ENTRADA");
-            return -1;
-        }
-        while ((num_entrada_inodo < cant_entradas_inodo) && strcmp(inicial,entrada.nombre)!=0)
-        {
+
             num_entrada_inodo++;
-            // previamente volver a inicializar el buffer de lectura con 0s
-            if (mi_read_f(*p_inodo_dir, &entrada, num_entrada_inodo * sizeof(struct entrada), sizeof(struct entrada)) < 0)
+            if ((num_entrada_inodo % (BLOCKSIZE / sizeof(struct entrada))) == 0)
             {
-                perror("ERROR EN buscar_entrada AL INTENTAR LEER LA ENTRADA");
-                return -1;
+                b_leidos += mi_read_f(*p_inodo_dir, &buffer_lectura, b_leidos, BLOCKSIZE);
             }
         }
-    }
+    } //copiat
 
-    if (num_entrada_inodo == cant_entradas_inodo && (inicial != buffer_lectura[num_entrada_inodo % (BLOCKSIZE / sizeof(struct entrada))].nombre))//copiat->únic fallo
+    if (strcmp(buffer_lectura[num_entrada_inodo].nombre, inicial) != 0)//copiat->únic fallo
     { // la entrada no existe
         switch (reservar)
         {
@@ -129,7 +125,7 @@ int buscar_entrada(const char *camino_parcial, unsigned int *p_inodo_dir, unsign
                 {
                     if (strcmp(final, "/") == 0)
                     {
-                        entrada.ninodo = reservar_inodo(tipo, permisos);
+                        entrada.ninodo = reservar_inodo(tipo, 6);
                         printf("[buscar_entrada()->reservado inodo: %d tipo %c con permisos %d para '%s']\n", entrada.ninodo, tipo, permisos, entrada.nombre);
                     }
                     else
@@ -139,7 +135,7 @@ int buscar_entrada(const char *camino_parcial, unsigned int *p_inodo_dir, unsign
                 }
                 else
                 { // es un fichero
-                    entrada.ninodo = reservar_inodo(tipo, permisos);
+                    entrada.ninodo = reservar_inodo('f', 6);
                     printf("[buscar()->reservado inodo: %d tipo %c con permisos %d para '%s']\n", entrada.ninodo, tipo, permisos, entrada.nombre);
                 }
                 fprintf(stderr, "[buscar_entrada()->creada entrada: %s, %d] \n", inicial, entrada.ninodo);
@@ -163,13 +159,13 @@ int buscar_entrada(const char *camino_parcial, unsigned int *p_inodo_dir, unsign
             return ERROR_ENTRADA_YA_EXISTENTE;
         }
         // cortamos la recursividad
-        *(p_inodo) = num_entrada_inodo; // asignar a *p_inodo el numero de inodo del directorio o fichero creado o leido
-        *(p_entrada) = entrada.ninodo;  // asignar a *p_entrada el número de su entrada dentro del último directorio que lo contiene
+        *p_inodo = buffer_lectura[num_entrada_inodo].ninodo; // asignar a *p_inodo el numero de inodo del directorio o fichero creado o leido
+        *p_entrada = entrada.ninodo;  // asignar a *p_entrada el número de su entrada dentro del último directorio que lo contiene
         return 0;
     }
     else
     {
-        *(p_inodo_dir) = entrada.ninodo; // asignamos a *p_inodo_dir el puntero al inodo que se indica en la entrada encontrada;
+        *p_inodo_dir = buffer_lectura[num_entrada_inodo].ninodo; // asignamos a *p_inodo_dir el puntero al inodo que se indica en la entrada encontrada;
         return buscar_entrada(final, p_inodo_dir, p_inodo, p_entrada, reservar, permisos);
     }
     return 0;
@@ -202,18 +198,16 @@ void mostrar_error_buscar_entrada(int error)
         break;
     }
 }
-/*
 // Función de la capa de directorios que crea un fichero/directorio y su entrada de directorio
 int mi_creat(const char *camino, unsigned char permisos)
 {
-    int p_inodo_dir = 0;
-    int p_inodo = 0;
-    int p_entrada = 0;
+    unsigned int p_inodo_dir = 0;
+    unsigned int p_inodo = 0;
+    unsigned int p_entrada = 0;
     int error;
 
     if ((error = buscar_entrada(camino, &p_inodo_dir, &p_inodo, &p_entrada, 1, permisos)) < 0)
     {
-        perror("ERROR EN mi_creat AL CREAR UN FICHERO/DIRECTORIO Y SU ENTRADA DE DIRECTORIO");
         return error;
     }
     return 0;
@@ -223,15 +217,13 @@ int mi_creat(const char *camino, unsigned char permisos)
 int mi_dir(const char *camino, char *buffer)
 {
     struct tm *tm;
-    int p_inodo_dir = 0;
-    int p_inodo = 0;
-    int p_entrada = 0;
+    unsigned int p_inodo_dir = 0;
+    unsigned int p_inodo = 0;
+    unsigned int p_entrada = 0;
     int error;
-    int nEntradas = 0;
 
-    if ((error = buscar_entrada(camino, &p_inodo_dir, &p_inodo, &p_entrada, 1, permisos)) < 0)
+    if ((error = buscar_entrada(camino, &p_inodo_dir, &p_inodo, &p_entrada, 0, 4)) < 0)
     {
-        perror("ERROR EN mi_dir AL CREAR UN FICHERO/DIRECTORIO Y SU ENTRADA DE DIRECTORIO");
         mostrar_error_buscar_entrada(error);
         return error;
     }
@@ -249,6 +241,7 @@ int mi_dir(const char *camino, char *buffer)
     }
 
     char tmp[100];
+    char tamEnBytes[10]; 
 
     struct entrada entradas[BLOCKSIZE / sizeof(struct entrada)];
     memset(&entradas, 0, sizeof(struct entrada));
@@ -264,15 +257,43 @@ int mi_dir(const char *camino, char *buffer)
             return -1;
         }
 
-        strcat(buffer, ((inodo.permisos & 4) == 4) ? "r" : "-");
-        strcat(buffer, ((inodo.permisos & 2) == 2) ? "w" : "-");
-        strcat(buffer, ((inodo.permisos & 1) == 1) ? "x" : "-");
-        strcat(buffer, "|");
+         if (inodo.tipo == 'd')
+            {
+                
+                strcat(buffer, "d");
+            }
+            else
+            {
+                
+                strcat(buffer, "f");
+            }
+            strcat(buffer, "\t");
 
-        tm = localtime(&inodo.mtime);
-        sprintf(tmp, "%d-%02d-%02d %02d:%02d:%02d", tm->tm_year + 1900, tm->tm_mon + 1, tm->tm_mday, tm->tm_hour, tm->tm_min, tm->tm_sec);
-        strcat(buffer, tmp);
-        strcat(buffer, "|");
+            strcat(buffer, ((inodo.permisos & 4) == 4) ? "r" : "-");
+            strcat(buffer, ((inodo.permisos & 2) == 2) ? "w" : "-");
+            strcat(buffer, ((inodo.permisos & 1) == 1) ? "x" : "-");
+            strcat(buffer, "\t");
+
+
+            tm = localtime(&inodo.mtime);
+            sprintf(tmp, "%d-%02d-%02d %02d:%02d:%02d", tm->tm_year + 1900, tm->tm_mon + 1, tm->tm_mday, tm->tm_hour, tm->tm_min, tm->tm_sec);
+            strcat(buffer, tmp);
+            strcat(buffer, "\t");
+
+
+            sprintf(tamEnBytes, "%d", inodo.tamEnBytesLog);
+            strcat(buffer, tamEnBytes);
+            strcat(buffer, "\t");
+
+
+            strcat(buffer, entradas[i % (BLOCKSIZE / sizeof(struct entrada))].nombre);
+
+            while ((strlen(buffer) % TAMFILA) != 0)
+            {
+                strcat(buffer, " ");
+            }
+
+            strcat(buffer, "\n"); 
 
         if (offset % (BLOCKSIZE / sizeof(struct entrada)) == 0)
         {
@@ -285,14 +306,13 @@ int mi_dir(const char *camino, char *buffer)
 // Buscar la entrada *camino con buscar_entrada() para obtener el nº de inodo (p_inodo).  Si la entrada existe llamamos a la función correspondiente de ficheros.c pasándole el p_inodo
 int mi_chmod(const char *camino, unsigned char permisos)
 {
-    int p_inodo_dir = 0;
-    int p_inodo = 0;
-    int p_entrada = 0;
+    unsigned int p_inodo_dir = 0;
+    unsigned int p_inodo = 0;
+    unsigned int p_entrada = 0;
     int error;
 
-    if ((error = buscar_entrada(camino, &p_inodo_dir, &p_inodo, &p_entrada, 1, permisos)) < 0)
+    if ((error = buscar_entrada(camino, &p_inodo_dir, &p_inodo, &p_entrada, 0, permisos)) < 0)
     {
-        perror("ERROR EN mi_chmod AL INTENTAR OBTENER EL Nº INODO");
         return error;
     }
 
@@ -308,12 +328,12 @@ int mi_chmod(const char *camino, unsigned char permisos)
 // Buscar la entrada *camino con buscar_entrada() para obtener el p_inodo. Si la entrada existe llamamos a la función correspondiente de ficheros.c pasándole el p_inodo
 int mi_stat(const char *camino, struct STAT *p_stat)
 {
-    int p_inodo_dir = 0;
-    int p_inodo = 0;
-    int p_entrada = 0;
+    unsigned int p_inodo_dir = 0;
+    unsigned int p_inodo = 0;
+    unsigned int p_entrada = 0;
     int error;
 
-    if ((error = buscar_entrada(camino, &p_inodo_dir, &p_inodo, &p_entrada, 1, p_stat->permisos)) < 0)
+    if ((error = buscar_entrada(camino, &p_inodo_dir, &p_inodo, &p_entrada, 0, p_stat->permisos)) < 0)
     {
         perror("ERROR EN mi_stat AL INTENTAR OBTENER EL P_INODO");
         return error;
@@ -326,4 +346,4 @@ int mi_stat(const char *camino, struct STAT *p_stat)
     }
 
     return p_inodo;
-}*/
+}

@@ -6,7 +6,7 @@
 
 int main(int argc, char const *argv[])
 {
-    if (argc != 4)
+    if (argc <4)
     {
         perror("ERROR DE SINTAXIS EN mi_chmod.c");
         return -1;
@@ -25,8 +25,8 @@ int main(int argc, char const *argv[])
         perror("ERROR EN mi_chmod.c AL INTENTAR MONTAR EL DISCO");
         return -1;
     }
-
-    int error = mi_chmod(argv[3], atoi(argv[2]));
+    int permisos = atoi(argv[2]);
+    int error = mi_chmod(argv[3],permisos);
     if (error < 0)
     {
         mostrar_error_buscar_entrada(error);

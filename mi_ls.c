@@ -6,7 +6,7 @@
 
 int main(int argc, char const *argv[])
 {
-    if (argc != 3)
+    if (argc<3)
     {
         perror("ERROR DE SINTAXIS EN mi_ls.c");
         return -1;
@@ -18,11 +18,10 @@ int main(int argc, char const *argv[])
         return -1;
     }
 
-    char tipo = '\0';
     char buffer[TAMBUFFER];
     memset(buffer, 0, TAMBUFFER);
 
-    int total = mi_dir(argv[2], buffer, &tipo);
+    int total = mi_dir(argv[2], buffer);
     if (total < 0)
     {
         mostrar_error_buscar_entrada(total);

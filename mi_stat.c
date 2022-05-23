@@ -18,9 +18,9 @@ int main(int argc, char const *argv[])
         return -1;
     }
 
-    int ninodo = atoi(argv[2]);
+    
     struct STAT stat;
-    int error = mi_stat(ninodo, &stat);
+    int error = mi_stat(argv[2], &stat);
     if (error < 0)
     {
         mostrar_error_buscar_entrada(error);
@@ -46,7 +46,7 @@ int main(int argc, char const *argv[])
     strftime(ctime, 80, "%a %Y-%m-%d %H:%M:%S", t2);
     strftime(mtime, 80, "%a %Y-%m-%d %H:%M:%S", t3);
     // imprimimos la información
-    printf("DATOS INODO %d\n", ninodo);
+    printf("DATOS INODO %d\n", error);
     printf("tipo= %c\n", stat.tipo);
     printf("permisos= %d\n", stat.permisos);
     printf("atime: %s\n", atime);
