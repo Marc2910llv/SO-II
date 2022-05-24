@@ -226,10 +226,10 @@ int mi_creat(const char *camino, unsigned char permisos)
 int mi_dir(const char *camino, char *buffer, char *tipo)
 {
     struct tm *tm;
-    int p_inodo_dir = 0;
-    int p_inodo = 0;
-    int p_entrada = 0;
-    int nEntradas = 0;
+    unsigned int p_inodo_dir = 0;
+    unsigned int p_inodo = 0;
+    unsigned int p_entrada = 0;
+    unsigned int nEntradas = 0;
 
     int error = buscar_entrada(camino, &p_inodo_dir, &p_inodo, &p_entrada, 0, 4);
     if (error < 0)
@@ -456,10 +456,10 @@ int MAXCACHE = CACHE;
 // Escribir contenido en un fichero
 int mi_write(const char *camino, const void *buf, unsigned int offset, unsigned int nbytes)
 {
-    int p_inodo_dir = 0;
-    int p_inodo = 0;
-    int p_entrada = 0;
-    int escrituraMismoInodo = 0; // false
+    unsigned int p_inodo_dir = 0;
+    unsigned int p_inodo = 0;
+    unsigned int p_entrada = 0;
+    unsigned int escrituraMismoInodo = 0; // false
 
     // Recorrido del cache
     for (int i = 0; i < (MAXCACHE - 1); i++)
@@ -508,10 +508,10 @@ int mi_write(const char *camino, const void *buf, unsigned int offset, unsigned 
 // Leer los nbytes del fichero indicado por camino, a partir del offset pasado por parámetro y copiarlos en el buffer buf
 int mi_read(const char *camino, void *buf, unsigned int offset, unsigned int nbytes)
 {
-    int p_inodo_dir = 0;
-    int p_inodo = 0;
-    int p_entrada = 0;
-    int escrituraMismoInodo = 0; // false
+    unsigned int p_inodo_dir = 0;
+    unsigned int p_inodo = 0;
+    unsigned int p_entrada = 0;
+    unsigned int escrituraMismoInodo = 0; // false
 
     // Recorrido del cache
     for (int i = 0; i < (MAXCACHE - 1); i++)
