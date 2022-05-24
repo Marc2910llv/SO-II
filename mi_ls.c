@@ -20,7 +20,8 @@ int main(int argc, char const *argv[])
 
     char buffer[TAMBUFFER];
     memset(buffer, 0, TAMBUFFER);
-
+    
+    printf("Entrada: %s\n",argv[2]);
     int total = mi_dir(argv[2], buffer);
     if (total < 0)
     {

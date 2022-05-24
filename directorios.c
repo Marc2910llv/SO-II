@@ -45,8 +45,8 @@ int buscar_entrada(const char *camino_parcial, unsigned int *p_inodo_dir, unsign
     memset(inicial, 0, sizeof(entrada.nombre));
     memset(final, 0, strlen(camino_parcial));
     memset(entrada.nombre, 0, sizeof(entrada.nombre));
-
-    if (!strcmp(camino_parcial, "/"))
+    int i = strcmp(camino_parcial, "/");
+    if (i==0)
     {                               // camino_parcial es “/”
         if (bread(0, &SB) == -1)
         {
@@ -57,7 +57,6 @@ int buscar_entrada(const char *camino_parcial, unsigned int *p_inodo_dir, unsign
         *(p_entrada) = 0;
         return 0;
     }
-
     if (extraer_camino(camino_parcial, inicial, final, &tipo) == -1)
     {
         perror("ERROR EN buscar_entrada AL INTENTAR EXTRAER EL CAMINO");
