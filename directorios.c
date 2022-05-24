@@ -9,29 +9,26 @@ static struct UltimaEntrada UltimaEntrada[CACHE];
 // Dada una cadena de caracteres camino (que comience por '/'), separa su contenido en dos
 int extraer_camino(const char *camino, char *inicial, char *final, char *tipo)
 {
-    char delimitador[2] = "/";
-    char str[strlen(camino)];
-    strcpy(str, camino);
-    char *token;
-
     if (camino[0] != '/')
     {
         return -1;
     }
 
     char *fin = strchr((camino + 1), '/');
+    strcpy(tipo, "f");
     if (fin)
     {
-        token = strtok(str, delimitador);
-        strcpy(inicial, token);
+        strncpy(inicial, (camino + 1), (strlen(camino) - strlen(fin) - 1));
         strcpy(final, fin);
-        strcpy(tipo, "d");
+        if (final[0] == '/')
+        {
+            strcpy(tipo, "d");
+        }
     }
     else
     {
         strcpy(inicial, (camino + 1));
         strcpy(final, "");
-        strcpy(tipo, "f");
     }
     return 0;
 }
