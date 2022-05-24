@@ -47,9 +47,11 @@ int buscar_entrada(const char *camino_parcial, unsigned int *p_inodo_dir, unsign
     memset(final, 0, strlen(camino_parcial));
     memset(entrada.nombre, 0, sizeof(entrada.nombre));
 
+
     if (!strcmp(camino_parcial, "/"))
     { // camino_parcial es “/”
         struct superbloque SB;
+
         if (bread(0, &SB) == -1)
         {
             perror("ERROR EN leer_sf AL LEER EL SUPERBLOQUE");

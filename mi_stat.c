@@ -21,6 +21,7 @@ int main(int argc, char const *argv[])
     
     struct STAT stat;
     int error = mi_stat(argv[2], &stat);
+    printf("Entrada: %s\n",argv[2]);
     if (error < 0)
     {
         mostrar_error_buscar_entrada(error);
