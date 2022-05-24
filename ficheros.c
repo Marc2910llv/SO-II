@@ -295,6 +295,7 @@ int mi_truncar_f(unsigned int ninodo, unsigned int nbytes)
     if (leer_inodo(ninodo, &inodo) == -1)
     {
         perror("ERROR EN mi_truncar_f AL LEER EL INODO");
+        return -1;
     }
 
     if ((inodo.permisos & 2) != 2)
@@ -319,15 +320,11 @@ int mi_truncar_f(unsigned int ninodo, unsigned int nbytes)
     }
 
     liberar = liberar_bloques_inodo(i, &inodo);
-    if (liberar == -1)
-    {
-        perror("ERROR EN mi_truncar_f AL LIBERAR LOS BLOQUES OCUPADOS");
-        return -1;
-    }
+
     inodo.mtime = time(NULL);
     inodo.ctime = time(NULL);
     inodo.tamEnBytesLog = nbytes;
-    inodo.numBloquesOcupados = inodo.numBloquesOcupados - liberar;
+    inodo.numBloquesOcupados -= liberar;
 
     if (escribir_inodo(ninodo, inodo) == -1)
     {

@@ -8,7 +8,7 @@ int main(int argc, char **argv)
 {
     if (argc != 3)
     {
-        fprintf("ERROR DE SINTAXIS EN mi_mkfs.c");
+        perror("ERROR DE SINTAXIS EN mi_mkfs.c");
         return -1;
     }
 

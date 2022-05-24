@@ -89,7 +89,7 @@ int buscar_entrada(const char *camino_parcial, unsigned int *p_inodo_dir, unsign
 
     cant_entradas_inodo = inodo.tamEnBytesLog / sizeof(struct entrada); // cantidad de entradas que contiene el inodo
     num_entrada_inodo = 0;                                              // nº de entrada inicial
-    
+
     int b_leidos = 0;
     if (cant_entradas_inodo > 0)
     {
@@ -268,7 +268,7 @@ int mi_dir(const char *camino, char *buffer, char *tipo)
         int offset = 0;
         offset += mi_read_f(p_inodo, entradas, offset, BLOCKSIZE);
 
-        for (int i = 0; i < nEntradas i++)
+        for (int i = 0; i < nEntradas; i++)
         {
             if (leer_inodo(entradas[i % (BLOCKSIZE / sizeof(struct entrada))].ninodo, &inodo) == -1)
             {
