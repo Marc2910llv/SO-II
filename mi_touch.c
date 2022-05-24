@@ -2,8 +2,8 @@
 
 int main(int argc, char const *argv[])
 {
-    
-    if (argc<4)
+
+    if (argc != 4)
     {
         perror("Error de sintaxis: ./mi_mkdir <disco><permisos></ruta>\n");
         return -1;
@@ -16,7 +16,7 @@ int main(int argc, char const *argv[])
 
     unsigned char permisos = atoi(argv[2]);
 
-    if ((argv[3][strlen(argv[3]) - 1] != '/')) 
+    if ((argv[3][strlen(argv[3]) - 1] != '/'))
     {
 
         if (bmount(argv[1]) == -1)
