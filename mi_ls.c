@@ -20,10 +20,13 @@ int main(int argc, char const *argv[])
 
     char buffer[TAMBUFFER];
     memset(buffer, 0, TAMBUFFER);
-    char tipo = '\0';
-    printf("Entrada: %s\n",argv[2]);
-    int total = mi_dir(argv[2], buffer,&tipo);
-
+    char tipo = 'd';
+    printf("Entrada: %s\n", argv[2]);
+    int total = mi_dir(argv[2], buffer, tipo);
+    if ((argv[2][strlen(argv[2]) - 1] != '/')) // si no es un fichero
+    {
+        tipo = 'f';
+    }
     if (total < 0)
     {
         mostrar_error_buscar_entrada(total);
