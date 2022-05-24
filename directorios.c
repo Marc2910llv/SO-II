@@ -43,13 +43,13 @@ int buscar_entrada(const char *camino_parcial, unsigned int *p_inodo_dir, unsign
     char tipo;
     int cant_entradas_inodo, num_entrada_inodo;
 
-    struct superbloque SB;
     memset(inicial, 0, sizeof(entrada.nombre));
     memset(final, 0, strlen(camino_parcial));
     memset(entrada.nombre, 0, sizeof(entrada.nombre));
 
     if (!strcmp(camino_parcial, "/"))
     { // camino_parcial es “/”
+        struct superbloque SB;
         if (bread(0, &SB) == -1)
         {
             perror("ERROR EN leer_sf AL LEER EL SUPERBLOQUE");
@@ -60,15 +60,19 @@ int buscar_entrada(const char *camino_parcial, unsigned int *p_inodo_dir, unsign
         return 0;
     }
 
+    memset(inicial, 0, sizeof(entrada.nombre));
+    memset(final, 0, strlen(camino_parcial));
+
     if (extraer_camino(camino_parcial, inicial, final, &tipo) == -1)
     {
         perror("ERROR EN buscar_entrada AL INTENTAR EXTRAER EL CAMINO");
         return ERROR_CAMINO_INCORRECTO;
     }
+
     printf("[buscar_entrada()->inicial: %s, final: %s, reservar: %d]\n", inicial, final, reservar);
 
     // buscamos la entrada cuyo nombre se encuentra en inicial
-    if (leer_inodo(*p_inodo_dir, &inodo) == -1)
+    if (leer_inodo(*(p_inodo_dir), &inodo) == -1)
     {
         perror("ERROR EN buscar_entrada AL BUSCAR LA ENTRADA CUYO NOMBRE SE ENCUENTRA EN INICIAL");
         return -1;
@@ -85,6 +89,7 @@ int buscar_entrada(const char *camino_parcial, unsigned int *p_inodo_dir, unsign
 
     cant_entradas_inodo = inodo.tamEnBytesLog / sizeof(struct entrada); // cantidad de entradas que contiene el inodo
     num_entrada_inodo = 0;                                              // nº de entrada inicial
+    
     int b_leidos = 0;
     if (cant_entradas_inodo > 0)
     {
@@ -222,6 +227,7 @@ int mi_dir(const char *camino, char *buffer, char *tipo)
     int p_inodo_dir = 0;
     int p_inodo = 0;
     int p_entrada = 0;
+    int nEntradas = 0;
 
     int error = buscar_entrada(camino, &p_inodo_dir, &p_inodo, &p_entrada, 0, 4);
     if (error < 0)
@@ -245,7 +251,7 @@ int mi_dir(const char *camino, char *buffer, char *tipo)
     char tmp[100];
     char tamEnBytes[10];
     struct entrada entrada;
-    struct entrada entradas[BLOCKSIZE / sizeof(struct entrada)];
+
     if (camino[(strlen(camino)) - 1] == '/')
     {
         if (leer_inodo(p_inodo, &inodo) == -1)
@@ -254,12 +260,15 @@ int mi_dir(const char *camino, char *buffer, char *tipo)
         }
         *tipo = inodo.tipo;
 
+        struct entrada entradas[BLOCKSIZE / sizeof(struct entrada)];
         memset(&entradas, 0, sizeof(struct entrada));
+
+        nEntradas = inodo.tamEnBytesLog / sizeof(struct entrada);
 
         int offset = 0;
         offset += mi_read_f(p_inodo, entradas, offset, BLOCKSIZE);
 
-        for (int i = 0; i < inodo.tamEnBytesLog / sizeof(struct entrada); i++)
+        for (int i = 0; i < nEntradas i++)
         {
             if (leer_inodo(entradas[i % (BLOCKSIZE / sizeof(struct entrada))].ninodo, &inodo) == -1)
             {
@@ -344,7 +353,7 @@ int mi_dir(const char *camino, char *buffer, char *tipo)
         {
             strcat(buffer, "f");
         }
-        strcat(buffer, "\t");
+        strcat(buffer, "    ");
 
         // Permisos
         if (inodo.permisos & 4)
@@ -392,7 +401,7 @@ int mi_dir(const char *camino, char *buffer, char *tipo)
         }
         strcat(buffer, "\n");
     }
-    return inodo.tamEnBytesLog / sizeof(struct entrada);
+    return nEntradas;
 }
 
 // Buscar la entrada *camino con buscar_entrada() para obtener el nº de inodo (p_inodo).  Si la entrada existe llamamos a la función correspondiente de ficheros.c pasándole el p_inodo
