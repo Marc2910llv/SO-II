@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
 
   printf("\nsizeof struct superbloque: %ld\n", sizeof(struct superbloque));
   printf("sizeof struct inodo:  %ld\n", sizeof(struct inodo));
-  /*
+
   printf("\nRECORRIDO LISTA ENLAZADA DE INODOS LIBRES\n");
   // Podéis hacer también un recorrido de la lista de inodos libres (mostrando para cada inodo el campo punterosDirectos[0]).
   struct inodo inodos[BLOCKSIZE / INODOSIZE];
@@ -175,7 +175,7 @@ int main(int argc, char *argv[])
   mostrar_buscar_entrada("/pruebas/docs/doc1", 1);       // creamos /pruebas/docs/doc1
   mostrar_buscar_entrada("/pruebas/casos/", 1);          // creamos /pruebas/casos/
   mostrar_buscar_entrada("/pruebas/docs/doc2", 1);       // creamos /pruebas/docs/doc2
-  */
+
   if (bumount() == -1)
   {
     perror("ERROR EN leer_sf AL INTENTAR CERRAR EL FICHERO");
