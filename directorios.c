@@ -47,7 +47,6 @@ int buscar_entrada(const char *camino_parcial, unsigned int *p_inodo_dir, unsign
     memset(final, 0, strlen(camino_parcial));
     memset(entrada.nombre, 0, sizeof(entrada.nombre));
 
-
     if (!strcmp(camino_parcial, "/"))
     { // camino_parcial es “/”
         struct superbloque SB;
@@ -556,4 +555,140 @@ int mi_read(const char *camino, void *buf, unsigned int offset, unsigned int nby
         return ERROR_PERMISO_LECTURA;
     }
     return bytes_leidos;
+}
+
+// Crea el enlace de una entrada de directorio camino2 al inodo especificado por otra entrada de directorio camino1
+int mi_link(const char *camino1, const char *camino2)
+{
+    int p_inodo_dir1 = 0;
+    int p_inodo1 = 0;
+    int p_entrada1 = 0;
+    int p_inodo_dir2 = 0;
+    int p_inodo2 = 0;
+    int p_entrada2 = 0;
+
+    struct inodo inodo;
+
+    int error = buscar_entrada(camino1, &p_inodo_dir1, &p_inodo1, &p_entrada1, 0, 4);
+    if (error < 0)
+    {
+        mostrar_error_buscar_entrada(error);
+        return -1;
+    }
+    leer_inodo(p_inodo1, &inodo);
+    if (inodo.tipo != 'f')
+    {
+        perror("ERROR EN mi_link, NO SE TRATA DE UN FICHERO");
+        return -1;
+    }
+    if ((inodo.permisos & 4) != 4)
+    {
+        perror("ERROR CON LOS PERMISOS DE LECTURA EN mi_link");
+        return ERROR_PERMISO_LECTURA;
+    }
+
+    error = buscar_entrada(camino2, &p_inodo_dir2, &p_inodo2, &p_entrada2, 1, 6);
+    if (error < 0)
+    {
+        mostrar_error_buscar_entrada(error);
+        return -1;
+    }
+
+    struct entrada entrada2;
+    if (mi_read_f(p_inodo_dir2, &entrada2, sizeof(struct entrada) * (p_entrada2), sizeof(struct entrada)) < 0)
+    {
+        return -1;
+    }
+
+    entrada2.ninodo = inodo1;
+
+    if (mi_write_f(p_inodo_dir2, &entrada2, sizeof(struct entrada) * (p_entrada2), sizeof(struct entrada)) < 0)
+    {
+        return -1;
+    }
+
+    if (liberar_inodo(p_inodo2) < 0)
+    {
+        return -1;
+    }
+
+    inodo.nlinks++;
+    inodo.ctime = time(NULL);
+    if (escribir_inodo(p_inodo1, inodo) == -1)
+    {
+        return -1;
+    }
+    return 0;
+}
+
+int mi_unlink(const char *camino)
+{
+    unsigned int p_inodo_dir = 0;
+    unsigned int p_inodo = 0;
+    unsigned int p_entrada = 0;
+
+    int error = buscar_entrada(camino, &p_inodo_dir, &p_inodo, &p_entrada, 0, 4);
+    if (error < 0)
+    {
+        mostrar_error_buscar_entrada(error);
+        return -1;
+    }
+
+    struct inodo inodo;
+    if (leer_inodo(p_inodo, &inodo) == -1)
+    {
+        return -1;
+    }
+
+    if ((inodo.tipo == 'd') && (inodo.tamEnBytesLog > 0))
+    {
+        return -1;
+    }
+
+    struct inodo inodo_dir;
+    if (leer_inodo(p_inodo_dir, &inodo_dir) == -1)
+    {
+        return -1;
+    }
+
+    int entrada = inodo_dir.tamEnBytesLog / sizeof(struct entrada);
+
+    if (p_entrada != entrada - 1)
+    {
+        struct entrada entrada;
+        if (mi_read_f(p_inodo_dir, &entrada, sizeof(struct entrada) * (entrada - 1), sizeof(struct entrada)) < 0)
+        {
+            return -1;
+        }
+
+        if (mi_write_f(p_inodo_dir, &entrada, sizeof(struct entrada) * (p_entrada), sizeof(struct entrada)) < 0)
+        {
+            return -1;
+        }
+    }
+
+    if (mi_truncar_f(p_inodo_dir, sizeof(struct entrada) * (entrada - 1)) == -1)
+    {
+        return -1;
+    }
+
+    inodo.nlinks--;
+
+    if (!inodo.nlinks)
+    {
+        if (liberar_inodo(p_inodo) == -1)
+        {
+            return -1;
+        }
+    }
+    else
+    {
+        inodo.ctime = time(NULL);
+        if (escribir_inodo(p_inodo, inodo) == -1)
+        {
+            return -1;
+        }
+    }
+
+    return 0;
 }
