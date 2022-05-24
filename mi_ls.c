@@ -20,9 +20,9 @@ int main(int argc, char const *argv[])
 
     char buffer[TAMBUFFER];
     memset(buffer, 0, TAMBUFFER);
-    
+    char tipo = '\0';
     printf("Entrada: %s\n",argv[2]);
-    int total = mi_dir(argv[2], buffer);
+    int total = mi_dir(argv[2], buffer,&tipo);
 
     if (total < 0)
     {
