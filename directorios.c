@@ -222,7 +222,7 @@ int mi_creat(const char *camino, unsigned char permisos)
 }
 
 // Función de la capa de directorios que pone el contenido del directorio en un buffer de memoria y devuelve el número de entradas
-int mi_dir(const char *camino, char *buffer, char *tipo)
+int mi_dir(const char *camino, char *buffer, char tipo)
 {
     struct tm *tm;
     int p_inodo_dir = 0;
@@ -259,7 +259,7 @@ int mi_dir(const char *camino, char *buffer, char *tipo)
         {
             return -1;
         }
-        *tipo = inodo.tipo;
+        tipo = inodo.tipo;
 
         struct entrada entradas[BLOCKSIZE / sizeof(struct entrada)];
         memset(&entradas, 0, sizeof(struct entrada));
@@ -343,7 +343,7 @@ int mi_dir(const char *camino, char *buffer, char *tipo)
     { // Es un fichero
         mi_read_f(p_inodo_dir, &entrada, sizeof(struct entrada) * p_entrada, sizeof(struct entrada));
         leer_inodo(entrada.ninodo, &inodo);
-        *tipo = inodo.tipo;
+        tipo = inodo.tipo;
 
         // Tipo
         if (inodo.tipo == 'd')
@@ -599,7 +599,7 @@ int mi_link(const char *camino1, const char *camino2)
         return -1;
     }
 
-    entrada2.ninodo = inodo1;
+    entrada2.ninodo = p_inodo1;
 
     if (mi_write_f(p_inodo_dir2, &entrada2, sizeof(struct entrada) * (p_entrada2), sizeof(struct entrada)) < 0)
     {
@@ -650,12 +650,12 @@ int mi_unlink(const char *camino)
         return -1;
     }
 
-    int entrada = inodo_dir.tamEnBytesLog / sizeof(struct entrada);
+    int num_entrada = inodo_dir.tamEnBytesLog / sizeof(struct entrada);
 
-    if (p_entrada != entrada - 1)
+    if (p_entrada != num_entrada - 1)
     {
         struct entrada entrada;
-        if (mi_read_f(p_inodo_dir, &entrada, sizeof(struct entrada) * (entrada - 1), sizeof(struct entrada)) < 0)
+        if (mi_read_f(p_inodo_dir, &entrada, sizeof(struct entrada) * (num_entrada - 1), sizeof(struct entrada)) < 0)
         {
             return -1;
         }
@@ -666,7 +666,7 @@ int mi_unlink(const char *camino)
         }
     }
 
-    if (mi_truncar_f(p_inodo_dir, sizeof(struct entrada) * (entrada - 1)) == -1)
+    if (mi_truncar_f(p_inodo_dir, sizeof(struct entrada) * (num_entrada - 1)) == -1)
     {
         return -1;
     }
