@@ -555,7 +555,7 @@ int mi_read(const char *camino, void *buf, unsigned int offset, unsigned int nby
         return ERROR_PERMISO_LECTURA;
     }
     return bytes_leidos;
-}/*
+}
 // Crea el enlace de una entrada de directorio camino2 al inodo especificado por otra entrada de directorio camino1
 int mi_link(const char *camino1, const char *camino2)
 {
@@ -690,4 +690,4 @@ int mi_unlink(const char *camino)
     }
 
     return 0;
-}*/
+}
