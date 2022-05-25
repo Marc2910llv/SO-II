@@ -197,9 +197,9 @@ echo -e "\x1B[38;2;17;245;120m$ ./mi_link disco /dir1/dir11/fic113 /dir2/dir21/f
 echo -e "\x1B[38;2;17;245;120m#camino2 NO ha de existir\x1b[0m"
 ./mi_link disco /dir1/dir11/fic113 /dir2/dir21/fic211 #camino2 NO ha de existir 
 echo -e "\x1B[38;2;17;245;120m######################################################################\x1b[0m"
-echo -e "\x1B[38;2;17;245;120m$ ./mi_rmdir disco /dir2/dir21/ #o mi_rm\x1b[0m"
+echo -e "\x1B[38;2;17;245;120m$ ./mi_rm disco /dir2/dir21/ #o mi_rmdir\x1b[0m"
 echo -e "\x1B[38;2;17;245;120m#Error: El directorio /dir2/dir21/ no está vacío\x1b[0m"
-./mi_rmdir disco /dir2/dir21/ 
+./mi_rm disco /dir2/dir21/ 
 echo -e "\x1B[38;2;17;245;120m$ ./mi_rm disco /dir2/dir21/fic211\x1b[0m"
 ./mi_rm disco /dir2/dir21/fic211
 echo -e "\x1B[38;2;17;245;120m$ ./mi_stat disco /dir1/dir11/fic113 #Hemos borrado 1 enlace\x1b[0m"

@@ -16,7 +16,7 @@ int main(int argc, char **argv)
         return -1;
     }
 
-    int tambuffer = 4 * BLOCKSIZE;
+    int tambuffer = 10 * BLOCKSIZE;
     int bytes_leidos = 0;
     int offset = 0;
     char *camino = argv[2];
