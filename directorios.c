@@ -3,33 +3,35 @@
 // Carlos Lozano Alemañy
 #include "directorios.h"
 #include <string.h>
+#define DEBUG1 1
 
 static struct UltimaEntrada UltimaEntrada[CACHE];
 
 // Dada una cadena de caracteres camino (que comience por '/'), separa su contenido en dos
 int extraer_camino(const char *camino, char *inicial, char *final, char *tipo)
 {
+    char delimitador[2] = "/";
+    char str[strlen(camino)];
+    strcpy(str,camino);
+    char *token;
+
     if (camino[0] != '/')
     {
         return -1;
     }
 
-    char *fin = strchr((camino + 1), '/');
-    strcpy(tipo, "f");
-    if (fin)
-    {
-        strncpy(inicial, (camino + 1), (strlen(camino) - strlen(fin) - 1));
-        strcpy(final, fin);
-        if (final[0] == '/')
-        {
-            strcpy(tipo, "d");
-        }
-    }
-    else
-    {
+    char *fin = strchr((camino+1),'/');
+    if(fin){
+        token = strtok(str,delimitador);
+        strcpy(inicial,token);
+        strcpy(final,fin);
+        strcpy(tipo,"d");
+    }else{
         strcpy(inicial, (camino + 1));
-        strcpy(final, "");
+        strcpy(final,"");
+        strcpy(tipo,"f");  
     }
+
     return 0;
 }
 
@@ -69,9 +71,9 @@ int buscar_entrada(const char *camino_parcial, unsigned int *p_inodo_dir, unsign
         perror("ERROR EN buscar_entrada AL INTENTAR EXTRAER EL CAMINO");
         return ERROR_CAMINO_INCORRECTO;
     }
-
+#if DEBUG1
     printf("[buscar_entrada()->inicial: %s, final: %s, reservar: %d]\n", inicial, final, reservar);
-
+#endif
     // buscamos la entrada cuyo nombre se encuentra en inicial
     if (leer_inodo(*(p_inodo_dir), &inodo) == -1)
     {
@@ -134,7 +136,9 @@ int buscar_entrada(const char *camino_parcial, unsigned int *p_inodo_dir, unsign
                     if (strcmp(final, "/") == 0)
                     {
                         entrada.ninodo = reservar_inodo(tipo, 6);
+                        #if DEBUG1
                         printf("[buscar_entrada()->reservado inodo: %d tipo %c con permisos %d para '%s']\n", entrada.ninodo, tipo, permisos, entrada.nombre);
+                        #endif
                     }
                     else
                     { // cuelgan más diretorios o ficheros
@@ -144,15 +148,21 @@ int buscar_entrada(const char *camino_parcial, unsigned int *p_inodo_dir, unsign
                 else
                 { // es un fichero
                     entrada.ninodo = reservar_inodo('f', 6);
+                    #if DEBUG1
                     printf("[buscar()->reservado inodo: %d tipo %c con permisos %d para '%s']\n", entrada.ninodo, tipo, permisos, entrada.nombre);
+                    #endif
                 }
+                #if DEBUG1
                 fprintf(stderr, "[buscar_entrada()->creada entrada: %s, %d] \n", inicial, entrada.ninodo);
+                #endif
                 if (mi_write_f(*p_inodo_dir, &entrada, inodo.tamEnBytesLog, sizeof(struct entrada)) == -1)
                 {
                     if (entrada.ninodo != -1)
                     { // entrada.inodo != -1
                         liberar_inodo(entrada.ninodo);
+                        #if DEBUG1
                         fprintf(stderr, "[buscar_entrada()-> liberado inodo %i, reservado a %s\n", num_entrada_inodo, inicial);
+                        #endif
                     }
                     return -1; //-1
                 }
