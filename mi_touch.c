@@ -1,3 +1,6 @@
+// Pere Joan Vives Morey
+// Marc Llobera Villalonga
+// Carlos Lozano Alemañy
 #include "directorios.h"
 
 int main(int argc, char const *argv[])
