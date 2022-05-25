@@ -465,10 +465,10 @@ int MAXCACHE = CACHE;
 // Escribir contenido en un fichero
 int mi_write(const char *camino, const void *buf, unsigned int offset, unsigned int nbytes)
 {
-    int p_inodo_dir = 0;
-    int p_inodo = 0;
-    int p_entrada = 0;
-    int escrituraMismoInodo = 0; // false
+    unsigned int p_inodo_dir = 0;
+    unsigned int p_inodo = 0;
+    unsigned int p_entrada = 0;
+    unsigned int escrituraMismoInodo = 0; // false
 
     // Recorrido del cache
     for (int i = 0; i < (MAXCACHE - 1); i++)
@@ -517,10 +517,10 @@ int mi_write(const char *camino, const void *buf, unsigned int offset, unsigned 
 // Leer los nbytes del fichero indicado por camino, a partir del offset pasado por parámetro y copiarlos en el buffer buf
 int mi_read(const char *camino, void *buf, unsigned int offset, unsigned int nbytes)
 {
-    int p_inodo_dir = 0;
-    int p_inodo = 0;
-    int p_entrada = 0;
-    int escrituraMismoInodo = 0; // false
+    unsigned int p_inodo_dir = 0;
+    unsigned int p_inodo = 0;
+    unsigned int p_entrada = 0;
+    unsigned int escrituraMismoInodo = 0; // false
 
     // Recorrido del cache
     for (int i = 0; i < (MAXCACHE - 1); i++)
@@ -569,12 +569,12 @@ int mi_read(const char *camino, void *buf, unsigned int offset, unsigned int nby
 // Crea el enlace de una entrada de directorio camino2 al inodo especificado por otra entrada de directorio camino1
 int mi_link(const char *camino1, const char *camino2)
 {
-    int p_inodo_dir1 = 0;
-    int p_inodo1 = 0;
-    int p_entrada1 = 0;
-    int p_inodo_dir2 = 0;
-    int p_inodo2 = 0;
-    int p_entrada2 = 0;
+    unsigned int p_inodo_dir1 = 0;
+    unsigned int p_inodo1 = 0;
+    unsigned int p_entrada1 = 0;
+    unsigned int p_inodo_dir2 = 0;
+    unsigned int p_inodo2 = 0;
+    unsigned int p_entrada2 = 0;
 
     struct inodo inodo;
 
