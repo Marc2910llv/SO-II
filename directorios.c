@@ -238,6 +238,7 @@ int mi_dir(const char *camino, char *buffer, char tipo)
     unsigned int p_inodo = 0;
     unsigned int p_entrada = 0;
     int Entradas = 0;
+    int longitud_camino = strlen(camino);
 
     int error = buscar_entrada(camino, &p_inodo_dir, &p_inodo, &p_entrada, 0, 4);
     if (error < 0)
@@ -262,7 +263,7 @@ int mi_dir(const char *camino, char *buffer, char tipo)
     char tamany[10];
     struct entrada entrada;
 
-    if (camino[(strlen(camino)) - 1] == '/')
+    if (camino[longitud_camino - 1] == '/')
     {
         if (leer_inodo(p_inodo, &inodo) == -1)
         {
@@ -276,7 +277,7 @@ int mi_dir(const char *camino, char *buffer, char tipo)
         Entradas = inodo.tamEnBytesLog / sizeof(struct entrada);
 
         int offset = 0;
-        offset += mi_read_f(p_inodo, entradas, offset, BLOCKSIZE);
+        offset = offset+ mi_read_f(p_inodo, entradas, offset, BLOCKSIZE);
 
         for (int i = 0; i < Entradas; i++)
         {
@@ -333,6 +334,7 @@ int mi_dir(const char *camino, char *buffer, char tipo)
             strcat(buffer, "    ");
 
             strcat(buffer, entradas[i % (BLOCKSIZE / sizeof(struct entrada))].nombre);
+            //mirar si se pot llevar aquest while
             while ((strlen(buffer) % TAMFILA) != 0)
             {
                 strcat(buffer, " ");
@@ -397,6 +399,7 @@ int mi_dir(const char *camino, char *buffer, char tipo)
         strcat(buffer, "    ");
 
         strcat(buffer, entrada.nombre);
+        //mirar si se pot llevar aquest while
         while ((strlen(buffer) % TAMFILA) != 0)
         {
             strcat(buffer, " ");
