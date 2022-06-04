@@ -1,3 +1,7 @@
+//Pere Joan Vives Morey
+//Marc Llobera Villalonga
+//Carlos Lozano Alemañy
+ 
  /* semaforo_mutex_posix.h */
 #include <stdlib.h>
 #include <sys/stat.h>
