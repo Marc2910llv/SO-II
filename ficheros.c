@@ -32,7 +32,15 @@ int mi_write_f(unsigned int ninodo, const void *buf_original, unsigned int offse
     // CASO 1º (el buffer cabe en un solo bloque)
     if (primerBL == ultimoBL)
     {
+        mi_waitSem();
         nbfisico = traducir_bloque_inodo(ninodo, primerBL, 1); // Obtenemos el nº de bloque físico
+        if (nbfisico == -1)
+        {
+            mi_signalSem();
+            return -1;
+        }
+        mi_signalSem();
+
         if (bread(nbfisico, buf_bloque) == -1)
         {
             perror("ERROR EN mi_write_f AL LEER EL BLOQUE FÍSICO EN EL CASO 1");
@@ -51,7 +59,15 @@ int mi_write_f(unsigned int ninodo, const void *buf_original, unsigned int offse
     else if (primerBL < ultimoBL)
     {
         // 1) Primer bloque lógico (BL8)
+        mi_waitSem();
         nbfisico = traducir_bloque_inodo(ninodo, primerBL, 1); // Obtenemos el nº de bloque físico
+        if (nbfisico == -1)
+        {
+            mi_signalSem();
+            return -1;
+        }
+        mi_signalSem();
+
         if (bread(nbfisico, buf_bloque) == -1)
         {
             perror("ERROR EN mi_write_f AL LEER EL BLOQUE FÍSICO EN EL CASO 2 PRIMER BLOQUE LÓGICO");
@@ -71,7 +87,15 @@ int mi_write_f(unsigned int ninodo, const void *buf_original, unsigned int offse
         for (int i = primerBL + 1; i < ultimoBL; i++)
         {
             // Obtenemos cada bloque intermedio
+            mi_waitSem();
             nbfisico = traducir_bloque_inodo(ninodo, i, 1);
+            if (nbfisico == -1)
+            {
+                mi_signalSem();
+                return -1;
+            }
+            mi_signalSem();
+
             intermitjos = bwrite(nbfisico, buf_original + (BLOCKSIZE - desp1) + (i - primerBL - 1) * BLOCKSIZE);
             if (intermitjos == -1)
             {
@@ -83,7 +107,15 @@ int mi_write_f(unsigned int ninodo, const void *buf_original, unsigned int offse
         }
 
         // 3) Último bloque lógico (bloque 12)
+        mi_waitSem();
         nbfisico = traducir_bloque_inodo(ninodo, ultimoBL, 1);
+        if (nbfisico == -1)
+        {
+            mi_signalSem();
+            return -1;
+        }
+        mi_signalSem();
+
         if (bread(nbfisico, buf_bloque) == -1)
         {
             perror("ERROR EN mi_write_f AL LEER EL BLOQUE FÍSICO EN EL CASO 2 ÚLTIMO BLOQUE LÓGICO");
@@ -100,6 +132,7 @@ int mi_write_f(unsigned int ninodo, const void *buf_original, unsigned int offse
     }
 
     // ACTUALIZAMOS METAINFORMACIÓN DEL INODO
+    mi_waitSem();
     if (leer_inodo(ninodo, &inodo) == -1)
     {
         perror("ERROR EN mi_write_f AL LEER EL INODO CUANDO QUEREMOS ACTUALIZAR LA METAINFORMACIÓN");
@@ -119,6 +152,7 @@ int mi_write_f(unsigned int ninodo, const void *buf_original, unsigned int offse
         perror("ERROR EN mi_write_f AL ESCRIBIR EL INODO CUANDO QUEREMOS ACTUALIZAR LA METAINFORMACIÓN");
         return -1;
     }
+    mi_signalSem();
 
     return bytesEscritos;
 }
@@ -228,6 +262,7 @@ int mi_read_f(unsigned int ninodo, void *buf_original, unsigned int offset, unsi
 
     // ACTUALIZAMOS METAINFORMACIÓN DEL INODO
     // Leer el inodo actualizado
+    mi_waitSem();
     if (leer_inodo(ninodo, &inodo) == -1)
     {
         perror("ERROR EN mi_read_f AL LEER EL INODO CUANDO QUEREMOS ACTUALIZAR LA METAINFORMACIÓN");
@@ -241,6 +276,8 @@ int mi_read_f(unsigned int ninodo, void *buf_original, unsigned int offset, unsi
         perror("ERROR EN mi_read_f AL ESCRIBIR EL INODO CUANDO QUEREMOS ACTUALIZAR LA METAINFORMACIÓN");
         return -1;
     }
+    mi_signalSem();
+
     // Devolver cantidad de bytes leidos:
     return bytesLeidos;
 }
@@ -269,10 +306,12 @@ int mi_stat_f(unsigned int ninodo, struct STAT *p_stat)
 // cambia los permisos de un inodo a partir del numero de este
 int mi_chmod_f(unsigned int ninodo, unsigned char permisos)
 {
+    mi_waitSem();
     struct inodo inodo;
     if (leer_inodo(ninodo, &inodo) == -1) // buscamos el inodo y lo leemos
     {
         perror("ERROR EN mi_chmod_f AL LEER EL INODO");
+        mi_signalSem();
         return -1;
     }
     inodo.permisos = permisos; // le cambiamos los permisos
@@ -281,9 +320,11 @@ int mi_chmod_f(unsigned int ninodo, unsigned char permisos)
     if (escribir_inodo(ninodo, inodo) == -1) // y lo volvemos a escribir
     {
         perror("ERROR EN mi_chmod_f AL ESCRIBIR EL INODO");
+        mi_signalSem();
         return -1;
     }
 
+    mi_signalSem();
     return 0;
 }
 
