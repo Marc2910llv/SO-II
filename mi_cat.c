@@ -41,13 +41,16 @@ int main(int argc, char *argv[])
     {
         mostrar_error_buscar_entrada(bytes_leidos);
         bytes_leidos = 0;
-    }
-
-    fprintf(stderr, "Total_leidos: %d\n", bytes_leidos);
+    }   
 
     if (bumount() == -1)
     {
         return -1;
     }
+
+    char string[128];
+    sprintf(string, "bytes leídos %d\n", bytes_leidos);
+    write(2, string, strlen(string));
+
     return 0;
 }

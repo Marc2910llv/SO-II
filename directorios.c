@@ -3,7 +3,7 @@
 // Carlos Lozano Alemañy
 #include "directorios.h"
 #include <string.h>
-#define DEBUG1 1
+#define DEBUG1 0
 
 static struct UltimaEntrada UltimaEntrada[CACHE];
 
