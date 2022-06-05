@@ -11,6 +11,10 @@ static int descriptor = 0;
 
 int bmount(const char *camino) // Abrir Fichero
 {
+    if (descriptor > 0) {
+       close(descriptor);
+   }
+
     if (!mutex)
     { // el semáforo es único en el sistema y sólo se ha de inicializar 1 vez (padre)
         mutex = initSem();
@@ -32,6 +36,7 @@ int bmount(const char *camino) // Abrir Fichero
 
 int bumount() // Cerrar Fichero
 {
+    descriptor = close(descriptor);
     deleteSem();
 
     if (close(descriptor) == -1)
