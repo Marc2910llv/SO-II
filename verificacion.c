@@ -22,7 +22,7 @@ int main(int argc, char const *argv[])
     mi_stat(argv[2], &st);
 
     int numentradas = (st.tamEnBytesLog / sizeof(struct entrada));
-    if (numentradas != NUMPROCESOS)
+    if (numentradas != PROCESOS)
     {
         perror("ERROR EN verificacion.c, EL NÚMERO DE ENTRADAS NO ES CORRECTO");
         // bunmount();
@@ -30,7 +30,7 @@ int main(int argc, char const *argv[])
     }
 
     char nfichero[500];
-    sprintf(nfichero, "%s%s", argv[2], "informe.txt");
+    sprintf(nfichero, "%sinforme.txt", argv[2]);
     if (mi_creat(nfichero, 7) < 0)
     {
         perror("ERROR EN verificacion.c, EL NÚMERO DE ENTRADAS NO ES CORRECTO");
@@ -54,7 +54,7 @@ int main(int argc, char const *argv[])
         info.nEscrituras = 0;
 
         char camino_prueba[128];
-        sprintf(camino_prueba, "%s%s/%s", argv[2], entradas[nentrada].nombre, "prueba.dat");
+        sprintf(camino_prueba, "%s%s/prueba.dat", argv[2], entradas[nentrada].nombre);
 
         struct REGISTRO buffer_rescrituras[1024 * 5];
         memset(buffer_rescrituras, 0, sizeof(buffer_rescrituras));

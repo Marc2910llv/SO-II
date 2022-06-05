@@ -3,9 +3,6 @@
 #include "simulacion.h"
 #include <time.h>
 
-#define PROCESOS 100
-#define ESCRITURAS 50
-
 int acabados =0;
 
 void reaper(){
