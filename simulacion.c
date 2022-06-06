@@ -3,6 +3,7 @@
 #include "simulacion.h"
 #include <time.h>
 
+#define DEBUG2 0
 
 int acabados =0;
 
@@ -11,7 +12,9 @@ void reaper(){
     signal(SIGCHLD,reaper);
     while((ended = waitpid(-1,NULL,WNOHANG))>0){
         acabados++;
+        #if DEBUG2
         fprintf(stderr, "[simulación.c → Acabado proceso con PID %d, total acabados: %d\n", ended, acabados);
+        #endif
     }
 }
 
@@ -40,7 +43,6 @@ int main(int argc, char const *argv[]){
     strcat(cami,temps);
     strcat(cami,"/");
 
-    printf("Cami: %s\n",cami);
 
     if(mi_creat(cami,6)==-1){
         return -1;
@@ -75,10 +77,12 @@ int main(int argc, char const *argv[]){
                 registre.nEscritura = nescritura;
                 registre.nRegistro = rand() % REGMAX;
                 mi_write(ficher,&nescritura,registre.nRegistro * sizeof(struct REGISTRO),sizeof(struct REGISTRO));
+                #if DEBUG2
                 fprintf(stderr, "[simulación.c → Escritura %i en %s]\n", nescritura, ficher);
+                #endif
                 my_sleep(50);
             }
-            fprintf(stderr, "[Proceso %d : Completadas %d escrituras en %s]\n",getpid(),ESCRITURAS,ficher);
+            fprintf(stderr, "[Proceso %d : Completadas %d escrituras en %s]\n",proceso,ESCRITURAS,ficher);
             bumount();
             exit(0);
         }
