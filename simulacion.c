@@ -3,6 +3,7 @@
 #include "simulacion.h"
 #include <time.h>
 
+
 int acabados =0;
 
 void reaper(){
@@ -10,6 +11,7 @@ void reaper(){
     signal(SIGCHLD,reaper);
     while((ended = waitpid(-1,NULL,WNOHANG))>0){
         acabados++;
+        fprintf(stderr, "[simulación.c → Acabado proceso con PID %d, total acabados: %d\n", ended, acabados);
     }
 }
 
@@ -25,19 +27,21 @@ int main(int argc, char const *argv[]){
     }
 
     // /simul_aaaammddhhmms/ = 21 carateres
-    //tendremos que crear un array con 21 espacios
-    char cami[21];
-    char temps[14]; // aaaammddhhmms = 14 caracteres
+    //tendremos que crear un array con 21 espacios +1
+    char temps[15]; // aaaammddhhmms = 14 caracteres +1
+    memset(temps,0,sizeof(temps));
     time_t tim = time(NULL);
-    struct tm *tm = localtime(&tim);;
+    struct tm *tm = localtime(&tim);
     int any = (1900+tm->tm_year);
     sprintf(temps,"%d%02d%02d%02d%02d%02d",any,tm->tm_mon,tm->tm_mday,tm->tm_hour,tm->tm_min,tm->tm_sec);
+    char cami[25];
+    memset(cami,0,sizeof(cami));
     strcpy(cami,"/simul_");
     strcat(cami,temps);
     strcat(cami,"/");
 
-    printf("Directori: %s\n",cami);
-    
+    printf("Cami: %s\n",cami);
+
     if(mi_creat(cami,6)==-1){
         return -1;
     }
@@ -48,15 +52,16 @@ int main(int argc, char const *argv[]){
                 perror("Error al abrir el archivo en hijo\n");
             }
             char directori[100];
+            memset(directori,0,sizeof(directori));
             sprintf(directori,"%sproceso_%d/",cami,getpid());
             if(mi_creat(directori,6)<0){
                 bumount();
                 exit(0);
             }
-
             char ficher[100];
+            memset(ficher,0,sizeof(ficher));
             sprintf(ficher,"%sprueba.dat",directori);
-            if(mi_creat(ficher,4)<0){
+            if(mi_creat(ficher,6)<0){
                 bumount();
                 exit(0);
             }
@@ -70,19 +75,23 @@ int main(int argc, char const *argv[]){
                 registre.nEscritura = nescritura;
                 registre.nRegistro = rand() % REGMAX;
                 mi_write(ficher,&nescritura,registre.nRegistro * sizeof(struct REGISTRO),sizeof(struct REGISTRO));
+                fprintf(stderr, "[simulación.c → Escritura %i en %s]\n", nescritura, ficher);
                 my_sleep(50);
             }
+            fprintf(stderr, "[Proceso %d : Completadas %d escrituras en %s]\n",getpid(),ESCRITURAS,ficher);
             bumount();
             exit(0);
         }
         my_sleep(150);
     }
 
-    while(acabados<100){
+    while(acabados<PROCESOS){
         pause();
     }
+    fprintf(stderr, "Total de procesos terminados: %d\n", acabados);
     bumount();
     exit(0);
+    
 }
 
 void my_sleep(unsigned msec) { //recibe tiempo en milisegundos
