@@ -4,6 +4,7 @@
 #include "directorios.h"
 #include <string.h>
 #define DEBUG1 0
+#define DEBUG_CACHE 0
 
 static struct UltimaEntrada UltimaEntrada[CACHE];
 
@@ -469,10 +470,14 @@ int mi_write(const char *camino, const void *buf, unsigned int offset, unsigned 
     {
         if (strcmp(camino, UltimaEntrada[i].camino) == 0)
         {
+            #if DEBUG_CACHE
+            fprintf(stderr,"[posición dentro de la tabla de entradas: %d] ",i);
+            #endif
             p_inodo = UltimaEntrada[i].p_inodo;
             escrituraMismoInodo = 1; // true
             break;
         }
+
     }
     if (!escrituraMismoInodo)
     {
