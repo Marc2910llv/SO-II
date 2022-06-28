@@ -25,7 +25,7 @@ int main(int argc, char const *argv[])
     if (numentradas != PROCESOS)
     {
         perror("ERROR EN verificacion.c, EL NÚMERO DE ENTRADAS NO ES CORRECTO");
-        bunmount();
+        bumount();
         return -1;
     }
 
@@ -34,7 +34,7 @@ int main(int argc, char const *argv[])
     if (mi_creat(nfichero, 7) < 0)
     {
         perror("ERROR EN verificacion.c, EL NÚMERO DE ENTRADAS NO ES CORRECTO");
-        bunmount(argv[1]);
+        bumount(argv[1]);
         exit(0);
     }
 
@@ -57,7 +57,7 @@ int main(int argc, char const *argv[])
         char prueba[128];
         sprintf(prueba, "%s%s/prueba.dat", argv[2], entradas[nentrada].nombre);
 
-        int cant_registros_buffer_escrituras = 256;
+        int cant_registros_buffer_escrituras = 256*40;
         struct REGISTRO buffer_escrituras[cant_registros_buffer_escrituras];
         memset(buffer_escrituras, 0, sizeof(buffer_escrituras));
 
@@ -171,7 +171,6 @@ int main(int argc, char const *argv[])
                 info.MayorPosicion.nEscritura,
                 info.MayorPosicion.nRegistro,
                 tiempoMayor);
-
         if ((nbytes += mi_write(nfichero, &buffer, nbytes, strlen(buffer))) < 0)
         {
             perror("ERROR EN verificacion.c AL ESCRIBIR EL EL FICHERO");

@@ -36,7 +36,7 @@ int main(int argc, char const *argv[]){
     time_t tim = time(NULL);
     struct tm *tm = localtime(&tim);
     int any = (1900+tm->tm_year);
-    sprintf(temps,"%d%02d%02d%02d%02d%02d",any,tm->tm_mon,tm->tm_mday,tm->tm_hour,tm->tm_min,tm->tm_sec);
+    sprintf(temps,"%d%02d%02d%02d%02d%02d",any,tm->tm_mon+1,tm->tm_mday,tm->tm_hour,tm->tm_min,tm->tm_sec);
     char cami[25];
     memset(cami,0,sizeof(cami));
     strcpy(cami,"/simul_");
@@ -56,14 +56,14 @@ int main(int argc, char const *argv[]){
             char directori[100];
             memset(directori,0,sizeof(directori));
             sprintf(directori,"%sproceso_%d/",cami,getpid());
-            if(mi_creat(directori,6)<0){
+            if(mi_creat(directori,7)<0){
                 bumount();
                 exit(0);
             }
             char ficher[100];
             memset(ficher,0,sizeof(ficher));
             sprintf(ficher,"%sprueba.dat",directori);
-            if(mi_creat(ficher,6)<0){
+            if(mi_creat(ficher,7)<0){
                 bumount();
                 exit(0);
             }
@@ -76,7 +76,7 @@ int main(int argc, char const *argv[]){
                 registre.pid= getpid();
                 registre.nEscritura = nescritura;
                 registre.nRegistro = rand() % REGMAX;
-                mi_write(ficher,&nescritura,registre.nRegistro * sizeof(struct REGISTRO),sizeof(struct REGISTRO));
+                mi_write(ficher,&registre,registre.nRegistro * sizeof(struct REGISTRO),sizeof(struct REGISTRO));
                 #if DEBUG2
                 fprintf(stderr, "[simulación.c → Escritura %i en %s]\n", nescritura, ficher);
                 #endif
