@@ -60,7 +60,7 @@ int main(int argc, char const *argv[]){
                 bumount();
                 exit(0);
             }
-            char ficher[100];
+            char ficher[113];
             memset(ficher,0,sizeof(ficher));
             sprintf(ficher,"%sprueba.dat",directori);
             if(mi_creat(ficher,7)<0){
