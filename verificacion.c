@@ -20,6 +20,8 @@ int main(int argc, char const *argv[])
 
     struct STAT p_stat;
     mi_stat(argv[2], &p_stat);
+    printf("dir_sim: %s\n",argv[2]);
+    printf("numentradas: %d NUMPROCESOS: %d\n",ESCRITURAS,PROCESOS);
 
     int numentradas = (p_stat.tamEnBytesLog / sizeof(struct entrada));
     if (numentradas != PROCESOS)
@@ -108,6 +110,7 @@ int main(int argc, char const *argv[])
             memset(&buffer_escrituras, 0, sizeof(buffer_escrituras));
             offset += sizeof(buffer_escrituras);
         }
+        printf("[%d) %d escrituras validadas en %s]\n",nentrada,ESCRITURAS,prueba);
 
         char tiempoPrimero[100];
         char tiempoUltimo[100];
