@@ -118,44 +118,42 @@ int main(int argc, char const *argv[])
         char tiempoMayor[100];
         struct tm *tm;
 
-        tm = localtime(&info.PrimeraEscritura.fecha);
-        strftime(tiempoPrimero, sizeof(tiempoPrimero), "%a %Y-%m-%d %H:%M:%S", tm);
-        tm = localtime(&info.UltimaEscritura.fecha);
-        strftime(tiempoUltimo, sizeof(tiempoUltimo), "%a %Y-%m-%d %H:%M:%S", tm);
-        tm = localtime(&info.MenorPosicion.fecha);
-        strftime(tiempoMenor, sizeof(tiempoMenor), "%a %Y-%m-%d %H:%M:%S", tm);
-        tm = localtime(&info.MayorPosicion.fecha);
-        strftime(tiempoMayor, sizeof(tiempoMayor), "%a %Y-%m-%d %H:%M:%S", tm);
-
         char buffer[BLOCKSIZE];
         memset(buffer, 0, BLOCKSIZE);
 
+        tm = localtime(&info.PrimeraEscritura.fecha);
+        //strftime(tiempoPrimero, sizeof(tiempoPrimero), "%a %Y-%m-%d %H:%M:%S", tm);
         sprintf(buffer, "PID: %i\nNumero de escrituras: %i\n", pid, info.nEscrituras);
         sprintf(buffer + strlen(buffer), "%s %i %i %s",
                 "Primera escritura",
                 info.PrimeraEscritura.nEscritura,
                 info.PrimeraEscritura.nRegistro,
-                asctime(localtime(&info.PrimeraEscritura.fecha)));
+                asctime(tm));
 
+        tm = localtime(&info.UltimaEscritura.fecha);
+        //strftime(tiempoUltimo, sizeof(tiempoUltimo), "%a %Y-%m-%d %H:%M:%S", tm);
         sprintf(buffer + strlen(buffer), "%s %i %i %s",
                 "Ultima escritura",
                 info.UltimaEscritura.nEscritura,
                 info.UltimaEscritura.nRegistro,
-                asctime(localtime(&info.UltimaEscritura.fecha)));
-
+                asctime(tm));
+        tm = localtime(&info.MenorPosicion.fecha);
+        //strftime(tiempoMenor, sizeof(tiempoMenor), "%a %Y-%m-%d %H:%M:%S", tm);
         sprintf(buffer + strlen(buffer), "%s %i %i %s",
                 "Menor posicion",
                 info.MenorPosicion.nEscritura,
                 info.MenorPosicion.nRegistro,
-                asctime(localtime(&info.MenorPosicion.fecha)));
+                asctime(tm));
+        tm = localtime(&info.MayorPosicion.fecha);
+        //strftime(tiempoMayor, sizeof(tiempoMayor), "%a %Y-%m-%d %H:%M:%S", tm);
 
-        sprintf(buffer + strlen(buffer), "%s %i %i %s",
+        sprintf(buffer + strlen(buffer), "%s %i %i %s\n\n",
                 "Mayor posicion",
                 info.MayorPosicion.nEscritura,
                 info.MayorPosicion.nRegistro,
-                asctime(localtime(&info.MayorPosicion.fecha)));
+                asctime(tm));
 
-        sprintf(buffer,
+        /*sprintf(buffer,
                 "PID: %d\nNumero de escrituras:\t%d\n"
                 "Primera escritura:\t%d\t%d\t%s\n"
                 "Ultima escritura:\t%d\t%d\t%s\n"
@@ -173,7 +171,7 @@ int main(int argc, char const *argv[])
                 tiempoMenor,
                 info.MayorPosicion.nEscritura,
                 info.MayorPosicion.nRegistro,
-                tiempoMayor);
+                tiempoMayor);*/
         if ((nbytes += mi_write(nfichero, &buffer, nbytes, strlen(buffer))) < 0)
         {
             perror("ERROR EN verificacion.c AL ESCRIBIR EL EL FICHERO");
