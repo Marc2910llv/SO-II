@@ -1,800 +1,800 @@
-PID: 1833
+PID: 54279
 Numero de escrituras: 50
-Primera escritura 1 72195 Wed Jul  6 13:50:26 2022
-Ultima escritura 50 458068 Wed Jul  6 13:50:31 2022
-Menor posicion 3 7400 Wed Jul  6 13:50:26 2022
-Mayor posicion 34 492155 Wed Jul  6 13:50:29 2022
+Primera escritura 1 304446 Tue Jul 12 20:42:10 2022
+Ultima escritura 50 418286 Tue Jul 12 20:42:13 2022
+Menor posicion 3 10798 Tue Jul 12 20:42:11 2022
+Mayor posicion 25 495977 Tue Jul 12 20:42:12 2022
 
 
-PID: 1834
+PID: 54280
 Numero de escrituras: 50
-Primera escritura 1 261313 Wed Jul  6 13:50:26 2022
-Ultima escritura 50 375618 Wed Jul  6 13:50:32 2022
-Menor posicion 15 6805 Wed Jul  6 13:50:27 2022
-Mayor posicion 17 496935 Wed Jul  6 13:50:28 2022
+Primera escritura 1 291117 Tue Jul 12 20:42:11 2022
+Ultima escritura 50 407875 Tue Jul 12 20:42:13 2022
+Menor posicion 32 14344 Tue Jul 12 20:42:12 2022
+Mayor posicion 19 493632 Tue Jul 12 20:42:12 2022
 
 
-PID: 1835
+PID: 54281
 Numero de escrituras: 50
-Primera escritura 1 337320 Wed Jul  6 13:50:26 2022
-Ultima escritura 50 3060 Wed Jul  6 13:50:31 2022
-Menor posicion 50 3060 Wed Jul  6 13:50:31 2022
-Mayor posicion 17 482716 Wed Jul  6 13:50:28 2022
+Primera escritura 1 391345 Tue Jul 12 20:42:11 2022
+Ultima escritura 50 174350 Tue Jul 12 20:42:13 2022
+Menor posicion 10 6882 Tue Jul 12 20:42:11 2022
+Mayor posicion 23 499270 Tue Jul 12 20:42:12 2022
 
 
-PID: 1836
+PID: 54282
 Numero de escrituras: 50
-Primera escritura 1 91138 Wed Jul  6 13:50:27 2022
-Ultima escritura 50 207969 Wed Jul  6 13:50:32 2022
-Menor posicion 8 47274 Wed Jul  6 13:50:27 2022
-Mayor posicion 43 479311 Wed Jul  6 13:50:31 2022
+Primera escritura 1 319925 Tue Jul 12 20:42:11 2022
+Ultima escritura 50 102631 Tue Jul 12 20:42:13 2022
+Menor posicion 13 10210 Tue Jul 12 20:42:12 2022
+Mayor posicion 26 488560 Tue Jul 12 20:42:12 2022
 
 
-PID: 1837
+PID: 54316
 Numero de escrituras: 50
-Primera escritura 1 481175 Wed Jul  6 13:50:27 2022
-Ultima escritura 50 233938 Wed Jul  6 13:50:33 2022
-Menor posicion 23 3026 Wed Jul  6 13:50:28 2022
-Mayor posicion 47 493207 Wed Jul  6 13:50:32 2022
+Primera escritura 1 421220 Tue Jul 12 20:42:11 2022
+Ultima escritura 50 162234 Tue Jul 12 20:42:14 2022
+Menor posicion 36 47824 Tue Jul 12 20:42:13 2022
+Mayor posicion 29 497147 Tue Jul 12 20:42:12 2022
 
 
-PID: 1838
+PID: 54320
 Numero de escrituras: 50
-Primera escritura 1 313483 Wed Jul  6 13:50:27 2022
-Ultima escritura 50 481805 Wed Jul  6 13:50:33 2022
-Menor posicion 6 8297 Wed Jul  6 13:50:27 2022
-Mayor posicion 40 494451 Wed Jul  6 13:50:31 2022
+Primera escritura 1 7570 Tue Jul 12 20:42:11 2022
+Ultima escritura 50 119398 Tue Jul 12 20:42:14 2022
+Menor posicion 1 7570 Tue Jul 12 20:42:11 2022
+Mayor posicion 38 493789 Tue Jul 12 20:42:13 2022
 
 
-PID: 1839
+PID: 54327
 Numero de escrituras: 50
-Primera escritura 1 44464 Wed Jul  6 13:50:27 2022
-Ultima escritura 50 260232 Wed Jul  6 13:50:35 2022
-Menor posicion 46 3754 Wed Jul  6 13:50:33 2022
-Mayor posicion 26 470111 Wed Jul  6 13:50:29 2022
+Primera escritura 1 227889 Tue Jul 12 20:42:11 2022
+Ultima escritura 50 126257 Tue Jul 12 20:42:14 2022
+Menor posicion 19 5047 Tue Jul 12 20:42:12 2022
+Mayor posicion 34 497986 Tue Jul 12 20:42:13 2022
 
 
-PID: 1840
+PID: 54328
 Numero de escrituras: 50
-Primera escritura 1 19085 Wed Jul  6 13:50:27 2022
-Ultima escritura 50 25887 Wed Jul  6 13:50:35 2022
-Menor posicion 49 14394 Wed Jul  6 13:50:35 2022
-Mayor posicion 7 497120 Wed Jul  6 13:50:28 2022
+Primera escritura 1 414121 Tue Jul 12 20:42:12 2022
+Ultima escritura 50 23257 Tue Jul 12 20:42:14 2022
+Menor posicion 45 2783 Tue Jul 12 20:42:14 2022
+Mayor posicion 37 490378 Tue Jul 12 20:42:13 2022
 
 
-PID: 1841
+PID: 54329
 Numero de escrituras: 50
-Primera escritura 1 341267 Wed Jul  6 13:50:27 2022
-Ultima escritura 50 88574 Wed Jul  6 13:50:43 2022
-Menor posicion 21 11828 Wed Jul  6 13:50:29 2022
-Mayor posicion 33 496980 Wed Jul  6 13:50:31 2022
+Primera escritura 1 272457 Tue Jul 12 20:42:12 2022
+Ultima escritura 50 338879 Tue Jul 12 20:42:14 2022
+Menor posicion 30 8325 Tue Jul 12 20:42:13 2022
+Mayor posicion 24 497637 Tue Jul 12 20:42:13 2022
 
 
-PID: 1842
+PID: 54330
 Numero de escrituras: 50
-Primera escritura 1 92613 Wed Jul  6 13:50:27 2022
-Ultima escritura 50 276786 Wed Jul  6 13:50:38 2022
-Menor posicion 33 8327 Wed Jul  6 13:50:31 2022
-Mayor posicion 29 482219 Wed Jul  6 13:50:30 2022
+Primera escritura 1 31923 Tue Jul 12 20:42:12 2022
+Ultima escritura 50 425405 Tue Jul 12 20:42:14 2022
+Menor posicion 20 6235 Tue Jul 12 20:42:13 2022
+Mayor posicion 41 491018 Tue Jul 12 20:42:14 2022
 
 
-PID: 1843
+PID: 54331
 Numero de escrituras: 50
-Primera escritura 1 235890 Wed Jul  6 13:50:28 2022
-Ultima escritura 50 230066 Wed Jul  6 13:50:44 2022
-Menor posicion 35 1489 Wed Jul  6 13:50:32 2022
-Mayor posicion 3 475351 Wed Jul  6 13:50:28 2022
+Primera escritura 1 67349 Tue Jul 12 20:42:12 2022
+Ultima escritura 50 447733 Tue Jul 12 20:42:14 2022
+Menor posicion 41 8805 Tue Jul 12 20:42:14 2022
+Mayor posicion 31 468731 Tue Jul 12 20:42:13 2022
 
 
-PID: 1844
+PID: 54336
 Numero de escrituras: 50
-Primera escritura 1 486877 Wed Jul  6 13:50:28 2022
-Ultima escritura 50 67544 Wed Jul  6 13:50:44 2022
-Menor posicion 8 1989 Wed Jul  6 13:50:28 2022
-Mayor posicion 7 496036 Wed Jul  6 13:50:28 2022
+Primera escritura 1 141974 Tue Jul 12 20:42:12 2022
+Ultima escritura 50 210324 Tue Jul 12 20:42:15 2022
+Menor posicion 31 9175 Tue Jul 12 20:42:14 2022
+Mayor posicion 14 497868 Tue Jul 12 20:42:13 2022
 
 
-PID: 1845
+PID: 54337
 Numero de escrituras: 50
-Primera escritura 1 328782 Wed Jul  6 13:50:28 2022
-Ultima escritura 50 160417 Wed Jul  6 13:50:45 2022
-Menor posicion 30 9590 Wed Jul  6 13:50:32 2022
-Mayor posicion 21 491349 Wed Jul  6 13:50:30 2022
+Primera escritura 1 444701 Tue Jul 12 20:42:12 2022
+Ultima escritura 50 133434 Tue Jul 12 20:42:15 2022
+Menor posicion 13 11560 Tue Jul 12 20:42:13 2022
+Mayor posicion 3 487904 Tue Jul 12 20:42:12 2022
 
 
-PID: 1846
+PID: 54338
 Numero de escrituras: 50
-Primera escritura 1 113791 Wed Jul  6 13:50:28 2022
-Ultima escritura 50 331413 Wed Jul  6 13:50:45 2022
-Menor posicion 7 4035 Wed Jul  6 13:50:29 2022
-Mayor posicion 16 491559 Wed Jul  6 13:50:30 2022
+Primera escritura 1 113566 Tue Jul 12 20:42:12 2022
+Ultima escritura 50 241115 Tue Jul 12 20:42:15 2022
+Menor posicion 28 769 Tue Jul 12 20:42:14 2022
+Mayor posicion 24 497816 Tue Jul 12 20:42:14 2022
 
 
-PID: 1847
+PID: 54339
 Numero de escrituras: 50
-Primera escritura 1 163969 Wed Jul  6 13:50:28 2022
-Ultima escritura 50 305499 Wed Jul  6 13:50:45 2022
-Menor posicion 37 272 Wed Jul  6 13:50:36 2022
-Mayor posicion 30 494347 Wed Jul  6 13:50:33 2022
+Primera escritura 1 66897 Tue Jul 12 20:42:13 2022
+Ultima escritura 50 382858 Tue Jul 12 20:42:15 2022
+Menor posicion 35 9664 Tue Jul 12 20:42:14 2022
+Mayor posicion 15 493423 Tue Jul 12 20:42:13 2022
 
 
-PID: 1848
+PID: 54662
 Numero de escrituras: 50
-Primera escritura 1 410483 Wed Jul  6 13:50:28 2022
-Ultima escritura 50 9470 Wed Jul  6 13:50:46 2022
-Menor posicion 17 1870 Wed Jul  6 13:50:30 2022
-Mayor posicion 22 489671 Wed Jul  6 13:50:31 2022
+Primera escritura 1 367200 Tue Jul 12 20:42:13 2022
+Ultima escritura 50 110627 Tue Jul 12 20:42:15 2022
+Menor posicion 13 25285 Tue Jul 12 20:42:13 2022
+Mayor posicion 6 499019 Tue Jul 12 20:42:13 2022
 
 
-PID: 1849
+PID: 54663
 Numero de escrituras: 50
-Primera escritura 1 204544 Wed Jul  6 13:50:29 2022
-Ultima escritura 50 245318 Wed Jul  6 13:50:46 2022
-Menor posicion 18 1535 Wed Jul  6 13:50:31 2022
-Mayor posicion 22 483925 Wed Jul  6 13:50:31 2022
+Primera escritura 1 67072 Tue Jul 12 20:42:13 2022
+Ultima escritura 50 376424 Tue Jul 12 20:42:15 2022
+Menor posicion 17 9490 Tue Jul 12 20:42:14 2022
+Mayor posicion 36 487744 Tue Jul 12 20:42:15 2022
 
 
-PID: 1850
+PID: 54664
 Numero de escrituras: 50
-Primera escritura 1 329908 Wed Jul  6 13:50:29 2022
-Ultima escritura 50 337917 Wed Jul  6 13:50:47 2022
-Menor posicion 44 1804 Wed Jul  6 13:50:45 2022
-Mayor posicion 48 488535 Wed Jul  6 13:50:46 2022
+Primera escritura 1 185318 Tue Jul 12 20:42:13 2022
+Ultima escritura 50 308659 Tue Jul 12 20:42:15 2022
+Menor posicion 2 36948 Tue Jul 12 20:42:13 2022
+Mayor posicion 15 497647 Tue Jul 12 20:42:14 2022
 
 
-PID: 1851
+PID: 54665
 Numero de escrituras: 50
-Primera escritura 1 139002 Wed Jul  6 13:50:29 2022
-Ultima escritura 50 307509 Wed Jul  6 13:50:47 2022
-Menor posicion 12 29599 Wed Jul  6 13:50:30 2022
-Mayor posicion 48 496894 Wed Jul  6 13:50:47 2022
+Primera escritura 1 254662 Tue Jul 12 20:42:13 2022
+Ultima escritura 50 342641 Tue Jul 12 20:42:16 2022
+Menor posicion 4 3755 Tue Jul 12 20:42:13 2022
+Mayor posicion 32 491018 Tue Jul 12 20:42:15 2022
 
 
-PID: 1852
+PID: 54666
 Numero de escrituras: 50
-Primera escritura 1 231975 Wed Jul  6 13:50:29 2022
-Ultima escritura 50 394106 Wed Jul  6 13:50:47 2022
-Menor posicion 41 8516 Wed Jul  6 13:50:45 2022
-Mayor posicion 19 498673 Wed Jul  6 13:50:32 2022
+Primera escritura 1 412200 Tue Jul 12 20:42:13 2022
+Ultima escritura 50 389430 Tue Jul 12 20:42:16 2022
+Menor posicion 41 12888 Tue Jul 12 20:42:15 2022
+Mayor posicion 46 481725 Tue Jul 12 20:42:16 2022
 
 
-PID: 1853
+PID: 54667
 Numero de escrituras: 50
-Primera escritura 1 458541 Wed Jul  6 13:50:29 2022
-Ultima escritura 50 174193 Wed Jul  6 13:50:47 2022
-Menor posicion 11 852 Wed Jul  6 13:50:31 2022
-Mayor posicion 10 488008 Wed Jul  6 13:50:30 2022
+Primera escritura 1 481090 Tue Jul 12 20:42:13 2022
+Ultima escritura 50 246164 Tue Jul 12 20:42:16 2022
+Menor posicion 35 922 Tue Jul 12 20:42:15 2022
+Mayor posicion 37 495988 Tue Jul 12 20:42:15 2022
 
 
-PID: 1854
+PID: 54684
 Numero de escrituras: 50
-Primera escritura 1 39305 Wed Jul  6 13:50:29 2022
-Ultima escritura 50 22862 Wed Jul  6 13:50:47 2022
-Menor posicion 44 10914 Wed Jul  6 13:50:46 2022
-Mayor posicion 36 483075 Wed Jul  6 13:50:45 2022
+Primera escritura 1 90149 Tue Jul 12 20:42:14 2022
+Ultima escritura 50 54725 Tue Jul 12 20:42:16 2022
+Menor posicion 22 1273 Tue Jul 12 20:42:15 2022
+Mayor posicion 46 449167 Tue Jul 12 20:42:16 2022
 
 
-PID: 1855
+PID: 54685
 Numero de escrituras: 50
-Primera escritura 1 21866 Wed Jul  6 13:50:29 2022
-Ultima escritura 50 246542 Wed Jul  6 13:50:48 2022
-Menor posicion 26 12936 Wed Jul  6 13:50:36 2022
-Mayor posicion 47 447655 Wed Jul  6 13:50:47 2022
+Primera escritura 1 361596 Tue Jul 12 20:42:14 2022
+Ultima escritura 50 253722 Tue Jul 12 20:42:16 2022
+Menor posicion 28 19757 Tue Jul 12 20:42:15 2022
+Mayor posicion 14 478137 Tue Jul 12 20:42:14 2022
 
 
-PID: 1856
+PID: 54687
 Numero de escrituras: 50
-Primera escritura 1 87246 Wed Jul  6 13:50:30 2022
-Ultima escritura 50 21275 Wed Jul  6 13:50:48 2022
-Menor posicion 50 21275 Wed Jul  6 13:50:48 2022
-Mayor posicion 43 490643 Wed Jul  6 13:50:47 2022
+Primera escritura 1 206289 Tue Jul 12 20:42:14 2022
+Ultima escritura 50 180093 Tue Jul 12 20:42:16 2022
+Menor posicion 36 13927 Tue Jul 12 20:42:16 2022
+Mayor posicion 41 499741 Tue Jul 12 20:42:16 2022
 
 
-PID: 1857
+PID: 54688
 Numero de escrituras: 50
-Primera escritura 1 390612 Wed Jul  6 13:50:30 2022
-Ultima escritura 50 497257 Wed Jul  6 13:50:48 2022
-Menor posicion 4 13573 Wed Jul  6 13:50:30 2022
-Mayor posicion 50 497257 Wed Jul  6 13:50:48 2022
+Primera escritura 1 302314 Tue Jul 12 20:42:14 2022
+Ultima escritura 50 150061 Tue Jul 12 20:42:17 2022
+Menor posicion 39 7689 Tue Jul 12 20:42:16 2022
+Mayor posicion 7 498864 Tue Jul 12 20:42:14 2022
 
 
-PID: 1858
+PID: 54716
 Numero de escrituras: 50
-Primera escritura 1 483961 Wed Jul  6 13:50:30 2022
-Ultima escritura 50 252021 Wed Jul  6 13:50:48 2022
-Menor posicion 29 17869 Wed Jul  6 13:50:44 2022
-Mayor posicion 1 483961 Wed Jul  6 13:50:30 2022
+Primera escritura 1 155955 Tue Jul 12 20:42:14 2022
+Ultima escritura 50 78796 Tue Jul 12 20:42:17 2022
+Menor posicion 20 15752 Tue Jul 12 20:42:15 2022
+Mayor posicion 32 494542 Tue Jul 12 20:42:16 2022
 
 
-PID: 1859
+PID: 54718
 Numero de escrituras: 50
-Primera escritura 1 355446 Wed Jul  6 13:50:30 2022
-Ultima escritura 50 445895 Wed Jul  6 13:50:49 2022
-Menor posicion 48 44678 Wed Jul  6 13:50:49 2022
-Mayor posicion 46 499775 Wed Jul  6 13:50:48 2022
+Primera escritura 1 302148 Tue Jul 12 20:42:14 2022
+Ultima escritura 50 139794 Tue Jul 12 20:42:17 2022
+Menor posicion 26 2171 Tue Jul 12 20:42:16 2022
+Mayor posicion 17 498235 Tue Jul 12 20:42:15 2022
 
 
-PID: 1860
-Numero de escrituras: 50
-Primera escritura 1 269498 Wed Jul  6 13:50:30 2022
-Ultima escritura 50 339128 Wed Jul  6 13:50:50 2022
-Menor posicion 8 16178 Wed Jul  6 13:50:32 2022
-Mayor posicion 12 495096 Wed Jul  6 13:50:34 2022
+PID: 54719
+Numero de escrituras: 49
+Primera escritura 1 380667 Tue Jul 12 20:42:15 2022
+Ultima escritura 50 314040 Tue Jul 12 20:42:17 2022
+Menor posicion 24 19239 Tue Jul 12 20:42:16 2022
+Mayor posicion 10 487562 Tue Jul 12 20:42:15 2022
 
 
-PID: 1861
+PID: 54720
 Numero de escrituras: 50
-Primera escritura 1 385840 Wed Jul  6 13:50:30 2022
-Ultima escritura 50 483850 Wed Jul  6 13:50:51 2022
-Menor posicion 22 11456 Wed Jul  6 13:50:45 2022
-Mayor posicion 38 496716 Wed Jul  6 13:50:48 2022
+Primera escritura 1 288827 Tue Jul 12 20:42:15 2022
+Ultima escritura 50 235738 Tue Jul 12 20:42:17 2022
+Menor posicion 31 35554 Tue Jul 12 20:42:16 2022
+Mayor posicion 15 465529 Tue Jul 12 20:42:15 2022
 
 
-PID: 1862
+PID: 54721
 Numero de escrituras: 50
-Primera escritura 1 261276 Wed Jul  6 13:50:30 2022
-Ultima escritura 50 422343 Wed Jul  6 13:50:50 2022
-Menor posicion 6 18873 Wed Jul  6 13:50:34 2022
-Mayor posicion 21 499430 Wed Jul  6 13:50:45 2022
+Primera escritura 1 346206 Tue Jul 12 20:42:15 2022
+Ultima escritura 50 400287 Tue Jul 12 20:42:17 2022
+Menor posicion 7 29223 Tue Jul 12 20:42:15 2022
+Mayor posicion 33 495878 Tue Jul 12 20:42:16 2022
 
 
-PID: 1863
+PID: 54722
 Numero de escrituras: 50
-Primera escritura 1 42231 Wed Jul  6 13:50:31 2022
-Ultima escritura 50 10867 Wed Jul  6 13:50:51 2022
-Menor posicion 50 10867 Wed Jul  6 13:50:51 2022
-Mayor posicion 25 482161 Wed Jul  6 13:50:46 2022
+Primera escritura 1 489072 Tue Jul 12 20:42:15 2022
+Ultima escritura 50 237821 Tue Jul 12 20:42:17 2022
+Menor posicion 44 2894 Tue Jul 12 20:42:17 2022
+Mayor posicion 9 490970 Tue Jul 12 20:42:15 2022
 
 
-PID: 1864
+PID: 54723
 Numero de escrituras: 50
-Primera escritura 1 8163 Wed Jul  6 13:50:31 2022
-Ultima escritura 50 392681 Wed Jul  6 13:50:52 2022
-Menor posicion 32 3601 Wed Jul  6 13:50:48 2022
-Mayor posicion 14 483964 Wed Jul  6 13:50:45 2022
+Primera escritura 1 197116 Tue Jul 12 20:42:15 2022
+Ultima escritura 50 373404 Tue Jul 12 20:42:18 2022
+Menor posicion 5 8365 Tue Jul 12 20:42:15 2022
+Mayor posicion 21 493520 Tue Jul 12 20:42:16 2022
 
 
-PID: 1865
+PID: 54757
 Numero de escrituras: 50
-Primera escritura 1 142632 Wed Jul  6 13:50:31 2022
-Ultima escritura 50 119207 Wed Jul  6 13:50:52 2022
-Menor posicion 34 37932 Wed Jul  6 13:50:49 2022
-Mayor posicion 10 499312 Wed Jul  6 13:50:44 2022
+Primera escritura 1 372849 Tue Jul 12 20:42:15 2022
+Ultima escritura 50 181362 Tue Jul 12 20:42:18 2022
+Menor posicion 16 2121 Tue Jul 12 20:42:16 2022
+Mayor posicion 13 495601 Tue Jul 12 20:42:16 2022
 
 
-PID: 1866
+PID: 54758
 Numero de escrituras: 50
-Primera escritura 1 360132 Wed Jul  6 13:50:31 2022
-Ultima escritura 50 132928 Wed Jul  6 13:50:52 2022
-Menor posicion 20 3253 Wed Jul  6 13:50:46 2022
-Mayor posicion 47 498606 Wed Jul  6 13:50:51 2022
+Primera escritura 1 418085 Tue Jul 12 20:42:15 2022
+Ultima escritura 50 356176 Tue Jul 12 20:42:18 2022
+Menor posicion 25 1031 Tue Jul 12 20:42:17 2022
+Mayor posicion 32 483154 Tue Jul 12 20:42:17 2022
 
 
-PID: 1867
+PID: 54759
 Numero de escrituras: 50
-Primera escritura 1 21106 Wed Jul  6 13:50:31 2022
-Ultima escritura 50 60027 Wed Jul  6 13:50:53 2022
-Menor posicion 49 15174 Wed Jul  6 13:50:53 2022
-Mayor posicion 24 492778 Wed Jul  6 13:50:48 2022
+Primera escritura 1 214958 Tue Jul 12 20:42:16 2022
+Ultima escritura 50 37180 Tue Jul 12 20:42:18 2022
+Menor posicion 3 5112 Tue Jul 12 20:42:16 2022
+Mayor posicion 17 497026 Tue Jul 12 20:42:16 2022
 
 
-PID: 1868
+PID: 54760
 Numero de escrituras: 50
-Primera escritura 1 163822 Wed Jul  6 13:50:31 2022
-Ultima escritura 50 254965 Wed Jul  6 13:50:53 2022
-Menor posicion 26 9849 Wed Jul  6 13:50:48 2022
-Mayor posicion 12 496940 Wed Jul  6 13:50:46 2022
+Primera escritura 1 182013 Tue Jul 12 20:42:16 2022
+Ultima escritura 50 459310 Tue Jul 12 20:42:18 2022
+Menor posicion 35 15594 Tue Jul 12 20:42:17 2022
+Mayor posicion 28 484037 Tue Jul 12 20:42:17 2022
 
 
-PID: 1869
+PID: 54761
 Numero de escrituras: 50
-Primera escritura 1 201543 Wed Jul  6 13:50:32 2022
-Ultima escritura 50 120313 Wed Jul  6 13:50:53 2022
-Menor posicion 23 6248 Wed Jul  6 13:50:48 2022
-Mayor posicion 38 494755 Wed Jul  6 13:50:51 2022
+Primera escritura 1 203669 Tue Jul 12 20:42:16 2022
+Ultima escritura 50 355896 Tue Jul 12 20:42:18 2022
+Menor posicion 14 7690 Tue Jul 12 20:42:17 2022
+Mayor posicion 42 498189 Tue Jul 12 20:42:18 2022
 
 
-PID: 1870
+PID: 54762
 Numero de escrituras: 50
-Primera escritura 1 340999 Wed Jul  6 13:50:32 2022
-Ultima escritura 50 412793 Wed Jul  6 13:50:53 2022
-Menor posicion 27 36602 Wed Jul  6 13:50:49 2022
-Mayor posicion 19 496530 Wed Jul  6 13:50:47 2022
+Primera escritura 1 155587 Tue Jul 12 20:42:16 2022
+Ultima escritura 50 429414 Tue Jul 12 20:42:18 2022
+Menor posicion 39 10457 Tue Jul 12 20:42:18 2022
+Mayor posicion 29 487543 Tue Jul 12 20:42:17 2022
 
 
-PID: 1871
+PID: 54764
 Numero de escrituras: 50
-Primera escritura 1 110042 Wed Jul  6 13:50:32 2022
-Ultima escritura 50 416097 Wed Jul  6 13:50:54 2022
-Menor posicion 19 9695 Wed Jul  6 13:50:48 2022
-Mayor posicion 45 498475 Wed Jul  6 13:50:53 2022
+Primera escritura 1 36789 Tue Jul 12 20:42:16 2022
+Ultima escritura 50 76236 Tue Jul 12 20:42:19 2022
+Menor posicion 19 1130 Tue Jul 12 20:42:17 2022
+Mayor posicion 37 488625 Tue Jul 12 20:42:18 2022
 
 
-PID: 1872
+PID: 54765
 Numero de escrituras: 50
-Primera escritura 1 232866 Wed Jul  6 13:50:32 2022
-Ultima escritura 50 227726 Wed Jul  6 13:50:53 2022
-Menor posicion 43 4996 Wed Jul  6 13:50:51 2022
-Mayor posicion 9 474892 Wed Jul  6 13:50:45 2022
+Primera escritura 1 340788 Tue Jul 12 20:42:16 2022
+Ultima escritura 50 460264 Tue Jul 12 20:42:19 2022
+Menor posicion 36 8004 Tue Jul 12 20:42:18 2022
+Mayor posicion 8 498131 Tue Jul 12 20:42:17 2022
 
 
-PID: 1873
+PID: 54766
 Numero de escrituras: 50
-Primera escritura 1 7415 Wed Jul  6 13:50:32 2022
-Ultima escritura 50 68920 Wed Jul  6 13:50:54 2022
-Menor posicion 37 5477 Wed Jul  6 13:50:52 2022
-Mayor posicion 39 496008 Wed Jul  6 13:50:52 2022
+Primera escritura 1 213949 Tue Jul 12 20:42:16 2022
+Ultima escritura 50 124496 Tue Jul 12 20:42:19 2022
+Menor posicion 11 11788 Tue Jul 12 20:42:17 2022
+Mayor posicion 3 459618 Tue Jul 12 20:42:17 2022
 
 
-PID: 1874
+PID: 54767
 Numero de escrituras: 50
-Primera escritura 1 330929 Wed Jul  6 13:50:32 2022
-Ultima escritura 50 475421 Wed Jul  6 13:50:54 2022
-Menor posicion 17 5105 Wed Jul  6 13:50:48 2022
-Mayor posicion 40 483150 Wed Jul  6 13:50:52 2022
+Primera escritura 1 445391 Tue Jul 12 20:42:17 2022
+Ultima escritura 50 56788 Tue Jul 12 20:42:19 2022
+Menor posicion 25 7370 Tue Jul 12 20:42:18 2022
+Mayor posicion 7 495922 Tue Jul 12 20:42:17 2022
 
 
-PID: 1875
+PID: 54768
 Numero de escrituras: 50
-Primera escritura 1 219358 Wed Jul  6 13:50:33 2022
-Ultima escritura 50 335409 Wed Jul  6 13:50:55 2022
-Menor posicion 42 10322 Wed Jul  6 13:50:53 2022
-Mayor posicion 31 497888 Wed Jul  6 13:50:51 2022
+Primera escritura 1 93147 Tue Jul 12 20:42:17 2022
+Ultima escritura 50 351292 Tue Jul 12 20:42:19 2022
+Menor posicion 45 6933 Tue Jul 12 20:42:19 2022
+Mayor posicion 19 494518 Tue Jul 12 20:42:18 2022
 
 
-PID: 1876
+PID: 54769
 Numero de escrituras: 50
-Primera escritura 1 176750 Wed Jul  6 13:50:33 2022
-Ultima escritura 50 254697 Wed Jul  6 13:50:53 2022
-Menor posicion 44 5472 Wed Jul  6 13:50:52 2022
-Mayor posicion 35 470740 Wed Jul  6 13:50:50 2022
+Primera escritura 1 51474 Tue Jul 12 20:42:17 2022
+Ultima escritura 50 493958 Tue Jul 12 20:42:19 2022
+Menor posicion 7 1741 Tue Jul 12 20:42:17 2022
+Mayor posicion 50 493958 Tue Jul 12 20:42:19 2022
 
 
-PID: 1877
+PID: 54770
 Numero de escrituras: 50
-Primera escritura 1 229635 Wed Jul  6 13:50:33 2022
-Ultima escritura 50 215229 Wed Jul  6 13:50:54 2022
-Menor posicion 20 5933 Wed Jul  6 13:50:48 2022
-Mayor posicion 49 482697 Wed Jul  6 13:50:53 2022
+Primera escritura 1 183088 Tue Jul 12 20:42:17 2022
+Ultima escritura 50 389820 Tue Jul 12 20:42:20 2022
+Menor posicion 17 16887 Tue Jul 12 20:42:18 2022
+Mayor posicion 7 497891 Tue Jul 12 20:42:17 2022
 
 
-PID: 1878
+PID: 54771
 Numero de escrituras: 50
-Primera escritura 1 137515 Wed Jul  6 13:50:33 2022
-Ultima escritura 50 369388 Wed Jul  6 13:50:55 2022
-Menor posicion 12 1495 Wed Jul  6 13:50:48 2022
-Mayor posicion 30 483856 Wed Jul  6 13:50:51 2022
+Primera escritura 1 420250 Tue Jul 12 20:42:17 2022
+Ultima escritura 50 84399 Tue Jul 12 20:42:20 2022
+Menor posicion 49 2118 Tue Jul 12 20:42:20 2022
+Mayor posicion 45 494349 Tue Jul 12 20:42:19 2022
 
 
-PID: 1879
+PID: 54772
 Numero de escrituras: 50
-Primera escritura 1 339611 Wed Jul  6 13:50:33 2022
-Ultima escritura 50 315771 Wed Jul  6 13:50:54 2022
-Menor posicion 3 6589 Wed Jul  6 13:50:45 2022
-Mayor posicion 32 495502 Wed Jul  6 13:50:51 2022
+Primera escritura 1 260607 Tue Jul 12 20:42:17 2022
+Ultima escritura 50 16556 Tue Jul 12 20:42:20 2022
+Menor posicion 8 8886 Tue Jul 12 20:42:18 2022
+Mayor posicion 13 424344 Tue Jul 12 20:42:18 2022
 
 
-PID: 1880
+PID: 54773
 Numero de escrituras: 50
-Primera escritura 1 461656 Wed Jul  6 13:50:33 2022
-Ultima escritura 50 220254 Wed Jul  6 13:50:55 2022
-Menor posicion 22 1373 Wed Jul  6 13:50:50 2022
-Mayor posicion 10 472505 Wed Jul  6 13:50:48 2022
+Primera escritura 1 196358 Tue Jul 12 20:42:18 2022
+Ultima escritura 50 67464 Tue Jul 12 20:42:20 2022
+Menor posicion 19 18114 Tue Jul 12 20:42:18 2022
+Mayor posicion 38 495925 Tue Jul 12 20:42:19 2022
 
 
-PID: 1881
+PID: 54774
 Numero de escrituras: 50
-Primera escritura 1 30518 Wed Jul  6 13:50:33 2022
-Ultima escritura 50 72502 Wed Jul  6 13:50:55 2022
-Menor posicion 33 2715 Wed Jul  6 13:50:52 2022
-Mayor posicion 9 490383 Wed Jul  6 13:50:47 2022
+Primera escritura 1 200622 Tue Jul 12 20:42:18 2022
+Ultima escritura 50 346538 Tue Jul 12 20:42:20 2022
+Menor posicion 21 263 Tue Jul 12 20:42:19 2022
+Mayor posicion 27 493533 Tue Jul 12 20:42:19 2022
 
 
-PID: 1882
+PID: 54775
 Numero de escrituras: 50
-Primera escritura 1 284392 Wed Jul  6 13:50:34 2022
-Ultima escritura 50 166718 Wed Jul  6 13:50:55 2022
-Menor posicion 19 4549 Wed Jul  6 13:50:49 2022
-Mayor posicion 39 484671 Wed Jul  6 13:50:53 2022
+Primera escritura 1 362828 Tue Jul 12 20:42:18 2022
+Ultima escritura 50 50080 Tue Jul 12 20:42:20 2022
+Menor posicion 5 18990 Tue Jul 12 20:42:18 2022
+Mayor posicion 4 494975 Tue Jul 12 20:42:18 2022
 
 
-PID: 1883
+PID: 54776
 Numero de escrituras: 50
-Primera escritura 1 60703 Wed Jul  6 13:50:34 2022
-Ultima escritura 50 257819 Wed Jul  6 13:50:56 2022
-Menor posicion 15 7400 Wed Jul  6 13:50:49 2022
-Mayor posicion 14 496025 Wed Jul  6 13:50:49 2022
+Primera escritura 1 158138 Tue Jul 12 20:42:18 2022
+Ultima escritura 50 22380 Tue Jul 12 20:42:20 2022
+Menor posicion 18 716 Tue Jul 12 20:42:19 2022
+Mayor posicion 32 486836 Tue Jul 12 20:42:20 2022
 
 
-PID: 1884
+PID: 54777
 Numero de escrituras: 50
-Primera escritura 1 123175 Wed Jul  6 13:50:34 2022
-Ultima escritura 50 19766 Wed Jul  6 13:50:55 2022
-Menor posicion 25 9960 Wed Jul  6 13:50:50 2022
-Mayor posicion 11 491897 Wed Jul  6 13:50:47 2022
+Primera escritura 1 472231 Tue Jul 12 20:42:18 2022
+Ultima escritura 50 57089 Tue Jul 12 20:42:21 2022
+Menor posicion 28 16178 Tue Jul 12 20:42:19 2022
+Mayor posicion 23 499433 Tue Jul 12 20:42:19 2022
 
 
-PID: 1885
+PID: 54778
 Numero de escrituras: 50
-Primera escritura 1 272781 Wed Jul  6 13:50:34 2022
-Ultima escritura 50 146697 Wed Jul  6 13:50:56 2022
-Menor posicion 48 6103 Wed Jul  6 13:50:55 2022
-Mayor posicion 27 495480 Wed Jul  6 13:50:51 2022
+Primera escritura 1 177828 Tue Jul 12 20:42:18 2022
+Ultima escritura 50 417983 Tue Jul 12 20:42:21 2022
+Menor posicion 33 108 Tue Jul 12 20:42:20 2022
+Mayor posicion 11 459038 Tue Jul 12 20:42:19 2022
 
 
-PID: 1886
+PID: 54779
 Numero de escrituras: 50
-Primera escritura 1 113711 Wed Jul  6 13:50:34 2022
-Ultima escritura 50 439276 Wed Jul  6 13:50:56 2022
-Menor posicion 29 8030 Wed Jul  6 13:50:52 2022
-Mayor posicion 40 467919 Wed Jul  6 13:50:54 2022
+Primera escritura 1 471976 Tue Jul 12 20:42:18 2022
+Ultima escritura 50 14159 Tue Jul 12 20:42:21 2022
+Menor posicion 25 999 Tue Jul 12 20:42:20 2022
+Mayor posicion 20 490315 Tue Jul 12 20:42:19 2022
 
 
-PID: 1887
+PID: 54780
 Numero de escrituras: 50
-Primera escritura 1 240549 Wed Jul  6 13:50:34 2022
-Ultima escritura 50 111045 Wed Jul  6 13:50:56 2022
-Menor posicion 6 13080 Wed Jul  6 13:50:47 2022
-Mayor posicion 20 497728 Wed Jul  6 13:50:50 2022
+Primera escritura 1 12451 Tue Jul 12 20:42:19 2022
+Ultima escritura 50 299892 Tue Jul 12 20:42:21 2022
+Menor posicion 1 12451 Tue Jul 12 20:42:19 2022
+Mayor posicion 42 486715 Tue Jul 12 20:42:21 2022
 
 
-PID: 1888
+PID: 54781
 Numero de escrituras: 50
-Primera escritura 1 394740 Wed Jul  6 13:50:35 2022
-Ultima escritura 50 262067 Wed Jul  6 13:50:56 2022
-Menor posicion 34 13089 Wed Jul  6 13:50:54 2022
-Mayor posicion 23 496297 Wed Jul  6 13:50:51 2022
+Primera escritura 1 55689 Tue Jul 12 20:42:19 2022
+Ultima escritura 50 497922 Tue Jul 12 20:42:21 2022
+Menor posicion 37 1226 Tue Jul 12 20:42:21 2022
+Mayor posicion 50 497922 Tue Jul 12 20:42:21 2022
 
 
-PID: 1889
+PID: 54782
 Numero de escrituras: 50
-Primera escritura 1 323853 Wed Jul  6 13:50:35 2022
-Ultima escritura 50 366282 Wed Jul  6 13:50:56 2022
-Menor posicion 34 2141 Wed Jul  6 13:50:53 2022
-Mayor posicion 47 496132 Wed Jul  6 13:50:56 2022
+Primera escritura 1 306529 Tue Jul 12 20:42:19 2022
+Ultima escritura 50 19256 Tue Jul 12 20:42:21 2022
+Menor posicion 21 16500 Tue Jul 12 20:42:20 2022
+Mayor posicion 6 490660 Tue Jul 12 20:42:19 2022
 
 
-PID: 1890
+PID: 54783
 Numero de escrituras: 50
-Primera escritura 1 404518 Wed Jul  6 13:50:35 2022
-Ultima escritura 50 455056 Wed Jul  6 13:50:56 2022
-Menor posicion 2 3043 Wed Jul  6 13:50:47 2022
-Mayor posicion 16 495439 Wed Jul  6 13:50:49 2022
+Primera escritura 1 490577 Tue Jul 12 20:42:19 2022
+Ultima escritura 50 245777 Tue Jul 12 20:42:22 2022
+Menor posicion 8 18002 Tue Jul 12 20:42:19 2022
+Mayor posicion 5 492569 Tue Jul 12 20:42:19 2022
 
 
-PID: 1891
+PID: 54797
 Numero de escrituras: 50
-Primera escritura 1 222156 Wed Jul  6 13:50:35 2022
-Ultima escritura 50 108442 Wed Jul  6 13:50:56 2022
-Menor posicion 19 43319 Wed Jul  6 13:50:50 2022
-Mayor posicion 13 487568 Wed Jul  6 13:50:49 2022
+Primera escritura 1 119287 Tue Jul 12 20:42:19 2022
+Ultima escritura 50 220604 Tue Jul 12 20:42:22 2022
+Menor posicion 23 13010 Tue Jul 12 20:42:20 2022
+Mayor posicion 37 494525 Tue Jul 12 20:42:21 2022
 
 
-PID: 1892
+PID: 54821
 Numero de escrituras: 50
-Primera escritura 1 80864 Wed Jul  6 13:50:35 2022
-Ultima escritura 50 379535 Wed Jul  6 13:50:57 2022
-Menor posicion 48 1184 Wed Jul  6 13:50:56 2022
-Mayor posicion 25 494055 Wed Jul  6 13:50:52 2022
+Primera escritura 1 139287 Tue Jul 12 20:42:19 2022
+Ultima escritura 50 44683 Tue Jul 12 20:42:22 2022
+Menor posicion 34 5095 Tue Jul 12 20:42:21 2022
+Mayor posicion 25 477957 Tue Jul 12 20:42:21 2022
 
 
-PID: 1893
+PID: 54822
 Numero de escrituras: 50
-Primera escritura 1 412517 Wed Jul  6 13:50:35 2022
-Ultima escritura 50 154469 Wed Jul  6 13:50:56 2022
-Menor posicion 7 30681 Wed Jul  6 13:50:48 2022
-Mayor posicion 43 494113 Wed Jul  6 13:50:55 2022
+Primera escritura 1 465970 Tue Jul 12 20:42:19 2022
+Ultima escritura 50 410886 Tue Jul 12 20:42:22 2022
+Menor posicion 21 5931 Tue Jul 12 20:42:21 2022
+Mayor posicion 49 498810 Tue Jul 12 20:42:22 2022
 
 
-PID: 1894
+PID: 54823
 Numero de escrituras: 50
-Primera escritura 1 241304 Wed Jul  6 13:50:36 2022
-Ultima escritura 50 406998 Wed Jul  6 13:50:56 2022
-Menor posicion 11 11831 Wed Jul  6 13:50:49 2022
-Mayor posicion 33 487442 Wed Jul  6 13:50:53 2022
+Primera escritura 1 119723 Tue Jul 12 20:42:20 2022
+Ultima escritura 50 458554 Tue Jul 12 20:42:22 2022
+Menor posicion 25 1691 Tue Jul 12 20:42:21 2022
+Mayor posicion 24 478620 Tue Jul 12 20:42:21 2022
 
 
-PID: 1895
+PID: 54824
 Numero de escrituras: 50
-Primera escritura 1 293885 Wed Jul  6 13:50:36 2022
-Ultima escritura 50 54279 Wed Jul  6 13:50:57 2022
-Menor posicion 9 6148 Wed Jul  6 13:50:49 2022
-Mayor posicion 10 495425 Wed Jul  6 13:50:49 2022
+Primera escritura 1 289914 Tue Jul 12 20:42:20 2022
+Ultima escritura 50 254727 Tue Jul 12 20:42:22 2022
+Menor posicion 14 4433 Tue Jul 12 20:42:20 2022
+Mayor posicion 41 486877 Tue Jul 12 20:42:22 2022
 
 
-PID: 1896
+PID: 54825
 Numero de escrituras: 50
-Primera escritura 1 393546 Wed Jul  6 13:50:36 2022
-Ultima escritura 50 495258 Wed Jul  6 13:50:57 2022
-Menor posicion 2 25174 Wed Jul  6 13:50:48 2022
-Mayor posicion 50 495258 Wed Jul  6 13:50:57 2022
+Primera escritura 1 290591 Tue Jul 12 20:42:20 2022
+Ultima escritura 50 487242 Tue Jul 12 20:42:22 2022
+Menor posicion 40 8592 Tue Jul 12 20:42:22 2022
+Mayor posicion 21 499203 Tue Jul 12 20:42:21 2022
 
 
-PID: 1897
+PID: 54826
 Numero de escrituras: 50
-Primera escritura 1 271744 Wed Jul  6 13:50:36 2022
-Ultima escritura 50 288958 Wed Jul  6 13:50:57 2022
-Menor posicion 10 25958 Wed Jul  6 13:50:50 2022
-Mayor posicion 26 489874 Wed Jul  6 13:50:53 2022
+Primera escritura 1 307964 Tue Jul 12 20:42:20 2022
+Ultima escritura 50 381487 Tue Jul 12 20:42:23 2022
+Menor posicion 6 19857 Tue Jul 12 20:42:20 2022
+Mayor posicion 28 487804 Tue Jul 12 20:42:21 2022
 
 
-PID: 1898
+PID: 54857
 Numero de escrituras: 50
-Primera escritura 1 450502 Wed Jul  6 13:50:36 2022
-Ultima escritura 50 293735 Wed Jul  6 13:50:57 2022
-Menor posicion 30 4921 Wed Jul  6 13:50:54 2022
-Mayor posicion 37 478717 Wed Jul  6 13:50:55 2022
+Primera escritura 1 171009 Tue Jul 12 20:42:20 2022
+Ultima escritura 50 362580 Tue Jul 12 20:42:23 2022
+Menor posicion 30 8345 Tue Jul 12 20:42:22 2022
+Mayor posicion 35 497353 Tue Jul 12 20:42:22 2022
 
 
-PID: 1899
+PID: 54860
 Numero de escrituras: 50
-Primera escritura 1 178156 Wed Jul  6 13:50:36 2022
-Ultima escritura 50 461690 Wed Jul  6 13:50:57 2022
-Menor posicion 8 84 Wed Jul  6 13:50:49 2022
-Mayor posicion 24 495537 Wed Jul  6 13:50:52 2022
+Primera escritura 1 308143 Tue Jul 12 20:42:20 2022
+Ultima escritura 50 373778 Tue Jul 12 20:42:23 2022
+Menor posicion 42 56116 Tue Jul 12 20:42:22 2022
+Mayor posicion 44 497721 Tue Jul 12 20:42:23 2022
 
 
-PID: 1900
+PID: 54861
 Numero de escrituras: 50
-Primera escritura 1 210052 Wed Jul  6 13:50:37 2022
-Ultima escritura 50 388612 Wed Jul  6 13:50:57 2022
-Menor posicion 32 1815 Wed Jul  6 13:50:54 2022
-Mayor posicion 22 473782 Wed Jul  6 13:50:52 2022
+Primera escritura 1 33805 Tue Jul 12 20:42:21 2022
+Ultima escritura 50 235816 Tue Jul 12 20:42:23 2022
+Menor posicion 36 883 Tue Jul 12 20:42:22 2022
+Mayor posicion 39 491700 Tue Jul 12 20:42:22 2022
 
 
-PID: 1901
+PID: 54871
 Numero de escrituras: 50
-Primera escritura 1 457165 Wed Jul  6 13:50:37 2022
-Ultima escritura 50 125481 Wed Jul  6 13:50:57 2022
-Menor posicion 35 33475 Wed Jul  6 13:50:54 2022
-Mayor posicion 42 492194 Wed Jul  6 13:50:56 2022
+Primera escritura 1 167940 Tue Jul 12 20:42:21 2022
+Ultima escritura 50 378865 Tue Jul 12 20:42:23 2022
+Menor posicion 40 11731 Tue Jul 12 20:42:23 2022
+Mayor posicion 46 490205 Tue Jul 12 20:42:23 2022
 
 
-PID: 1902
-Numero de escrituras: 50
-Primera escritura 1 446409 Wed Jul  6 13:50:37 2022
-Ultima escritura 50 32674 Wed Jul  6 13:50:57 2022
-Menor posicion 36 8221 Wed Jul  6 13:50:54 2022
-Mayor posicion 35 480641 Wed Jul  6 13:50:54 2022
+PID: 54872
+Numero de escrituras: 49
+Primera escritura 1 440853 Tue Jul 12 20:42:21 2022
+Ultima escritura 50 242173 Tue Jul 12 20:42:23 2022
+Menor posicion 10 17980 Tue Jul 12 20:42:21 2022
+Mayor posicion 28 496728 Tue Jul 12 20:42:22 2022
 
 
-PID: 1903
+PID: 54873
 Numero de escrituras: 50
-Primera escritura 1 298828 Wed Jul  6 13:50:37 2022
-Ultima escritura 50 81769 Wed Jul  6 13:50:57 2022
-Menor posicion 18 3076 Wed Jul  6 13:50:52 2022
-Mayor posicion 14 499410 Wed Jul  6 13:50:51 2022
+Primera escritura 1 465644 Tue Jul 12 20:42:21 2022
+Ultima escritura 50 38885 Tue Jul 12 20:42:23 2022
+Menor posicion 27 4316 Tue Jul 12 20:42:22 2022
+Mayor posicion 13 496225 Tue Jul 12 20:42:22 2022
 
 
-PID: 1904
+PID: 54874
 Numero de escrituras: 50
-Primera escritura 1 483914 Wed Jul  6 13:50:37 2022
-Ultima escritura 50 124804 Wed Jul  6 13:50:57 2022
-Menor posicion 5 40255 Wed Jul  6 13:50:50 2022
-Mayor posicion 26 488568 Wed Jul  6 13:50:54 2022
+Primera escritura 1 406376 Tue Jul 12 20:42:21 2022
+Ultima escritura 50 401145 Tue Jul 12 20:42:24 2022
+Menor posicion 46 4412 Tue Jul 12 20:42:23 2022
+Mayor posicion 17 480938 Tue Jul 12 20:42:22 2022
 
 
-PID: 1905
+PID: 54875
 Numero de escrituras: 50
-Primera escritura 1 172116 Wed Jul  6 13:50:38 2022
-Ultima escritura 50 223587 Wed Jul  6 13:50:57 2022
-Menor posicion 39 17114 Wed Jul  6 13:50:55 2022
-Mayor posicion 5 495090 Wed Jul  6 13:50:48 2022
+Primera escritura 1 466301 Tue Jul 12 20:42:21 2022
+Ultima escritura 50 34050 Tue Jul 12 20:42:24 2022
+Menor posicion 22 1131 Tue Jul 12 20:42:22 2022
+Mayor posicion 41 480154 Tue Jul 12 20:42:23 2022
 
 
-PID: 1906
+PID: 54876
 Numero de escrituras: 50
-Primera escritura 1 93381 Wed Jul  6 13:50:38 2022
-Ultima escritura 50 132287 Wed Jul  6 13:50:57 2022
-Menor posicion 19 11040 Wed Jul  6 13:50:53 2022
-Mayor posicion 25 487410 Wed Jul  6 13:50:54 2022
+Primera escritura 1 116477 Tue Jul 12 20:42:21 2022
+Ultima escritura 50 133658 Tue Jul 12 20:42:24 2022
+Menor posicion 31 9237 Tue Jul 12 20:42:23 2022
+Mayor posicion 34 498320 Tue Jul 12 20:42:23 2022
 
 
-PID: 1907
+PID: 54877
 Numero de escrituras: 50
-Primera escritura 1 296580 Wed Jul  6 13:50:38 2022
-Ultima escritura 50 482168 Wed Jul  6 13:50:57 2022
-Menor posicion 36 870 Wed Jul  6 13:50:54 2022
-Mayor posicion 3 489156 Wed Jul  6 13:50:47 2022
+Primera escritura 1 63786 Tue Jul 12 20:42:22 2022
+Ultima escritura 50 350748 Tue Jul 12 20:42:24 2022
+Menor posicion 26 4417 Tue Jul 12 20:42:23 2022
+Mayor posicion 48 488328 Tue Jul 12 20:42:24 2022
 
 
-PID: 1908
+PID: 54878
 Numero de escrituras: 50
-Primera escritura 1 207520 Wed Jul  6 13:50:38 2022
-Ultima escritura 50 255480 Wed Jul  6 13:50:57 2022
-Menor posicion 42 1256 Wed Jul  6 13:50:57 2022
-Mayor posicion 10 497923 Wed Jul  6 13:50:51 2022
+Primera escritura 1 219437 Tue Jul 12 20:42:22 2022
+Ultima escritura 50 17755 Tue Jul 12 20:42:24 2022
+Menor posicion 50 17755 Tue Jul 12 20:42:24 2022
+Mayor posicion 15 499677 Tue Jul 12 20:42:22 2022
 
 
-PID: 1909
+PID: 54879
 Numero de escrituras: 50
-Primera escritura 1 477903 Wed Jul  6 13:50:38 2022
-Ultima escritura 50 12444 Wed Jul  6 13:50:57 2022
-Menor posicion 50 12444 Wed Jul  6 13:50:57 2022
-Mayor posicion 22 498463 Wed Jul  6 13:50:52 2022
+Primera escritura 1 448090 Tue Jul 12 20:42:22 2022
+Ultima escritura 50 438889 Tue Jul 12 20:42:24 2022
+Menor posicion 46 3460 Tue Jul 12 20:42:24 2022
+Mayor posicion 28 478024 Tue Jul 12 20:42:23 2022
 
 
-PID: 1910
+PID: 54880
 Numero de escrituras: 50
-Primera escritura 1 339975 Wed Jul  6 13:50:39 2022
-Ultima escritura 50 288593 Wed Jul  6 13:50:57 2022
-Menor posicion 37 6553 Wed Jul  6 13:50:55 2022
-Mayor posicion 7 498512 Wed Jul  6 13:50:49 2022
+Primera escritura 1 116192 Tue Jul 12 20:42:22 2022
+Ultima escritura 50 362343 Tue Jul 12 20:42:25 2022
+Menor posicion 24 2616 Tue Jul 12 20:42:23 2022
+Mayor posicion 49 496543 Tue Jul 12 20:42:24 2022
 
 
-PID: 1911
+PID: 54881
 Numero de escrituras: 50
-Primera escritura 1 425278 Wed Jul  6 13:50:39 2022
-Ultima escritura 50 100460 Wed Jul  6 13:50:57 2022
-Menor posicion 29 17445 Wed Jul  6 13:50:54 2022
-Mayor posicion 18 493901 Wed Jul  6 13:50:52 2022
+Primera escritura 1 124469 Tue Jul 12 20:42:22 2022
+Ultima escritura 50 395932 Tue Jul 12 20:42:25 2022
+Menor posicion 12 27691 Tue Jul 12 20:42:23 2022
+Mayor posicion 16 484285 Tue Jul 12 20:42:23 2022
 
 
-PID: 1912
+PID: 54882
 Numero de escrituras: 50
-Primera escritura 1 101101 Wed Jul  6 13:50:39 2022
-Ultima escritura 50 328460 Wed Jul  6 13:50:57 2022
-Menor posicion 37 3171 Wed Jul  6 13:50:55 2022
-Mayor posicion 29 489300 Wed Jul  6 13:50:54 2022
+Primera escritura 1 202822 Tue Jul 12 20:42:22 2022
+Ultima escritura 50 27888 Tue Jul 12 20:42:25 2022
+Menor posicion 46 1314 Tue Jul 12 20:42:25 2022
+Mayor posicion 35 483131 Tue Jul 12 20:42:24 2022
 
 
-PID: 1913
+PID: 54883
 Numero de escrituras: 50
-Primera escritura 1 236301 Wed Jul  6 13:50:39 2022
-Ultima escritura 50 497761 Wed Jul  6 13:50:58 2022
-Menor posicion 11 3292 Wed Jul  6 13:50:51 2022
-Mayor posicion 50 497761 Wed Jul  6 13:50:58 2022
+Primera escritura 1 246629 Tue Jul 12 20:42:23 2022
+Ultima escritura 50 98744 Tue Jul 12 20:42:25 2022
+Menor posicion 7 14209 Tue Jul 12 20:42:23 2022
+Mayor posicion 29 499498 Tue Jul 12 20:42:24 2022
 
 
-PID: 1914
+PID: 54884
 Numero de escrituras: 50
-Primera escritura 1 327582 Wed Jul  6 13:50:39 2022
-Ultima escritura 50 418078 Wed Jul  6 13:50:57 2022
-Menor posicion 16 4783 Wed Jul  6 13:50:52 2022
-Mayor posicion 22 482687 Wed Jul  6 13:50:53 2022
+Primera escritura 1 255074 Tue Jul 12 20:42:23 2022
+Ultima escritura 50 466425 Tue Jul 12 20:42:25 2022
+Menor posicion 47 5026 Tue Jul 12 20:42:25 2022
+Mayor posicion 8 486699 Tue Jul 12 20:42:23 2022
 
 
-PID: 1915
+PID: 54885
 Numero de escrituras: 50
-Primera escritura 1 268297 Wed Jul  6 13:50:40 2022
-Ultima escritura 50 330538 Wed Jul  6 13:50:57 2022
-Menor posicion 41 2993 Wed Jul  6 13:50:56 2022
-Mayor posicion 15 494726 Wed Jul  6 13:50:52 2022
+Primera escritura 1 194279 Tue Jul 12 20:42:23 2022
+Ultima escritura 50 470314 Tue Jul 12 20:42:25 2022
+Menor posicion 8 25575 Tue Jul 12 20:42:23 2022
+Mayor posicion 5 499699 Tue Jul 12 20:42:23 2022
 
 
-PID: 1916
+PID: 54886
 Numero de escrituras: 50
-Primera escritura 1 343723 Wed Jul  6 13:50:40 2022
-Ultima escritura 50 119678 Wed Jul  6 13:50:58 2022
-Menor posicion 23 1652 Wed Jul  6 13:50:54 2022
-Mayor posicion 18 481695 Wed Jul  6 13:50:53 2022
+Primera escritura 1 65426 Tue Jul 12 20:42:23 2022
+Ultima escritura 50 210949 Tue Jul 12 20:42:25 2022
+Menor posicion 49 2664 Tue Jul 12 20:42:25 2022
+Mayor posicion 4 480638 Tue Jul 12 20:42:23 2022
 
 
-PID: 1920
+PID: 54887
 Numero de escrituras: 50
-Primera escritura 1 262226 Wed Jul  6 13:50:40 2022
-Ultima escritura 50 72680 Wed Jul  6 13:50:58 2022
-Menor posicion 12 2458 Wed Jul  6 13:50:52 2022
-Mayor posicion 22 499255 Wed Jul  6 13:50:54 2022
+Primera escritura 1 134156 Tue Jul 12 20:42:23 2022
+Ultima escritura 50 477362 Tue Jul 12 20:42:26 2022
+Menor posicion 25 7819 Tue Jul 12 20:42:24 2022
+Mayor posicion 9 493525 Tue Jul 12 20:42:24 2022
 
 
-PID: 1921
+PID: 54889
 Numero de escrituras: 50
-Primera escritura 1 479438 Wed Jul  6 13:50:40 2022
-Ultima escritura 50 17394 Wed Jul  6 13:50:57 2022
-Menor posicion 22 8466 Wed Jul  6 13:50:53 2022
-Mayor posicion 28 494756 Wed Jul  6 13:50:54 2022
+Primera escritura 1 25379 Tue Jul 12 20:42:23 2022
+Ultima escritura 50 263912 Tue Jul 12 20:42:26 2022
+Menor posicion 1 25379 Tue Jul 12 20:42:23 2022
+Mayor posicion 8 493753 Tue Jul 12 20:42:24 2022
 
 
-PID: 1922
+PID: 54890
 Numero de escrituras: 50
-Primera escritura 1 440172 Wed Jul  6 13:50:40 2022
-Ultima escritura 50 217121 Wed Jul  6 13:50:58 2022
-Menor posicion 18 6310 Wed Jul  6 13:50:53 2022
-Mayor posicion 47 499503 Wed Jul  6 13:50:58 2022
+Primera escritura 1 18560 Tue Jul 12 20:42:23 2022
+Ultima escritura 50 60959 Tue Jul 12 20:42:26 2022
+Menor posicion 21 214 Tue Jul 12 20:42:24 2022
+Mayor posicion 9 498953 Tue Jul 12 20:42:24 2022
 
 
-PID: 1923
+PID: 54891
 Numero de escrituras: 50
-Primera escritura 1 449491 Wed Jul  6 13:50:41 2022
-Ultima escritura 50 126559 Wed Jul  6 13:50:57 2022
-Menor posicion 38 8213 Wed Jul  6 13:50:56 2022
-Mayor posicion 15 490661 Wed Jul  6 13:50:52 2022
+Primera escritura 1 165334 Tue Jul 12 20:42:24 2022
+Ultima escritura 50 413477 Tue Jul 12 20:42:26 2022
+Menor posicion 2 918 Tue Jul 12 20:42:24 2022
+Mayor posicion 9 490525 Tue Jul 12 20:42:24 2022
 
 
-PID: 1917
+PID: 54892
 Numero de escrituras: 50
-Primera escritura 1 23514 Wed Jul  6 13:50:41 2022
-Ultima escritura 50 335642 Wed Jul  6 13:50:58 2022
-Menor posicion 44 4974 Wed Jul  6 13:50:57 2022
-Mayor posicion 34 497535 Wed Jul  6 13:50:56 2022
+Primera escritura 1 234909 Tue Jul 12 20:42:24 2022
+Ultima escritura 50 243886 Tue Jul 12 20:42:26 2022
+Menor posicion 40 5534 Tue Jul 12 20:42:26 2022
+Mayor posicion 26 496386 Tue Jul 12 20:42:25 2022
 
 
-PID: 1918
+PID: 54893
 Numero de escrituras: 50
-Primera escritura 1 334045 Wed Jul  6 13:50:41 2022
-Ultima escritura 50 475255 Wed Jul  6 13:50:57 2022
-Menor posicion 14 1955 Wed Jul  6 13:50:51 2022
-Mayor posicion 17 493113 Wed Jul  6 13:50:52 2022
+Primera escritura 1 342912 Tue Jul 12 20:42:24 2022
+Ultima escritura 50 11402 Tue Jul 12 20:42:26 2022
+Menor posicion 50 11402 Tue Jul 12 20:42:26 2022
+Mayor posicion 44 479216 Tue Jul 12 20:42:26 2022
 
 
-PID: 1919
+PID: 54894
 Numero de escrituras: 50
-Primera escritura 1 262226 Wed Jul  6 13:50:41 2022
-Ultima escritura 50 72680 Wed Jul  6 13:50:58 2022
-Menor posicion 12 2458 Wed Jul  6 13:50:52 2022
-Mayor posicion 22 499255 Wed Jul  6 13:50:54 2022
+Primera escritura 1 460291 Tue Jul 12 20:42:24 2022
+Ultima escritura 50 194052 Tue Jul 12 20:42:26 2022
+Menor posicion 21 3477 Tue Jul 12 20:42:25 2022
+Mayor posicion 23 464740 Tue Jul 12 20:42:25 2022
 
 
-PID: 1924
+PID: 54895
 Numero de escrituras: 50
-Primera escritura 1 125155 Wed Jul  6 13:50:41 2022
-Ultima escritura 50 206307 Wed Jul  6 13:50:58 2022
-Menor posicion 22 1211 Wed Jul  6 13:50:54 2022
-Mayor posicion 35 458083 Wed Jul  6 13:50:57 2022
+Primera escritura 1 28059 Tue Jul 12 20:42:24 2022
+Ultima escritura 50 163684 Tue Jul 12 20:42:27 2022
+Menor posicion 43 1120 Tue Jul 12 20:42:26 2022
+Mayor posicion 49 489786 Tue Jul 12 20:42:27 2022
 
 
-PID: 1925
+PID: 54924
 Numero de escrituras: 50
-Primera escritura 1 479217 Wed Jul  6 13:50:42 2022
-Ultima escritura 50 76267 Wed Jul  6 13:50:57 2022
-Menor posicion 30 30130 Wed Jul  6 13:50:55 2022
-Mayor posicion 33 493360 Wed Jul  6 13:50:55 2022
+Primera escritura 1 269277 Tue Jul 12 20:42:24 2022
+Ultima escritura 50 164725 Tue Jul 12 20:42:27 2022
+Menor posicion 4 4425 Tue Jul 12 20:42:24 2022
+Mayor posicion 20 488941 Tue Jul 12 20:42:25 2022
 
 
-PID: 1926
+PID: 54925
 Numero de escrituras: 50
-Primera escritura 1 6754 Wed Jul  6 13:50:42 2022
-Ultima escritura 50 492391 Wed Jul  6 13:50:58 2022
-Menor posicion 34 6694 Wed Jul  6 13:50:56 2022
-Mayor posicion 9 499674 Wed Jul  6 13:50:52 2022
+Primera escritura 1 181491 Tue Jul 12 20:42:24 2022
+Ultima escritura 50 473080 Tue Jul 12 20:42:27 2022
+Menor posicion 17 2037 Tue Jul 12 20:42:25 2022
+Mayor posicion 15 489848 Tue Jul 12 20:42:25 2022
 
 
-PID: 1927
+PID: 54926
 Numero de escrituras: 50
-Primera escritura 1 147595 Wed Jul  6 13:50:42 2022
-Ultima escritura 50 50125 Wed Jul  6 13:50:58 2022
-Menor posicion 11 3120 Wed Jul  6 13:50:52 2022
-Mayor posicion 31 495105 Wed Jul  6 13:50:56 2022
+Primera escritura 1 31550 Tue Jul 12 20:42:25 2022
+Ultima escritura 50 401578 Tue Jul 12 20:42:27 2022
+Menor posicion 22 22647 Tue Jul 12 20:42:26 2022
+Mayor posicion 19 491299 Tue Jul 12 20:42:26 2022
 
 
-PID: 1928
+PID: 54927
 Numero de escrituras: 50
-Primera escritura 1 495482 Wed Jul  6 13:50:42 2022
-Ultima escritura 50 312746 Wed Jul  6 13:50:58 2022
-Menor posicion 26 16051 Wed Jul  6 13:50:54 2022
-Mayor posicion 21 497760 Wed Jul  6 13:50:53 2022
+Primera escritura 1 388375 Tue Jul 12 20:42:25 2022
+Ultima escritura 50 355648 Tue Jul 12 20:42:27 2022
+Menor posicion 39 14585 Tue Jul 12 20:42:27 2022
+Mayor posicion 30 492414 Tue Jul 12 20:42:26 2022
 
 
-PID: 1929
+PID: 54928
 Numero de escrituras: 50
-Primera escritura 1 253171 Wed Jul  6 13:50:43 2022
-Ultima escritura 50 349209 Wed Jul  6 13:50:58 2022
-Menor posicion 14 8590 Wed Jul  6 13:50:53 2022
-Mayor posicion 17 496370 Wed Jul  6 13:50:53 2022
+Primera escritura 1 97802 Tue Jul 12 20:42:25 2022
+Ultima escritura 50 66535 Tue Jul 12 20:42:27 2022
+Menor posicion 45 21202 Tue Jul 12 20:42:27 2022
+Mayor posicion 40 477719 Tue Jul 12 20:42:27 2022
 
 
-PID: 1930
+PID: 54929
 Numero de escrituras: 50
-Primera escritura 1 116371 Wed Jul  6 13:50:43 2022
-Ultima escritura 50 417070 Wed Jul  6 13:50:58 2022
-Menor posicion 25 8268 Wed Jul  6 13:50:55 2022
-Mayor posicion 14 455787 Wed Jul  6 13:50:53 2022
+Primera escritura 1 62771 Tue Jul 12 20:42:25 2022
+Ultima escritura 50 267403 Tue Jul 12 20:42:28 2022
+Menor posicion 34 20607 Tue Jul 12 20:42:27 2022
+Mayor posicion 16 493329 Tue Jul 12 20:42:26 2022
 
 
-PID: 1931
+PID: 54930
 Numero de escrituras: 50
-Primera escritura 1 105487 Wed Jul  6 13:50:43 2022
-Ultima escritura 50 189597 Wed Jul  6 13:50:58 2022
-Menor posicion 20 29205 Wed Jul  6 13:50:55 2022
-Mayor posicion 35 499933 Wed Jul  6 13:50:57 2022
+Primera escritura 1 69641 Tue Jul 12 20:42:25 2022
+Ultima escritura 50 93901 Tue Jul 12 20:42:28 2022
+Menor posicion 30 10450 Tue Jul 12 20:42:27 2022
+Mayor posicion 48 497885 Tue Jul 12 20:42:28 2022
 
 
-PID: 1932
+PID: 54965
 Numero de escrituras: 50
-Primera escritura 1 220049 Wed Jul  6 13:50:43 2022
-Ultima escritura 50 461216 Wed Jul  6 13:50:58 2022
-Menor posicion 6 3454 Wed Jul  6 13:50:51 2022
-Mayor posicion 3 496816 Wed Jul  6 13:50:51 2022
+Primera escritura 1 287678 Tue Jul 12 20:42:25 2022
+Ultima escritura 50 264057 Tue Jul 12 20:42:28 2022
+Menor posicion 3 24145 Tue Jul 12 20:42:25 2022
+Mayor posicion 2 496613 Tue Jul 12 20:42:25 2022
 
 

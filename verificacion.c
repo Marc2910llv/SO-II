@@ -112,10 +112,10 @@ int main(int argc, char const *argv[])
         }
         printf("[%d) %d escrituras validadas en %s]\n",nentrada,ESCRITURAS,prueba);
 
-        char tiempoPrimero[100];
-        char tiempoUltimo[100];
-        char tiempoMenor[100];
-        char tiempoMayor[100];
+        //char tiempoPrimero[100];  
+        //char tiempoUltimo[100];
+        //char tiempoMenor[100];
+        //char tiempoMayor[100];
         struct tm *tm;
 
         char buffer[BLOCKSIZE];
