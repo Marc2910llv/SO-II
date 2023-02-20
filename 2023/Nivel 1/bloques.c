@@ -19,7 +19,7 @@ int bmount(const char *camino)
     descriptor = open(camino, O_RDWR | O_CREAT, 0666);
     if (descriptor < 0)
     {
-        perror("Error");
+        perror("Error bmount");
         return FALLO;
     }
 
@@ -32,7 +32,7 @@ int bumount()
 {
     if (close(descriptor) == -1)
     {
-        perror("Error");
+        perror("Error bumount");
         return FALLO;
     }
 
@@ -48,7 +48,7 @@ int bwrite(unsigned int nbloque, const void *buf)
     // Movemos el puntero del fichero a la posicion correcta(depende de nbloque)
     if (lseek(descriptor, nbloque * BLOCKSIZE, SEEK_SET) == -1)
     {
-        perror("Error");
+        perror("Error bwrite lseek");
         return FALLO;
     }
 
@@ -56,7 +56,7 @@ int bwrite(unsigned int nbloque, const void *buf)
     int bytesEscritos = write(descriptor, buf, BLOCKSIZE);
     if (bytesEscritos < 0)
     {
-        perror("Error");
+        perror("Error brwite write");
         return FALLO;
     }
 
@@ -72,7 +72,7 @@ int bread(unsigned int nbloque, void *buf)
     // Movemos el puntero del fichero a la posicion correcta(depende de nbloque)
     if (lseek(descriptor, nbloque * BLOCKSIZE, SEEK_SET) == -1)
     {
-        perror("Error");
+        perror("Error bread lseek");
         return FALLO;
     }
 
@@ -80,7 +80,7 @@ int bread(unsigned int nbloque, void *buf)
     int bytesLeidos = write(descriptor, buf, BLOCKSIZE);
     if (bytesLeidos < 0)
     {
-        perror("Error");
+        perror("Error bread write");
         return FALLO;
     }
 
