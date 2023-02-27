@@ -33,7 +33,7 @@ int main(int argc, char **argv)
         }
     }
 
-    if (initSB() == FALLO)
+    if (initSB(atoi(argv[2]), (atoi(argv[2]) / 4)) == FALLO)
     {
         perror("Error main initSB");
         return FALLO;
