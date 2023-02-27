@@ -124,7 +124,7 @@ int initAI()
         return FALLO;
     }
 
-    typedef union inodo inodos[BLOCKSIZE / INODOSIZE];
+    struct inodo inodos[BLOCKSIZE / INODOSIZE];
 
     int contInodos = SB.posPrimerInodoLibre + 1;                       // si hemos inicializado SB.posPrimerInodoLibre = 0
     for (int i = SB.posPrimerBloqueAI; i <= SB.posUltimoBloqueAI; i++) // para cada bloque del AI
@@ -148,7 +148,7 @@ int initAI()
             {
                 inodos[j].punterosDirectos[0] = UINT_MAX;
                 // hay que salir del bucle, el último bloque no tiene por qué estar completo !!!
-                break;
+                j = UINT_MAX;
             }
         }
 

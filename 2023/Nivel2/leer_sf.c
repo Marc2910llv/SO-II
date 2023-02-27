@@ -84,4 +84,10 @@ int main(int argc, char *argv[])
             contlibres++;
         }
     }
+
+    if (bumount() == FALLO)
+    {
+        perror("Error main bumount");
+        return FALLO;
+    }
 }
