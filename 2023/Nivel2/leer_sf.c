@@ -43,10 +43,10 @@ int main(int argc, char *argv[])
     printf("totInodos = %d\n\n", SB.totInodos);
 
     printf("sizeof struct superbloque is: %lu\n", sizeof(struct superbloque));
-    printf("sizeof struct inodo is: %lu\n\n", sizeof(struct inodo));
+    printf("sizeof struct inodo is: %lu\n\n", sizeof(union _inodo));
 
     printf("RECORRIDO LISTA ENLAZADA DE INODOS LIBRES\n");
-    struct inodo inodos[BLOCKSIZE / INODOSIZE];
+    union _inodo inodos[BLOCKSIZE / INODOSIZE];
     int contlibres = 0;
 
     for (int i = SB.posPrimerBloqueAI; i <= SB.posUltimoBloqueAI; i++)

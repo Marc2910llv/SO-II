@@ -11,11 +11,11 @@
 /// @return número de bloques para el mapa de bits
 int tamMB(unsigned int nbloques)
 {
-    if (((nbloques / 8) % BLOCKSIZE) == 0)
+    if (((nbloques / 8) % BLOCKSIZE) > 0)
     {
-        return (nbloques / 8) / BLOCKSIZE;
+        return ((nbloques / 8) / BLOCKSIZE) + 1;
     }
-    return ((nbloques / 8) / BLOCKSIZE) + 1;
+    return (nbloques / 8) / BLOCKSIZE;
 }
 
 /// @brief tamaño en bloques del array de inodos
@@ -23,11 +23,11 @@ int tamMB(unsigned int nbloques)
 /// @return número de bloques para el array de inodos
 int tamAI(unsigned int ninodos)
 {
-    if (((ninodos * INODOSIZE) % BLOCKSIZE) == 0)
+    if (((ninodos * INODOSIZE) % BLOCKSIZE) > 0)
     {
-        return (ninodos * INODOSIZE) / BLOCKSIZE;
+        return ((ninodos * INODOSIZE) / BLOCKSIZE) + 1;
     }
-    return ((ninodos * INODOSIZE) / BLOCKSIZE) + 1;
+    return (ninodos * INODOSIZE) / BLOCKSIZE;
 }
 
 /// @brief iniciar los datos del superbloque
@@ -87,12 +87,12 @@ int initMB()
     }
     else // Si no ocupan bloques exactos tendremos que hacer un desplazamiento
     {
-        for (int i = 0; i < (nbloquesMB / 8) + 1; i++)
+        for (int i = 0; i < nbloquesMB / 8; i++)
         {
             bufferMB[i] = 255;
         }
 
-        bufferMB[(nbloquesMB / 8) - 1] = bufferMB[(nbloquesMB / 8) - 1] << (8 - (nbloquesMB % 8));
+        bufferMB[nbloquesMB / 8] = 224;
     }
 
     // Escribimos el mapa de bits modificado
@@ -124,7 +124,7 @@ int initAI()
         return FALLO;
     }
 
-    struct inodo inodos[BLOCKSIZE / INODOSIZE];
+    union _inodo inodos[BLOCKSIZE / INODOSIZE];
 
     int contInodos = SB.posPrimerInodoLibre + 1;                       // si hemos inicializado SB.posPrimerInodoLibre = 0
     for (int i = SB.posPrimerBloqueAI; i <= SB.posUltimoBloqueAI; i++) // para cada bloque del AI

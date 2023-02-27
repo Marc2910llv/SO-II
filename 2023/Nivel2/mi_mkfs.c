@@ -4,7 +4,6 @@
  *   mi_mkfs.c {main()}
  */
 
-#include <string.h>
 #include "ficheros_basico.h"
 
 int main(int argc, char **argv)
@@ -52,6 +51,5 @@ int main(int argc, char **argv)
     if (bumount() == FALLO)
     {
         perror("Error main bumount");
-        return FALLO;
     }
 }
