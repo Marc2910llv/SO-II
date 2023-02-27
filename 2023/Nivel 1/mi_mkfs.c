@@ -9,15 +9,33 @@
 
 int main(int argc, char **argv)
 {
-    bmount(argv[1]);
+    if (argc != 3)
+    {
+        perror("Error Sintaxis");
+        return FALLO;
+    }
+
+    if (bmount(argv[1]) == FALLO)
+    {
+        perror("Error main bmount");
+        return FALLO;
+    }
 
     unsigned char buf[BLOCKSIZE];
     memset(buf, 0, BLOCKSIZE);
 
     for (int i = 0; i < atoi(argv[2]); i++)
     {
-        bwrite(i, buf);
+        if (bwrite(i, buf) == FALLO)
+        {
+            perror("Error main bwrite");
+            return FALLO;
+        }
     }
 
-    bumount();
+    if (bumount() == FALLO)
+    {
+        perror("Error main bumount");
+        return FALLO;
+    }
 }

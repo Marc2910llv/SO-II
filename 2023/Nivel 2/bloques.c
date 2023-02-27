@@ -30,7 +30,7 @@ int bmount(const char *camino)
 /// @return EXITO o FALLO
 int bumount()
 {
-    if (close(descriptor) == -1)
+    if (close(descriptor) == FALLO)
     {
         perror("Error bumount");
         return FALLO;
@@ -46,7 +46,7 @@ int bumount()
 int bwrite(unsigned int nbloque, const void *buf)
 {
     // Movemos el puntero del fichero a la posicion correcta(depende de nbloque)
-    if (lseek(descriptor, nbloque * BLOCKSIZE, SEEK_SET) == -1)
+    if (lseek(descriptor, nbloque * BLOCKSIZE, SEEK_SET) == FALLO)
     {
         perror("Error bwrite lseek");
         return FALLO;
@@ -70,7 +70,7 @@ int bwrite(unsigned int nbloque, const void *buf)
 int bread(unsigned int nbloque, void *buf)
 {
     // Movemos el puntero del fichero a la posicion correcta(depende de nbloque)
-    if (lseek(descriptor, nbloque * BLOCKSIZE, SEEK_SET) == -1)
+    if (lseek(descriptor, nbloque * BLOCKSIZE, SEEK_SET) == FALLO)
     {
         perror("Error bread lseek");
         return FALLO;

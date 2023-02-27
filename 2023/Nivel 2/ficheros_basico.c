@@ -51,11 +51,100 @@ int initSB(unsigned int nbloques, unsigned int ninodos)
     SB.totBloques = nbloques;
     SB.totinodos = ninodos;
 
-    if (bwrite(posSB, &SB) = FALLO)
+    if (bwrite(posSB, &SB) == FALLO)
     {
         perror("Error initSB");
     }
 }
 
-int initMB() {}
-int initAI() {}
+/// @brief iniciar el mapa de bits
+/// @return
+int initMB()
+{
+    struct superbloque SB;
+    if (bread(posSB, &SB) == FALLO)
+    {
+        perror("Error initMB bread");
+    }
+
+    // Calculamos cuantos bloques ocuparán los metadatos
+    int nbloquesMB = tamSB + tamMB(SB.totBloques) + tamAI(SB.totinodos);
+
+    unsigned char bufferMB[BLOCKSIZE];
+    memset(bufferMB, 0, BLOCKSIZE);
+
+    // Ponemos los bits correspondientes a 1
+    if (nbloquesMB % 8 == 0)
+    {
+        for (int i = 0; i < nbloquesMB / 8; i++)
+        {
+            bufferMB[i] = 255;
+        }
+    }
+    else // Si no ocupan bloques exactos tendremos que hacer un desplazamiento
+    {
+        for (int i = 0; i < (nbloquesMB / 8) + 1; i++)
+        {
+            bufferMB[i] = 255;
+        }
+
+        bufferMB[(nbloquesMB / 8) - 1] << (8 - (nbloquesMB % 8));
+    }
+
+    // Escribimos el mapa de bits modificado
+    if (bwrite(SB.posPrimerBloqueMB, bufferMB) == FALLO)
+    {
+        perror("Error initMB bwrite (MB)");
+    }
+
+    // Actualizamos la cantidad de bloques libres que quedan
+    SB.cantBloquesLibres = SB.cantBloquesLibres - nbloquesMB;
+    if (bwrite(posSB, &SB) == FALLO)
+    {
+        perror("Error initMB bwrite (SB)");
+    }
+}
+
+/// @brief iniciar lista de inodos libres
+/// @return
+int initAI()
+{
+    struct superbloque SB;
+    if (bread(posSB, &SB) == FALLO)
+    {
+        perror("Error initAI bread (SB)");
+    }
+
+    struct inodo inodos[BLOCKSIZE / INODOSIZE];
+
+    int contInodos = SB.posPrimerInodoLibre + 1;                       // si hemos inicializado SB.posPrimerInodoLibre = 0
+    for (int i = SB.posPrimerBloqueAI; i <= SB.posUltimoBloqueAI; i++) // para cada bloque del AI
+    {
+        if (bread(i, &inodos) == FALLO)
+        {
+            perror("Error initAI bread (inodo)");
+        }
+
+        for (int j = 0; j < BLOCKSIZE / INODOSIZE; j++) // para cada inodo del AI
+        {
+            inodos[j].tipo = 'l'; // libre
+
+            if (contInodos < SB.totInodos) // si no hemos llegado al último inodo
+            {
+                inodos[j].punterosDirectos[0] = contInodos; // enlazamos con el siguiente
+                contInodos++;
+            }
+            else // hemos llegado al último inodo
+            {
+                inodos[j].punterosDirectos[0] = UINT_MAX;
+                // hay que salir del bucle, el último bloque no tiene por qué estar completo !!!
+                break;
+            }
+        }
+
+        if (bwrite(i, &inodos) == FALLO)
+        {
+            perror("Error initAI bwrite (inodo)");
+        }
+    }
+}
