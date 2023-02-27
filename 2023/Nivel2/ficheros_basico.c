@@ -49,12 +49,15 @@ int initSB(unsigned int nbloques, unsigned int ninodos)
     SB.cantBloquesLibres = nbloques;
     SB.cantInodosLibres = ninodos;
     SB.totBloques = nbloques;
-    SB.totinodos = ninodos;
+    SB.totInodos = ninodos;
 
     if (bwrite(posSB, &SB) == FALLO)
     {
         perror("Error initSB");
+        return FALLO;
     }
+
+    return EXITO;
 }
 
 /// @brief iniciar el mapa de bits
@@ -65,10 +68,11 @@ int initMB()
     if (bread(posSB, &SB) == FALLO)
     {
         perror("Error initMB bread");
+        return FALLO;
     }
 
     // Calculamos cuantos bloques ocuparán los metadatos
-    int nbloquesMB = tamSB + tamMB(SB.totBloques) + tamAI(SB.totinodos);
+    int nbloquesMB = tamSB + tamMB(SB.totBloques) + tamAI(SB.totInodos);
 
     unsigned char bufferMB[BLOCKSIZE];
     memset(bufferMB, 0, BLOCKSIZE);
@@ -88,13 +92,14 @@ int initMB()
             bufferMB[i] = 255;
         }
 
-        bufferMB[(nbloquesMB / 8) - 1] << (8 - (nbloquesMB % 8));
+        bufferMB[(nbloquesMB / 8) - 1] = bufferMB[(nbloquesMB / 8) - 1] << (8 - (nbloquesMB % 8));
     }
 
     // Escribimos el mapa de bits modificado
     if (bwrite(SB.posPrimerBloqueMB, bufferMB) == FALLO)
     {
         perror("Error initMB bwrite (MB)");
+        return FALLO;
     }
 
     // Actualizamos la cantidad de bloques libres que quedan
@@ -102,7 +107,10 @@ int initMB()
     if (bwrite(posSB, &SB) == FALLO)
     {
         perror("Error initMB bwrite (SB)");
+        return FALLO;
     }
+
+    return EXITO;
 }
 
 /// @brief iniciar lista de inodos libres
@@ -113,9 +121,10 @@ int initAI()
     if (bread(posSB, &SB) == FALLO)
     {
         perror("Error initAI bread (SB)");
+        return FALLO;
     }
 
-    struct inodo inodos[BLOCKSIZE / INODOSIZE];
+    typedef union inodo inodos[BLOCKSIZE / INODOSIZE];
 
     int contInodos = SB.posPrimerInodoLibre + 1;                       // si hemos inicializado SB.posPrimerInodoLibre = 0
     for (int i = SB.posPrimerBloqueAI; i <= SB.posUltimoBloqueAI; i++) // para cada bloque del AI
@@ -123,6 +132,7 @@ int initAI()
         if (bread(i, &inodos) == FALLO)
         {
             perror("Error initAI bread (inodo)");
+            return FALLO;
         }
 
         for (int j = 0; j < BLOCKSIZE / INODOSIZE; j++) // para cada inodo del AI
@@ -145,6 +155,9 @@ int initAI()
         if (bwrite(i, &inodos) == FALLO)
         {
             perror("Error initAI bwrite (inodo)");
+            return FALLO;
         }
     }
+
+    return EXITO;
 }
