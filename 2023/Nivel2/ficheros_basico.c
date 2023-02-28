@@ -13,9 +13,9 @@ int tamMB(unsigned int nbloques)
 {
     if (((nbloques / 8) % BLOCKSIZE) > 0)
     {
-        return ((nbloques / 8) / BLOCKSIZE) + 1;
+        return (((nbloques / 8) / BLOCKSIZE) + 1);
     }
-    return (nbloques / 8) / BLOCKSIZE;
+    return ((nbloques / 8) / BLOCKSIZE);
 }
 
 /// @brief tamaño en bloques del array de inodos
@@ -25,9 +25,9 @@ int tamAI(unsigned int ninodos)
 {
     if (((ninodos * INODOSIZE) % BLOCKSIZE) > 0)
     {
-        return ((ninodos * INODOSIZE) / BLOCKSIZE) + 1;
+        return (((ninodos * INODOSIZE) / BLOCKSIZE) + 1);
     }
-    return (ninodos * INODOSIZE) / BLOCKSIZE;
+    return ((ninodos * INODOSIZE) / BLOCKSIZE);
 }
 
 /// @brief iniciar los datos del superbloque
@@ -64,6 +64,9 @@ int initSB(unsigned int nbloques, unsigned int ninodos)
 /// @return
 int initMB()
 {
+    unsigned char bufferMB[BLOCKSIZE];
+    memset(bufferMB, 0, BLOCKSIZE);
+
     struct superbloque SB;
     if (bread(posSB, &SB) == FALLO)
     {
@@ -73,9 +76,6 @@ int initMB()
 
     // Calculamos cuantos bloques ocuparán los metadatos
     int nbloquesMB = tamSB + tamMB(SB.totBloques) + tamAI(SB.totInodos);
-
-    unsigned char bufferMB[BLOCKSIZE];
-    memset(bufferMB, 0, BLOCKSIZE);
 
     // Ponemos los bits correspondientes a 1
     if (nbloquesMB % 8 == 0)
@@ -87,12 +87,12 @@ int initMB()
     }
     else // Si no ocupan bloques exactos tendremos que hacer un desplazamiento
     {
-        for (int i = 0; i < nbloquesMB / 8; i++)
+        for (int i = 0; i <= nbloquesMB / 8; i++)
         {
             bufferMB[i] = 255;
         }
 
-        bufferMB[nbloquesMB / 8] = 224;
+        bufferMB[nbloquesMB / 8] = bufferMB[nbloquesMB / 8] << (8 - (nbloquesMB % 8));
     }
 
     // Escribimos el mapa de bits modificado
@@ -129,12 +129,6 @@ int initAI()
     int contInodos = SB.posPrimerInodoLibre + 1;                       // si hemos inicializado SB.posPrimerInodoLibre = 0
     for (int i = SB.posPrimerBloqueAI; i <= SB.posUltimoBloqueAI; i++) // para cada bloque del AI
     {
-        if (bread(i, &inodos) == FALLO)
-        {
-            perror("Error initAI bread (inodo)");
-            return FALLO;
-        }
-
         for (int j = 0; j < BLOCKSIZE / INODOSIZE; j++) // para cada inodo del AI
         {
             inodos[j].tipo = 'l'; // libre
@@ -148,7 +142,7 @@ int initAI()
             {
                 inodos[j].punterosDirectos[0] = UINT_MAX;
                 // hay que salir del bucle, el último bloque no tiene por qué estar completo !!!
-                j = UINT_MAX;
+                break;
             }
         }
 

@@ -14,14 +14,14 @@ int main(int argc, char **argv)
         return FALLO;
     }
 
+    unsigned char buf[BLOCKSIZE];
+    memset(buf, 0, BLOCKSIZE);
+
     if (bmount(argv[1]) == FALLO)
     {
         perror("Error main bmount");
         return FALLO;
     }
-
-    unsigned char buf[BLOCKSIZE];
-    memset(buf, 0, BLOCKSIZE);
 
     for (int i = 0; i < atoi(argv[2]); i++)
     {
@@ -52,4 +52,6 @@ int main(int argc, char **argv)
     {
         perror("Error main bumount");
     }
+
+    return EXITO;
 }

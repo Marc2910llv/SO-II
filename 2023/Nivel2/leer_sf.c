@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
     printf("posPrimerBloqueMB = %d\n", SB.posPrimerBloqueMB);
     printf("posUltimoBloqueMB = %d\n", SB.posUltimoBloqueMB);
     printf("posPrimerBloqueAI = %d\n", SB.posPrimerBloqueAI);
-    printf("posUltimoBloqueAi = %d\n", SB.posUltimoBloqueAI);
+    printf("posUltimoBloqueAI = %d\n", SB.posUltimoBloqueAI);
     printf("posPrimerBloqueDatos = %d\n", SB.posPrimerBloqueDatos);
     printf("posUltimoBloqueDatos = %d\n", SB.posUltimoBloqueDatos);
     printf("posInodoRaiz = %d\n", SB.posInodoRaiz);
@@ -47,12 +47,10 @@ int main(int argc, char *argv[])
 
     printf("RECORRIDO LISTA ENLAZADA DE INODOS LIBRES\n");
     union _inodo inodos[BLOCKSIZE / INODOSIZE];
-    int contlibres = 0;
-
+    int nlibres = 0;
     for (int i = SB.posPrimerBloqueAI; i <= SB.posUltimoBloqueAI; i++)
     {
-        //&inodos
-        if (bread(i, inodos) == FALLO)
+        if (bread(i, &inodos) == FALLO)
         {
             perror("Error main bread (inodo)");
             return FALLO;
@@ -62,26 +60,9 @@ int main(int argc, char *argv[])
         {
             if ((inodos[j].tipo == 'l'))
             {
-                contlibres++;
-                if (contlibres < 20)
-                {
-                    printf("%d ", contlibres);
-                }
-                else if (contlibres == 21)
-                {
-                    printf("... ");
-                }
-                else if ((contlibres > 24990) && (contlibres < SB.totInodos))
-                {
-                    printf("%d ", contlibres);
-                }
-                else if (contlibres == SB.totInodos)
-                {
-                    printf("-1 \n");
-                }
-                contlibres--;
+                nlibres++;
+                printf("%d ", nlibres);
             }
-            contlibres++;
         }
     }
 
@@ -90,4 +71,6 @@ int main(int argc, char *argv[])
         perror("Error main bumount");
         return FALLO;
     }
+
+    return EXITO;
 }

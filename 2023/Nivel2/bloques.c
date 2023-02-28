@@ -53,7 +53,7 @@ int bwrite(unsigned int nbloque, const void *buf)
     }
 
     // Escribimos 1 bloque con el contenido del buffer
-    int bytesEscritos = write(descriptor, buf, BLOCKSIZE);
+    size_t bytesEscritos = write(descriptor, buf, BLOCKSIZE);
     if (bytesEscritos < 0)
     {
         perror("Error brwite write");
@@ -77,7 +77,7 @@ int bread(unsigned int nbloque, void *buf)
     }
 
     // Leemos 1 bloque y metemos el contenido en el buffer
-    int bytesLeidos = write(descriptor, buf, BLOCKSIZE);
+    size_t bytesLeidos = read(descriptor, buf, BLOCKSIZE);
     if (bytesLeidos < 0)
     {
         perror("Error bread write");
