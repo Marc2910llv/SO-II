@@ -44,7 +44,7 @@ typedef union _inodo
 
         unsigned int punterosDirectos[12];  // 12 punteros a bloques directos
         unsigned int punterosIndirectos[3]; // 3 punteros a bloques indirectos:
-        //1 indirecto simple, 1 indirecto doble, 1 indirecto triple
+        // 1 indirecto simple, 1 indirecto doble, 1 indirecto triple
     };
     char padding[INODOSIZE];
 } inodo_t;
