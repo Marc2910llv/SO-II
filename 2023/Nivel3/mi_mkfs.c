@@ -48,6 +48,12 @@ int main(int argc, char **argv)
         return FALLO;
     }
 
+    if (reservar_inodo('d', 7) == FALLO)
+    {
+        perror("Error main reservar_inodo");
+        return FALLO;
+    }
+
     if (bumount() == FALLO)
     {
         perror("Error main bumount");

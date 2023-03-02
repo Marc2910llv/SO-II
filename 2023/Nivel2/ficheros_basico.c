@@ -54,10 +54,7 @@ int initSB(unsigned int nbloques, unsigned int ninodos)
     if (bwrite(posSB, &SB) == FALLO)
     {
         perror("Error initSB");
-        return FALLO;
     }
-
-    return EXITO;
 }
 
 /// @brief iniciar el mapa de bits
@@ -107,10 +104,7 @@ int initMB()
     if (bwrite(posSB, &SB) == FALLO)
     {
         perror("Error initMB bwrite (SB)");
-        return FALLO;
     }
-
-    return EXITO;
 }
 
 /// @brief iniciar lista de inodos libres
@@ -149,9 +143,6 @@ int initAI()
         if (bwrite(i, &inodos) == FALLO)
         {
             perror("Error initAI bwrite (inodo)");
-            return FALLO;
         }
     }
-
-    return EXITO;
 }

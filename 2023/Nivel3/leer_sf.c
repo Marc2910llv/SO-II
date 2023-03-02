@@ -7,6 +7,8 @@
 
 #include "ficheros_basico.h"
 
+#define DEBUGN1 0; // Lista enlazada de inodos
+
 int main(int argc, char *argv[])
 {
     if (argc != 2)
@@ -45,6 +47,7 @@ int main(int argc, char *argv[])
     printf("sizeof struct superbloque is: %lu\n", sizeof(struct superbloque));
     printf("sizeof struct inodo is: %lu\n\n", sizeof(union _inodo));
 
+#if DEBUGN1
     printf("RECORRIDO LISTA ENLAZADA DE INODOS LIBRES\n");
     union _inodo inodos[BLOCKSIZE / INODOSIZE];
     int nlibres = 0;
@@ -65,6 +68,7 @@ int main(int argc, char *argv[])
             }
         }
     }
+#endif
 
     if (bumount() == FALLO)
     {
