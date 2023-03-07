@@ -70,6 +70,112 @@ int main(int argc, char *argv[])
     }
 #endif
 
+    printf("\nRESERVAMOS UN BLOQUE Y LUEGO LO LIBERAMOS:\n");
+    int reservado = reservar_bloque(); // Actualiza el SB
+    if (reservado == FALLO)
+    {
+        perror("Error main reservar_bloque");
+        return FALLO;
+    }
+    if (reservado == -2)
+    {
+        perror("Error main reservar_bloque, no hay bloques libres");
+    }
+    if (bread(posSB, &SB) == FALLO)
+    { // Actualizar los valores del SB
+        perror("Error main bread (SB)");
+        return FALLO;
+    }
+    printf("Se ha reservado el bloque físico nº %i que era el 1º libre indicado por el MB.\n", reservado);
+    printf("SB.cantBloquesLibres: %i\n", SB.cantBloquesLibres);
+    if (liberar_bloque(reservado) == FALLO)
+    {
+        perror("Error main liberar_bloque");
+        return FALLO;
+    }
+    if (bread(posSB, &SB) == FALLO)
+    { // Actualizar los valores del SB
+        perror("Error main bread (SB)");
+        return FALLO;
+    }
+
+    printf("Liberamos ese bloque, y después SB.cantBloquesLibres: %i\n\n", SB.cantBloquesLibres);
+    printf("MAPA DE BITS CON BLOQUES DE METADATOS OCUPADOS\n");
+    int bit = leer_bit(posSB);
+    if (bit == FALLO)
+    {
+        perror("Error main leer_bit");
+        return FALLO;
+    }
+    printf("leer_bit(%i) = %i\n", posSB, bit);
+    bit = leer_bit(SB.posPrimerBloqueMB);
+    if (bit == FALLO)
+    {
+        perror("Error main leer_bit");
+        return FALLO;
+    }
+    printf("leer_bit(%i) = %i\n", SB.posPrimerBloqueMB, bit);
+    bit = leer_bit(SB.posUltimoBloqueMB);
+    if (bit == FALLO)
+    {
+        perror("Error main leer_bit");
+        return FALLO;
+    }
+    printf("leer_bit(%i) = %i\n", SB.posUltimoBloqueMB, bit);
+    bit = leer_bit(SB.posPrimerBloqueAI);
+    if (bit == FALLO)
+    {
+        perror("Error main leer_bit");
+        return FALLO;
+    }
+    printf("leer_bit(%i) = %i\n", SB.posPrimerBloqueAI, bit);
+    bit = leer_bit(SB.posUltimoBloqueAI);
+    if (bit == FALLO)
+    {
+        perror("Error main leer_bit");
+        return FALLO;
+    }
+    printf("leer_bit(%i) = %i\n", SB.posUltimoBloqueAI, bit);
+    bit = leer_bit(SB.posPrimerBloqueDatos);
+    if (bit == FALLO)
+    {
+        perror("Error main leer_bit");
+        return FALLO;
+    }
+    printf("leer_bit(%i) = %i\n", SB.posPrimerBloqueDatos, bit);
+    bit = leer_bit(SB.posUltimoBloqueDatos);
+    if (bit == FALLO)
+    {
+        perror("Error main leer_bit");
+        return FALLO;
+    }
+    printf("leer_bit(%i) = %i\n", SB.posUltimoBloqueDatos, bit);
+
+    printf("\nDATOS DEL DIRECTORIO RAIZ\n\n");
+    struct tm *ts;
+    char atime[80];
+    char mtime[80];
+    char ctime[80];
+    union _inodo inodo;
+    int ninodo = 0; // el directorio raiz es el inodo 0
+    if (leer_inodo(ninodo, &inodo) == FALLO)
+    {
+        perror("Error main leer_inodo");
+        return FALLO;
+    }
+    ts = localtime(&inodo.atime);
+    strftime(atime, sizeof(atime), "%a %Y-%m-%d %H:%M:%S", ts);
+    ts = localtime(&inodo.mtime);
+    strftime(mtime, sizeof(mtime), "%a %Y-%m-%d %H:%M:%S", ts);
+    ts = localtime(&inodo.ctime);
+    strftime(ctime, sizeof(ctime), "%a %Y-%m-%d %H:%M:%S", ts);
+    printf("tipo: %c\n", inodo.tipo);
+    printf("permisos: %i\n", inodo.permisos);
+    printf("ID: %d \nATIME: %s \nMTIME: %s \nCTIME: %s\n", ninodo, atime, mtime, ctime);
+    printf("nlinks: %i\n", inodo.nlinks);
+    printf("tamaño en bytes lógicos: %i\n", inodo.tamEnBytesLog);
+    printf("Número de bloques ocupados: %i\n", inodo.numBloquesOcupados);
+
     if (bumount() == FALLO)
     {
         perror("Error main bumount");

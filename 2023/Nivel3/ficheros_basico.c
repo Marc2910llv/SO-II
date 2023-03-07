@@ -324,22 +324,150 @@ int reservar_bloque()
 /// @brief liberar un bloque determinado
 /// @param nbloque
 /// @return nbloque liberado
-int liberar_bloque(unsigned int nbloque) {}
+int liberar_bloque(unsigned int nbloque)
+{
+    if (escribir_bit(nbloque, 0) == FALLO)
+    {
+        perror("Error liberar_bloque escribir_bit");
+        return FALLO;
+    }
+
+    struct superbloque SB;
+    if (bread(posSB, &SB) == FALLO)
+    {
+        perror("Error liberar_bloque bread");
+        return FALLO;
+    }
+    SB.cantBloquesLibres++;
+    if (bwrite(posSB, &SB) == FALLO)
+    {
+        perror("Error liberar_bloque bwrite");
+        return FALLO;
+    }
+
+    return nbloque;
+}
 
 /// @brief escribir el contenido pasado por parámetro en un determinado inodo del AI
 /// @param ninodo
 /// @param inodo contenido a escribir
 /// @return EXITO o FALLO
-int escribir_inodo(unsigned int ninodo, union _inodo *inodo) {}
+int escribir_inodo(unsigned int ninodo, union _inodo *inodo)
+{
+    struct superbloque SB;
+    if (bread(posSB, &SB) == FALLO)
+    {
+        perror("Error escribir_inodo bread (SB)");
+        return FALLO;
+    }
+
+    // Obtenemos la posición absoluta del inodo
+    int nbloque = SB.posPrimerBloqueAI + (ninodo / (BLOCKSIZE / INODOSIZE));
+
+    union _inodo inodos[BLOCKSIZE / INODOSIZE];
+    if (bread(nbloque, inodos) == FALLO)
+    {
+        perror("Error escribir_inodo bread (inodo)");
+        return FALLO;
+    }
+
+    inodos[ninodo % (BLOCKSIZE / INODOSIZE)] = inodo;
+
+    if (bwrite(nbloque, inodos) == FALLO)
+    {
+        perror("Error escribir_inodo bwrite (inodo)");
+        return FALLO;
+    }
+
+    return EXITO;
+}
 
 /// @brief leer el contenido de un determinado inodo del AI
 /// @param ninodo
 /// @param inodo variable donde volcar el contenido
 /// @return EXITO o FALLO
-int leer_inodo(unsigned int ninodo, union _inodo *inodo) {}
+int leer_inodo(unsigned int ninodo, union _inodo *inodo)
+{
+    struct superbloque SB;
+    if (bread(posSB, &SB) == FALLO)
+    {
+        perror("Error leer_inodo bread (SB)");
+        return FALLO;
+    }
+
+    // Obtenemos la posición absoluta del inodo
+    int nbloque = SB.posPrimerBloqueAI + (ninodo / (BLOCKSIZE / INODOSIZE));
+
+    union _inodo inodos[BLOCKSIZE / INODOSIZE];
+    if (bread(nbloque, inodos) == FALLO)
+    {
+        perror("Error leer_inodo bread (inodo)");
+        return FALLO;
+    }
+
+    inodo = &inodos[ninodo % (BLOCKSIZE / INODOSIZE)];
+
+    if (bwrite(nbloque, inodos) == FALLO)
+    {
+        perror("Error leer_inodo bwrite (inodo)");
+        return FALLO;
+    }
+
+    return EXITO;
+}
 
 /// @brief reservar el primer inodo libre
 /// @param tipo
 /// @param permisos
-/// @return posición del inodo reservado o FALLO
-int reservar_inodo(unsigned char tipo, unsigned char permisos) {}
+/// @return posición del inodo reservado -2 (no quedan bloques libres) o FALLO
+int reservar_inodo(unsigned char tipo, unsigned char permisos)
+{
+    struct superbloque SB;
+    if (bread(posSB, &SB) == FALLO)
+    {
+        perror("Error reservar_inodo bread");
+        return FALLO;
+    }
+
+    if (SB.cantInodosLibres < 1)
+    {
+        return -2;
+    }
+
+    unsigned int posInodoReservado = SB.posPrimerInodoLibre;
+    SB.posPrimerInodoLibre++;
+
+    union _inodo inodo;
+    inodo.tipo = tipo;
+    inodo.permisos = permisos;
+    inodo.nlinks = 1;
+    inodo.tamEnBytesLog = 0;
+    inodo.atime = time(NULL);
+    inodo.mtime = time(NULL);
+    inodo.ctime = time(NULL);
+    inodo.numBloquesOcupados = 0;
+    // Poner a 0 los punteros
+    for (int i = 0; i < 12; i++)
+    {
+        inodo.punterosDirectos[i] = 0;
+    }
+    for (int i = 0; i < 3; i++)
+    {
+        inodo.punterosIndirectos[i] = 0;
+    }
+
+    if (escribir_inodo(posInodoReservado, inodo) == FALLO)
+    {
+        perror("Error reservar_inodo escribir_inodo");
+        return FALLO;
+    }
+
+    SB.cantInodosLibres--;
+    if (bwrite(posSB, &SB) == FALLO)
+    {
+        perror("Error reservar_inodo bwrite");
+        return FALLO;
+    }
+
+    return posInodoReservado;
+}
