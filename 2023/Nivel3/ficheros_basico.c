@@ -265,7 +265,7 @@ int reservar_bloque()
     memset(bufferAux, 255, BLOCKSIZE);
     unsigned int nbloqueabs = SB.posPrimerBloqueMB;
 
-    for (nbloqueabs; nbloqueabs <= SB.posUltimoBloqueMB; nbloqueabs++)
+    for (nbloqueabs = nbloqueabs; nbloqueabs <= SB.posUltimoBloqueMB; nbloqueabs++)
     {
         if (bread(nbloqueabs, bufferMB) == FALLO)
         {
@@ -371,7 +371,7 @@ int escribir_inodo(unsigned int ninodo, union _inodo *inodo)
         return FALLO;
     }
 
-    inodos[ninodo % (BLOCKSIZE / INODOSIZE)] = inodo;
+    inodos[ninodo % (BLOCKSIZE / INODOSIZE)] = *inodo;
 
     if (bwrite(nbloque, inodos) == FALLO)
     {
@@ -405,13 +405,7 @@ int leer_inodo(unsigned int ninodo, union _inodo *inodo)
         return FALLO;
     }
 
-    inodo = &inodos[ninodo % (BLOCKSIZE / INODOSIZE)];
-
-    if (bwrite(nbloque, inodos) == FALLO)
-    {
-        perror("Error leer_inodo bwrite (inodo)");
-        return FALLO;
-    }
+    *inodo = inodos[ninodo % (BLOCKSIZE / INODOSIZE)];
 
     return EXITO;
 }
@@ -456,7 +450,9 @@ int reservar_inodo(unsigned char tipo, unsigned char permisos)
         inodo.punterosIndirectos[i] = 0;
     }
 
-    if (escribir_inodo(posInodoReservado, inodo) == FALLO)
+    union _inodo *inodop = &inodo;
+
+    if (escribir_inodo(posInodoReservado, inodop) == FALLO)
     {
         perror("Error reservar_inodo escribir_inodo");
         return FALLO;

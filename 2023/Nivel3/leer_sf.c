@@ -7,7 +7,7 @@
 
 #include "ficheros_basico.h"
 
-#define DEBUGN1 0; // Lista enlazada de inodos
+#define DEBUGN1 0 // Lista enlazada de inodos
 
 int main(int argc, char *argv[])
 {
@@ -44,10 +44,10 @@ int main(int argc, char *argv[])
     printf("totBloques = %d\n", SB.totBloques);
     printf("totInodos = %d\n\n", SB.totInodos);
 
+#if DEBUGN1
     printf("sizeof struct superbloque is: %lu\n", sizeof(struct superbloque));
     printf("sizeof struct inodo is: %lu\n\n", sizeof(union _inodo));
 
-#if DEBUGN1
     printf("RECORRIDO LISTA ENLAZADA DE INODOS LIBRES\n");
     union _inodo inodos[BLOCKSIZE / INODOSIZE];
     int nlibres = 0;
@@ -98,60 +98,67 @@ int main(int argc, char *argv[])
         perror("Error main bread (SB)");
         return FALLO;
     }
-
     printf("Liberamos ese bloque, y después SB.cantBloquesLibres: %i\n\n", SB.cantBloquesLibres);
-    printf("MAPA DE BITS CON BLOQUES DE METADATOS OCUPADOS\n");
+
+    printf("\nMAPA DE BITS CON BLOQUES DE METADATOS OCUPADOS\n");
     int bit = leer_bit(posSB);
     if (bit == FALLO)
     {
         perror("Error main leer_bit");
         return FALLO;
     }
-    printf("leer_bit(%i) = %i\n", posSB, bit);
+    // printf("[leer_bit(%i) -> posbyte: %i, posbit: %i, nbloqueMB: %i, nbloqueabs: %i)]", bit, )
+    printf("posSB: %i --> leer_bit(%i) = %i\n", posSB, posSB, bit);
+
     bit = leer_bit(SB.posPrimerBloqueMB);
     if (bit == FALLO)
     {
         perror("Error main leer_bit");
         return FALLO;
     }
-    printf("leer_bit(%i) = %i\n", SB.posPrimerBloqueMB, bit);
+    printf("SB.posPrimerBloqueMB: %i --> leer_bit(%i) = %i\n", SB.posPrimerBloqueMB, SB.posPrimerBloqueMB, bit);
+
     bit = leer_bit(SB.posUltimoBloqueMB);
     if (bit == FALLO)
     {
         perror("Error main leer_bit");
         return FALLO;
     }
-    printf("leer_bit(%i) = %i\n", SB.posUltimoBloqueMB, bit);
+    printf("SB.posUltimoBloqueMB: %i --> leer_bit(%i) = %i\n", SB.posUltimoBloqueMB, SB.posUltimoBloqueMB, bit);
+
     bit = leer_bit(SB.posPrimerBloqueAI);
     if (bit == FALLO)
     {
         perror("Error main leer_bit");
         return FALLO;
     }
-    printf("leer_bit(%i) = %i\n", SB.posPrimerBloqueAI, bit);
+    printf("SB.posPrimerBloqueAI: %i --> leer_bit(%i) = %i\n", SB.posPrimerBloqueAI, SB.posPrimerBloqueAI, bit);
+
     bit = leer_bit(SB.posUltimoBloqueAI);
     if (bit == FALLO)
     {
         perror("Error main leer_bit");
         return FALLO;
     }
-    printf("leer_bit(%i) = %i\n", SB.posUltimoBloqueAI, bit);
+    printf("SB.posUltimoBloqueAI: %i --> leer_bit(%i) = %i\n", SB.posUltimoBloqueAI, SB.posUltimoBloqueAI, bit);
+
     bit = leer_bit(SB.posPrimerBloqueDatos);
     if (bit == FALLO)
     {
         perror("Error main leer_bit");
         return FALLO;
     }
-    printf("leer_bit(%i) = %i\n", SB.posPrimerBloqueDatos, bit);
+    printf("SB.posPrimerBloqueDatos: %i --> leer_bit(%i) = %i\n", SB.posPrimerBloqueDatos, SB.posPrimerBloqueDatos, bit);
+
     bit = leer_bit(SB.posUltimoBloqueDatos);
     if (bit == FALLO)
     {
         perror("Error main leer_bit");
         return FALLO;
     }
-    printf("leer_bit(%i) = %i\n", SB.posUltimoBloqueDatos, bit);
+    printf("SB.posUltimoBloqueDatos: %i --> leer_bit(%i) = %i\n", SB.posUltimoBloqueDatos, SB.posUltimoBloqueDatos, bit);
 
-    printf("\nDATOS DEL DIRECTORIO RAIZ\n\n");
+    printf("\nDATOS DEL DIRECTORIO RAIZ\n");
     struct tm *ts;
     char atime[80];
     char mtime[80];
@@ -171,10 +178,10 @@ int main(int argc, char *argv[])
     strftime(ctime, sizeof(ctime), "%a %Y-%m-%d %H:%M:%S", ts);
     printf("tipo: %c\n", inodo.tipo);
     printf("permisos: %i\n", inodo.permisos);
-    printf("ID: %d \nATIME: %s \nMTIME: %s \nCTIME: %s\n", ninodo, atime, mtime, ctime);
+    printf("ATIME: %s \nMTIME: %s \nCTIME: %s\n", atime, mtime, ctime);
     printf("nlinks: %i\n", inodo.nlinks);
-    printf("tamaño en bytes lógicos: %i\n", inodo.tamEnBytesLog);
-    printf("Número de bloques ocupados: %i\n", inodo.numBloquesOcupados);
+    printf("tamEnBytesLog: %i\n", inodo.tamEnBytesLog);
+    printf("numBloquesOcupados: %i\n", inodo.numBloquesOcupados);
 
     if (bumount() == FALLO)
     {
