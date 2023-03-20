@@ -12,6 +12,23 @@
 /// @return
 int mi_write_f(unsigned int ninodo, const void *buf_original, unsigned int offset, unsigned int nbytes)
 {
+    if ((inodo.permisos & 2) != 2)
+    {
+        perror("No se tienen los permisos necesarios");
+        return -2;
+    }
+
+    int primerBL = offset / BLOCKSIZE;
+    int ultimoBL = (offset + nbytes - 1) / BLOCKSIZE;
+    int desp1 = offset % BLOCKSIZE;
+    int desp2 = (offset + nbytes - 1) % BLOCKSIZE;
+
+    if (primerBL == ultimoBL) // cabe solo un bloque
+    {
+    }
+    else // cabe más de un bloque
+    {
+    }
 }
 
 /// @brief
