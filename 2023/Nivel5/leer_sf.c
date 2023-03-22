@@ -185,6 +185,7 @@ int main(int argc, char *argv[])
     printf("numBloquesOcupados: %i\n", inodo.numBloquesOcupados);
 #endif
 
+#if DEBUGN3
     int inodoReservado = reservar_inodo('f', 6);
     if (inodoReservado == FALLO)
     {
@@ -255,4 +256,5 @@ int main(int argc, char *argv[])
     {
         perror("Error main bumount");
     }
+#endif
 }

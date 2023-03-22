@@ -299,18 +299,52 @@ int mi_read_f(unsigned int ninodo, void *buf_original, unsigned int offset,
     return bytesLeidos;
 }
 
-/// @brief
-/// @param ninodo
+/// @brief devolver la metainformación de un fichero/directorio
+/// @param ninodo inodo correspondiente al fichero/directorio
 /// @param p_stat
 /// @return
 int mi_stat_f(unsigned int ninodo, struct STAT *p_stat)
 {
+    union _inodo inodo;
+    if (leer_inodo(ninodo, &inodo) == FALLO)
+    {
+        perror("Error mi_stat_f leer_inodo");
+        return FALLO;
+    }
+
+    p_stat->tipo = inodo.tipo;
+    p_stat->permisos = inodo.permisos;
+    p_stat->nlinks = inodo.nlinks;
+    p_stat->tamEnBytesLog = inodo.tamEnBytesLog;
+    p_stat->atime = inodo.atime;
+    p_stat->ctime = inodo.ctime;
+    p_stat->mtime = inodo.mtime;
+    p_stat->numBloquesOcupados = inodo.numBloquesOcupados;
+
+    return EXITO;
 }
 
-/// @brief
-/// @param ninodo
-/// @param permisos
+/// @brief cambiar los permisos de un fichero/directorio
+/// @param ninodo inodo correspondiente al fichero/directorio
+/// @param permisos nuevos permisos a asignar
 /// @return
 int mi_chmod_f(unsigned int ninodo, unsigned char permisos)
 {
+    union _inodo inodo;
+    if (leer_inodo(ninodo, &inodo) == FALLO)
+    {
+        perror("Error mi_chmod_f leer_inodo");
+        return FALLO;
+    }
+
+    inodo.permisos = permisos;
+    inodo.ctime = time(NULL);
+
+    if (escribir_inodo(ninodo, inodo) == FALLO)
+    {
+        perror("Error mi_chmod_f escribir_inodo");
+        return FALLO;
+    }
+
+    return EXITO;
 }

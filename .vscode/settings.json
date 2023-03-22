@@ -2,6 +2,7 @@
     "C_Cpp.errorSquiggles": "Disabled",
     "files.associations": {
         "bloques.h": "c",
-        "ficheros_basico.h": "c"
+        "ficheros_basico.h": "c",
+        "ficheros.h": "c"
     }
 }
