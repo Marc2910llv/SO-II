@@ -350,7 +350,7 @@ int liberar_bloque(unsigned int nbloque)
 /// @param ninodo
 /// @param inodo contenido a escribir
 /// @return EXITO o FALLO
-int escribir_inodo(unsigned int ninodo, union _inodo *inodo)
+int escribir_inodo(unsigned int ninodo, union _inodo inodo)
 {
     struct superbloque SB;
     if (bread(posSB, &SB) == FALLO)
@@ -369,7 +369,7 @@ int escribir_inodo(unsigned int ninodo, union _inodo *inodo)
         return FALLO;
     }
 
-    inodos[ninodo % (BLOCKSIZE / INODOSIZE)] = *inodo;
+    inodos[ninodo % (BLOCKSIZE / INODOSIZE)] = inodo;
 
     if (bwrite(nbloque, inodos) == FALLO)
     {
@@ -428,6 +428,7 @@ int reservar_inodo(unsigned char tipo, unsigned char permisos)
 
     unsigned int posInodoReservado = SB.posPrimerInodoLibre;
     SB.posPrimerInodoLibre++;
+    SB.cantInodosLibres--;
 
     union _inodo inodo;
     inodo.tipo = tipo;
@@ -448,15 +449,12 @@ int reservar_inodo(unsigned char tipo, unsigned char permisos)
         inodo.punterosIndirectos[i] = 0;
     }
 
-    union _inodo *inodop = &inodo;
-
-    if (escribir_inodo(posInodoReservado, inodop) == FALLO)
+    if (escribir_inodo(posInodoReservado, inodo) == FALLO)
     {
         perror("Error reservar_inodo escribir_inodo");
         return FALLO;
     }
 
-    SB.cantInodosLibres--;
     if (bwrite(posSB, &SB) == FALLO)
     {
         perror("Error reservar_inodo bwrite");
@@ -549,15 +547,22 @@ int obtener_indice(unsigned int nblogico, int nivel_punteros)
 /// @param nblogico
 /// @param reservar
 /// @return número de bloque físico o FALLO
-int traducir_bloque_inodo(union _inodo *ninodo, unsigned int nblogico, unsigned char reservar)
+int traducir_bloque_inodo(unsigned int ninodo, unsigned int nblogico, unsigned char reservar)
 {
     unsigned int ptr, ptr_ant;
     int nRangoBL, nivel_punteros, indice;
     unsigned int buffer[NPUNTEROS];
 
+    union _inodo inodo;
+    if (leer_inodo(ninodo, &inodo) == FALLO)
+    {
+        perror("Error traducir_bloque_inodo leer_inodo");
+        return FALLO;
+    }
+
     ptr = 0;
     ptr_ant = 0;
-    nRangoBL = obtener_nRangoBL(ninodo, nblogico, &ptr); // 0:D, 1:I0, 2:I1, 3:I2
+    nRangoBL = obtener_nRangoBL(&inodo, nblogico, &ptr); // 0:D, 1:I0, 2:I1, 3:I2
     if (nRangoBL == FALLO)
     {
         perror("Error traducir_bloque_inodo obtener_nRangoBL");
@@ -586,11 +591,11 @@ int traducir_bloque_inodo(union _inodo *ninodo, unsigned int nblogico, unsigned 
                     perror("Error traducir_bloque_inodo reservar_bloque (nivel de punteros indirectos) 'No quedan bloques libres'");
                     return FALLO;
                 }
-                ninodo->numBloquesOcupados++;
-                ninodo->ctime = time(NULL); // fecha actual
+                inodo.numBloquesOcupados++;
+                inodo.ctime = time(NULL); // fecha actual
                 if (nivel_punteros == nRangoBL)
                 { // el bloque cuelga directamente del inodo
-                    ninodo->punterosIndirectos[nRangoBL - 1] = ptr;
+                    inodo.punterosIndirectos[nRangoBL - 1] = ptr;
                 }
                 else
                 { // el bloque cuelga de otro bloque de punteros
@@ -636,11 +641,11 @@ int traducir_bloque_inodo(union _inodo *ninodo, unsigned int nblogico, unsigned 
                 perror("Error traducir_bloque_inodo reservar_bloque (nivel de datos) 'No quedan bloques libres'");
                 return FALLO;
             }
-            ninodo->numBloquesOcupados++;
-            ninodo->ctime = time(NULL);
+            inodo.numBloquesOcupados++;
+            inodo.ctime = time(NULL);
             if (nRangoBL == 0)
-            {                                             // si era un puntero Directo
-                ninodo->punterosDirectos[nblogico] = ptr; // asignamos la direción del bl. de datos en el inodo
+            {                                           // si era un puntero Directo
+                inodo.punterosDirectos[nblogico] = ptr; // asignamos la direción del bl. de datos en el inodo
             }
             else
             {
@@ -654,5 +659,11 @@ int traducir_bloque_inodo(union _inodo *ninodo, unsigned int nblogico, unsigned 
         }
     }
     // mi_write_f() se encargará de salvar los cambios del inodo en disco
+    if (escribir_inodo(ninodo, inodo) == FALLO)
+    {
+        perror("Error traducir_bloque_inodo escribir_inodo");
+        return FALLO;
+    }
+
     return ptr; // nº de bloque físico correspondiente al bloque de datos lógico, nblogico
 }

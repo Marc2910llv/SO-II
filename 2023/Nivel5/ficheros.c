@@ -30,25 +30,25 @@ int mi_write_f(unsigned int ninodo, const void *buf_original, unsigned int offse
     int desp1 = offset % BLOCKSIZE;
     int desp2 = (offset + nbytes - 1) % BLOCKSIZE;
 
-    int nbfisico = FALLO;
     unsigned char buf_bloque[BLOCKSIZE];
 
     size_t bytesEscritos = 0;
 
+    int nbfisico = traducir_bloque_inodo(ninodo, primerBL, 1); // Obtenemos el nº de bloque físico
+    if (nbfisico == FALLO)
+    {
+        perror("Error mi_write_f traducir_bloque_inodo");
+        return FALLO;
+    }
+
+    if (bread(nbfisico, buf_bloque) == FALLO)
+    {
+        perror("Error mi_write_f bread");
+        return FALLO;
+    }
+
     if (primerBL == ultimoBL) // cabe solo un bloque
     {
-        nbfisico = traducir_bloque_inodo(&inodo, primerBL, 1); // Obtenemos el nº de bloque físico
-        if (nbfisico == FALLO)
-        {
-            perror("Error mi_write_f traducir_bloque_inodo (primerBL == ultimoBL)");
-            return FALLO;
-        }
-
-        if (bread(nbfisico, buf_bloque) == FALLO)
-        {
-            perror("Error mi_write_f bread (primerBL == ultimoBL)");
-            return FALLO;
-        }
 
         memcpy(buf_bloque + desp1, buf_original, nbytes); // Utilizamos memcpy() para escribir los nbytes
 
@@ -64,18 +64,6 @@ int mi_write_f(unsigned int ninodo, const void *buf_original, unsigned int offse
     {
         // 1º PRIMERA FASE
         // Primer bloque lógico
-        nbfisico = traducir_bloque_inodo(&inodo, primerBL, 1); // Obtenemos el nº de bloque físico
-        if (nbfisico == FALLO)
-        {
-            perror("Error mi_write_f traducir_bloque_inodo (PRIMERA FASE)");
-            return FALLO;
-        }
-
-        if (bread(nbfisico, buf_bloque) == FALLO)
-        {
-            perror("Error mi_write_f bread (PRIMERA FASE)");
-            return FALLO;
-        }
 
         memcpy(buf_bloque + desp1, buf_original, BLOCKSIZE - desp1);
 
@@ -91,7 +79,7 @@ int mi_write_f(unsigned int ninodo, const void *buf_original, unsigned int offse
         // Bloques lógicos intermedios
         for (int i = primerBL + 1; i < ultimoBL; i++)
         {
-            nbfisico = traducir_bloque_inodo(&inodo, i, 1); // Obtenemos el nº de bloque físico
+            nbfisico = traducir_bloque_inodo(ninodo, i, 1); // Obtenemos el nº de bloque físico
             if (nbfisico == FALLO)
             {
                 perror("Error mi_write_f traducir_bloque_inodo (SEGUNDA FASE)");
@@ -110,7 +98,7 @@ int mi_write_f(unsigned int ninodo, const void *buf_original, unsigned int offse
 
         // 3º TERCERA FASE
         // Último bloque lógico
-        nbfisico = traducir_bloque_inodo(&inodo, primerBL, 1); // Obtenemos el nº de bloque físico
+        nbfisico = traducir_bloque_inodo(ninodo, primerBL, 1); // Obtenemos el nº de bloque físico
         if (nbfisico == FALLO)
         {
             perror("Error mi_write_f traducir_bloque_inodo (TERCERA FASE)");
@@ -154,13 +142,21 @@ int mi_write_f(unsigned int ninodo, const void *buf_original, unsigned int offse
 
     inodo.mtime = time(NULL);
 
-    if (escribir_inodo(ninodo, &inodo) == FALLO)
+    if (escribir_inodo(ninodo, inodo) == FALLO)
     {
         perror("Error mi_write_f escribir_inodo");
         return FALLO;
     }
 
-    return bytesEscritos;
+    if (nbytes == bytesEscritos)
+    {
+        return bytesEscritos;
+    }
+    else
+    {
+        perror("Error de escritura");
+        return FALLO;
+    }
 }
 
 /// @brief leer información de un fichero/directorio y almacenarla en un buffer de memoria
@@ -208,7 +204,7 @@ int mi_read_f(unsigned int ninodo, void *buf_original, unsigned int offset,
 
     if (primerBL == ultimoBL) // cabe solo un bloque
     {
-        nbfisico = traducir_bloque_inodo(&inodo, primerBL, 0); // Obtenemos el nº de bloque físico
+        nbfisico = traducir_bloque_inodo(ninodo, primerBL, 0); // Obtenemos el nº de bloque físico
         if (nbfisico == FALLO)
         {
             if (bread(nbfisico, buf_bloque) == FALLO)
@@ -226,7 +222,7 @@ int mi_read_f(unsigned int ninodo, void *buf_original, unsigned int offset,
     {
         // 1º PRIMERA FASE
         // Primer bloque lógico
-        nbfisico = traducir_bloque_inodo(&inodo, primerBL, 0); // Obtenemos el nº de bloque físico
+        nbfisico = traducir_bloque_inodo(ninodo, primerBL, 0); // Obtenemos el nº de bloque físico
         if (nbfisico == FALLO)
         {
             if (bread(nbfisico, buf_bloque) == FALLO)
@@ -244,7 +240,7 @@ int mi_read_f(unsigned int ninodo, void *buf_original, unsigned int offset,
         // Bloques lógicos intermedios
         for (int i = primerBL + 1; i < ultimoBL; i++)
         {
-            nbfisico = traducir_bloque_inodo(&inodo, i, 0); // Obtenemos el nº de bloque físico
+            nbfisico = traducir_bloque_inodo(ninodo, i, 0); // Obtenemos el nº de bloque físico
             if (nbfisico == FALLO)
             {
                 if (bread(nbfisico, buf_bloque) == FALLO)
@@ -261,7 +257,7 @@ int mi_read_f(unsigned int ninodo, void *buf_original, unsigned int offset,
 
         // 3º TERCERA FASE
         // Último bloque lógico
-        nbfisico = traducir_bloque_inodo(&inodo, primerBL, 0); // Obtenemos el nº de bloque físico
+        nbfisico = traducir_bloque_inodo(ninodo, primerBL, 0); // Obtenemos el nº de bloque físico
         if (nbfisico == FALLO)
         {
             if (bread(nbfisico, buf_bloque) == FALLO)
@@ -290,13 +286,21 @@ int mi_read_f(unsigned int ninodo, void *buf_original, unsigned int offset,
 
     inodo.atime = time(NULL);
 
-    if (escribir_inodo(ninodo, &inodo) == FALLO)
+    if (escribir_inodo(ninodo, inodo) == FALLO)
     {
         perror("Error mi_read_f escribir_inodo");
         return FALLO;
     }
 
-    return bytesLeidos;
+    if (nbytes == bytesLeidos)
+    {
+        return bytesLeidos;
+    }
+    else
+    {
+        perror("Error de lectura");
+        return FALLO;
+    }
 }
 
 /// @brief devolver la metainformación de un fichero/directorio
@@ -340,7 +344,7 @@ int mi_chmod_f(unsigned int ninodo, unsigned char permisos)
     inodo.permisos = permisos;
     inodo.ctime = time(NULL);
 
-    if (escribir_inodo(ninodo, &inodo) == FALLO)
+    if (escribir_inodo(ninodo, inodo) == FALLO)
     {
         perror("Error mi_chmod_f escribir_inodo");
         return FALLO;

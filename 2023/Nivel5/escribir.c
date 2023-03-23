@@ -28,14 +28,18 @@ int main(int argc, char *argv[])
     }
 
     int ninodo = reservar_inodo('f', 6);
-
     if (ninodo == FALLO)
     {
         perror("Error main reservar_inodo");
         return FALLO;
     }
+    if (ninodo == -2)
+    {
+        perror("Error main reservar_inodo (no quedan bloques libres)");
+        return FALLO;
+    }
 
-    for (int i = 0; i < (sizeof(offset) / sizeof(offset[0])); i++)
+    for (int i = 0; i < (sizeof(offset) / sizeof(int)); i++)
     {
         size_t bytesEscritos = mi_write_f(ninodo, argv[2], offset[i], strlen(argv[2]));
         if (bytesEscritos == FALLO)
@@ -61,6 +65,16 @@ int main(int argc, char *argv[])
         if (atoi(argv[3]) != 0)
         {
             ninodo = reservar_inodo('f', 6);
+            if (ninodo == FALLO)
+            {
+                perror("Error main reservar_inodo");
+                return FALLO;
+            }
+            if (ninodo == -2)
+            {
+                perror("Error main reservar_inodo (no quedan bloques libres)");
+                return FALLO;
+            }
         }
     }
 
