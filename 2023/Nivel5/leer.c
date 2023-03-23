@@ -55,8 +55,8 @@ int main(int argc, char const *argv[])
         perror("Error main leer_inodo");
         return FALLO;
     }
-    
-    fprintf(stderr, "total_leidos: %d\n", bytesLeidos);
+
+    fprintf(stderr, "total_leidos: %ld\n", bytesLeidos);
     fprintf(stderr, "tamEnBytesLog: %d\n\n", inodo.tamEnBytesLog);
 
     if (bumount() == FALLO)

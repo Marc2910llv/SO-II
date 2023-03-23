@@ -4,15 +4,17 @@
  *   Programa de pruebas
  */
 
+#include <stdio.h>
 #include "ficheros.h"
+#define RED "\x1b[31m"
 
 int main(int argc, char *argv[])
 {
     if (argc != 4)
     {
-        printf("\x1b[31m", "Sintaxis: escribir <nombre_dispositivo> <'$(cat fichero)'> <diferentes_inodos>\n");
-        printf("Offsets: 9000, 209000, 30725000, 409605000, 480000000 \n");
-        printf("Si diferentes_inodos=0 se reserva un solo inodo para todos los offsets\n");
+        fprintf(stderr, RED "Sintaxis: escribir <nombre_dispositivo> <'$(cat fichero)'> <diferentes_inodos>\n");
+        fprintf(stderr, RED "Offsets: 9000, 209000, 30725000, 409605000, 480000000 \n");
+        fprintf(stderr, RED "Si diferentes_inodos=0 se reserva un solo inodo para todos los offsets\n");
         return FALLO;
     }
     int offset[5] = {9000, 209000, 30725000, 409605000, 480000000}; // offsets
@@ -33,7 +35,7 @@ int main(int argc, char *argv[])
         return FALLO;
     }
 
-    for (int i = 0; i < len(offset); i++)
+    for (int i = 0; i < (sizeof(offset) / sizeof(offset[0])); i++)
     {
         size_t bytesEscritos = mi_write_f(ninodo, argv[2], offset[i], strlen(argv[2]));
         if (bytesEscritos == FALLO)
@@ -43,7 +45,7 @@ int main(int argc, char *argv[])
         }
 
         struct STAT stat;
-        if (mi_stat_f(n, &stat) == FALLO)
+        if (mi_stat_f(ninodo, &stat) == FALLO)
         {
             perror("Error main mi_stat_f");
             return FALLO;
@@ -51,10 +53,9 @@ int main(int argc, char *argv[])
 
         printf("Numero inodo reservado: %d\n", ninodo);
         printf("Offset: %d\n", offset[i]);
-
-        printf("Bytes escritos: %d \n", bytesEscritos);
-        printf("stat.tamEnBytesLog = %d\n", stat->tamEnBytesLog);
-        printf("stat.numBloquesOcupados = %d\n", stat->numBloquesOcupados);
+        printf("Bytes escritos: %ld \n", bytesEscritos);
+        printf("stat.tamEnBytesLog = %d\n", stat.tamEnBytesLog);
+        printf("stat.numBloquesOcupados = %d\n", stat.numBloquesOcupados);
         printf("\n");
 
         if (atoi(argv[3]) != 0)

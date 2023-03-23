@@ -9,6 +9,7 @@
 
 #define DEBUGN1 0 // Lista enlazada de inodos
 #define DEBUGN2 0 // Reservar y liberar un bloque, mapa de bits y directorio raíz
+#define DEBUGN3 0
 
 int main(int argc, char *argv[])
 {
@@ -30,11 +31,6 @@ int main(int argc, char *argv[])
         perror("Error main bread (SB)");
         return FALLO;
     }
-    struct tm *ts;
-    char atime[80];
-    char mtime[80];
-    char ctime[80];
-    union _inodo inodo;
 
     printf("DATOS DEL SUPERBLOQUE\n");
     printf("posPrimerBloqueMB = %d\n", SB.posPrimerBloqueMB);
@@ -77,6 +73,12 @@ int main(int argc, char *argv[])
 #endif
 
 #if DEBUGN2
+    struct tm *ts;
+    char atime[80];
+    char mtime[80];
+    char ctime[80];
+    union _inodo inodo;
+
     printf("\nRESERVAMOS UN BLOQUE Y LUEGO LO LIBERAMOS:\n");
     int reservado = reservar_bloque(); // Actualiza el SB
     if (reservado == FALLO)
@@ -186,6 +188,12 @@ int main(int argc, char *argv[])
 #endif
 
 #if DEBUGN3
+    struct tm *ts;
+    char atime[80];
+    char mtime[80];
+    char ctime[80];
+    union _inodo inodo;
+
     int inodoReservado = reservar_inodo('f', 6);
     if (inodoReservado == FALLO)
     {
