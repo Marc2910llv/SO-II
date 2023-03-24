@@ -42,12 +42,12 @@ int main(int argc, char const *argv[])
         fprintf(stderr, "Error main mi_read_f (fuera del bucle)");
         return FALLO;
     }
+
     while (leidos > 0)
     {
         bytesLeidos = bytesLeidos + leidos;
         write(1, buffer_texto, leidos);
         memset(buffer_texto, 0, tambuffer);
-
         offset = offset + tambuffer;
         leidos = mi_read_f(ninodo, buffer_texto, offset, tambuffer);
         if (leidos == FALLO)

@@ -32,7 +32,7 @@ int mi_write_f(unsigned int ninodo, const void *buf_original, unsigned int offse
 
     unsigned char buf_bloque[BLOCKSIZE];
 
-    size_t bytesEscritos = 0;
+    int bytesEscritos = 0;
 
     int nbfisico = traducir_bloque_inodo(ninodo, primerBL, 1); // Obtenemos el nº de bloque físico
     if (nbfisico == FALLO)
@@ -98,7 +98,7 @@ int mi_write_f(unsigned int ninodo, const void *buf_original, unsigned int offse
 
         // 3º TERCERA FASE
         // Último bloque lógico
-        nbfisico = traducir_bloque_inodo(ninodo, primerBL, 1); // Obtenemos el nº de bloque físico
+        nbfisico = traducir_bloque_inodo(ninodo, ultimoBL, 1); // Obtenemos el nº de bloque físico
         if (nbfisico == FALLO)
         {
             perror("Error mi_write_f traducir_bloque_inodo (TERCERA FASE)");
@@ -181,11 +181,10 @@ int mi_read_f(unsigned int ninodo, void *buf_original, unsigned int offset,
         return -2;
     }
 
-    size_t bytesLeidos = 0;
+    int bytesLeidos = 0;
 
     if (offset >= inodo.tamEnBytesLog)
     {
-        bytesLeidos = 0; // No podemos leer nada
         return bytesLeidos;
     }
     if ((offset + nbytes) >= inodo.tamEnBytesLog)
@@ -199,13 +198,12 @@ int mi_read_f(unsigned int ninodo, void *buf_original, unsigned int offset,
     int desp1 = offset % BLOCKSIZE;
     int desp2 = (offset + nbytes - 1) % BLOCKSIZE;
 
-    int nbfisico = FALLO;
+    int nbfisico = traducir_bloque_inodo(ninodo, primerBL, 0); // Obtenemos el nº de bloque físico
     unsigned char buf_bloque[BLOCKSIZE];
 
     if (primerBL == ultimoBL) // cabe solo un bloque
     {
-        nbfisico = traducir_bloque_inodo(ninodo, primerBL, 0); // Obtenemos el nº de bloque físico
-        if (nbfisico == FALLO)
+        if (nbfisico != FALLO)
         {
             if (bread(nbfisico, buf_bloque) == FALLO)
             {
@@ -213,17 +211,16 @@ int mi_read_f(unsigned int ninodo, void *buf_original, unsigned int offset,
                 return FALLO;
             }
 
-            memcpy(buf_bloque + desp1, buf_original, nbytes); // Utilizamos memcpy() para escribir los nbytes
+            memcpy(buf_original, buf_bloque + desp1, nbytes);
         }
 
-        bytesLeidos = bytesLeidos + nbytes;
+        bytesLeidos = nbytes;
     }
     else if (primerBL < ultimoBL) // cabe más de un bloque
     {
         // 1º PRIMERA FASE
         // Primer bloque lógico
-        nbfisico = traducir_bloque_inodo(ninodo, primerBL, 0); // Obtenemos el nº de bloque físico
-        if (nbfisico == FALLO)
+        if (nbfisico != FALLO)
         {
             if (bread(nbfisico, buf_bloque) == FALLO)
             {
@@ -231,17 +228,17 @@ int mi_read_f(unsigned int ninodo, void *buf_original, unsigned int offset,
                 return FALLO;
             }
 
-            memcpy(buf_bloque + desp1, buf_original, BLOCKSIZE - desp1);
+            memcpy(buf_original, buf_bloque + desp1, BLOCKSIZE - desp1);
         }
 
-        bytesLeidos = bytesLeidos + (BLOCKSIZE - desp1);
+        bytesLeidos = BLOCKSIZE - desp1;
 
         // 2º SEGUNDA FASE
         // Bloques lógicos intermedios
         for (int i = primerBL + 1; i < ultimoBL; i++)
         {
             nbfisico = traducir_bloque_inodo(ninodo, i, 0); // Obtenemos el nº de bloque físico
-            if (nbfisico == FALLO)
+            if (nbfisico != FALLO)
             {
                 if (bread(nbfisico, buf_bloque) == FALLO)
                 {
@@ -257,7 +254,7 @@ int mi_read_f(unsigned int ninodo, void *buf_original, unsigned int offset,
 
         // 3º TERCERA FASE
         // Último bloque lógico
-        nbfisico = traducir_bloque_inodo(ninodo, primerBL, 0); // Obtenemos el nº de bloque físico
+        nbfisico = traducir_bloque_inodo(ninodo, ultimoBL, 0); // Obtenemos el nº de bloque físico
         if (nbfisico == FALLO)
         {
             if (bread(nbfisico, buf_bloque) == FALLO)
@@ -266,7 +263,7 @@ int mi_read_f(unsigned int ninodo, void *buf_original, unsigned int offset,
                 return FALLO;
             }
 
-            memcpy(buf_bloque, buf_original + (nbytes - (desp2 + 1)), desp2 + 1);
+            memcpy(buf_original + (nbytes - desp2 - 1), buf_bloque, desp2 + 1);
         }
 
         bytesLeidos = bytesLeidos + (desp2 + 1);
