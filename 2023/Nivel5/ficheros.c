@@ -67,13 +67,14 @@ int mi_write_f(unsigned int ninodo, const void *buf_original, unsigned int offse
 
         memcpy(buf_bloque + desp1, buf_original, BLOCKSIZE - desp1);
 
-        if (bwrite(nbfisico, buf_bloque) == FALLO)
+        int bytesEscritosAux = bwrite(nbfisico, buf_bloque);
+        if (bytesEscritosAux == FALLO)
         {
             perror("Error mi_write_f bwrite (PRIMERA FASE)");
             return FALLO;
         }
 
-        bytesEscritos = bytesEscritos + (BLOCKSIZE - desp1);
+        bytesEscritos = bytesEscritos + bytesEscritosAux - desp1;
 
         // 2º SEGUNDA FASE
         // Bloques lógicos intermedios
@@ -86,7 +87,7 @@ int mi_write_f(unsigned int ninodo, const void *buf_original, unsigned int offse
                 return FALLO;
             }
 
-            size_t bytesEscritosAux = bwrite(nbfisico, buf_original + (BLOCKSIZE - desp1) + (i - primerBL - 1) * BLOCKSIZE);
+            bytesEscritosAux = bwrite(nbfisico, buf_original + (BLOCKSIZE - desp1) + (i - primerBL - 1) * BLOCKSIZE);
             if (bytesEscritosAux == FALLO)
             {
                 perror("Error mi_write_f bwrite (SEGUNDA FASE)");
@@ -111,15 +112,16 @@ int mi_write_f(unsigned int ninodo, const void *buf_original, unsigned int offse
             return FALLO;
         }
 
-        memcpy(buf_bloque, buf_original + (nbytes - (desp2 + 1)), desp2 + 1);
+        memcpy(buf_bloque, buf_original + (nbytes - desp2 - 1), desp2 + 1);
 
-        if (bwrite(nbfisico, buf_bloque) == FALLO)
+        bytesEscritosAux = bwrite(nbfisico, buf_bloque);
+        if (bytesEscritosAux == FALLO)
         {
             perror("Error mi_write_f bwrite (TERCERA FASE)");
             return FALLO;
         }
 
-        bytesEscritos = bytesEscritos + (desp2 + 1);
+        bytesEscritos = bytesEscritos + desp2 + 1;
     }
     else
     {
