@@ -38,7 +38,7 @@ echo -e "\x1B[38;2;17;245;120m##################################################
 echo -e "\x1B[38;2;17;245;120m$ ./escribir disco "123456789" 1\x1b[0m"
 echo -e "\x1B[38;2;17;245;120m#escribimos el texto “123456789” en los offsets 9000, 209000, 30725000, \x1b[0m"
 echo -e "\x1B[38;2;17;245;120m#409605000 y 480000000, de inodos diferentes\x1b[0m"
-./escribir disco "123456789" 1
+./escribir disco "123456789" 1 
 echo
 echo -e "\x1B[38;2;17;245;120m################################################################################\x1b[0m\x1b[0m"
 echo -e "\x1B[38;2;17;245;120m$ ./leer disco 2 > ext2.txt\x1b[0m"

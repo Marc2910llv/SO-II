@@ -30,7 +30,7 @@ int mi_write_f(unsigned int ninodo, const void *buf_original, unsigned int offse
     int desp1 = offset % BLOCKSIZE;
     int desp2 = (offset + nbytes - 1) % BLOCKSIZE;
 
-    unsigned char buf_bloque[BLOCKSIZE];
+    char unsigned buf_bloque[BLOCKSIZE];
 
     int bytesEscritos = 0;
 
@@ -58,7 +58,7 @@ int mi_write_f(unsigned int ninodo, const void *buf_original, unsigned int offse
             return FALLO;
         }
 
-        bytesEscritos = bytesEscritos + nbytes;
+        bytesEscritos += nbytes;
     }
     else if (primerBL < ultimoBL) // cabe más de un bloque
     {
@@ -74,7 +74,7 @@ int mi_write_f(unsigned int ninodo, const void *buf_original, unsigned int offse
             return FALLO;
         }
 
-        bytesEscritos = bytesEscritos + bytesEscritosAux - desp1;
+        bytesEscritos += bytesEscritosAux - desp1;
 
         // 2º SEGUNDA FASE
         // Bloques lógicos intermedios
@@ -94,7 +94,7 @@ int mi_write_f(unsigned int ninodo, const void *buf_original, unsigned int offse
                 return FALLO;
             }
 
-            bytesEscritos = bytesEscritos + bytesEscritosAux;
+            bytesEscritos += bytesEscritosAux;
         }
 
         // 3º TERCERA FASE
@@ -114,14 +114,13 @@ int mi_write_f(unsigned int ninodo, const void *buf_original, unsigned int offse
 
         memcpy(buf_bloque, buf_original + (nbytes - desp2 - 1), desp2 + 1);
 
-        bytesEscritosAux = bwrite(nbfisico, buf_bloque);
-        if (bytesEscritosAux == FALLO)
+        if (bwrite(nbfisico, buf_bloque) == FALLO)
         {
             perror("Error mi_write_f bwrite (TERCERA FASE)");
             return FALLO;
         }
 
-        bytesEscritos = bytesEscritos + desp2 + 1;
+        bytesEscritos += desp2 + 1;
     }
     else
     {
@@ -251,7 +250,7 @@ int mi_read_f(unsigned int ninodo, void *buf_original, unsigned int offset,
                 memcpy((buf_original + (BLOCKSIZE - desp1) + (i - primerBL - 1) * BLOCKSIZE), buf_bloque, BLOCKSIZE);
             }
 
-            bytesLeidos = bytesLeidos + BLOCKSIZE;
+            bytesLeidos += BLOCKSIZE;
         }
 
         // 3º TERCERA FASE
@@ -268,7 +267,7 @@ int mi_read_f(unsigned int ninodo, void *buf_original, unsigned int offset,
             memcpy(buf_original + (nbytes - desp2 - 1), buf_bloque, desp2 + 1);
         }
 
-        bytesLeidos = bytesLeidos + (desp2 + 1);
+        bytesLeidos += desp2 + 1;
     }
     else
     {

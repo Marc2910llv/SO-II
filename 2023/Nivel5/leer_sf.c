@@ -188,12 +188,6 @@ int main(int argc, char *argv[])
 #endif
 
 #if DEBUGN3
-    struct tm *ts;
-    char atime[80];
-    char mtime[80];
-    char ctime[80];
-    union _inodo inodo;
-
     int inodoReservado = reservar_inodo('f', 6);
     if (inodoReservado == FALLO)
     {
@@ -211,41 +205,39 @@ int main(int argc, char *argv[])
         return FALLO;
     }
 
-    printf("INODO %d. TRADUCCION DE LOS BLOQUES LOGICOS 8, 204, 30.004, 400.004 y 468.750\n", inodoReservado);
-    if (leer_inodo(inodoReservado, &inodo) == FALLO)
-    {
-        perror("Error main bread (traducción bloque lógicos)");
-        return FALLO;
-    }
-    union _inodo *inodox = &inodo;
-
-    if (traducir_bloque_inodo(inodox, 8, 1) == FALLO)
+    printf("INODO %d. TRADUCCION DE LOS BLOQUES LOGICOS 8, 204, 30.004, 400.004 y 468.750\n", inodoReservado);    
+    if (traducir_bloque_inodo(inodoReservado, 8, 1) == FALLO)
     {
         perror("Error main traducir_bloque_inodo (8)");
         return FALLO;
     }
-    if (traducir_bloque_inodo(inodox, 204, 1) == FALLO)
+    if (traducir_bloque_inodo(inodoReservado, 204, 1) == FALLO)
     {
         perror("Error main traducir_bloque_inodo (204)");
         return FALLO;
     }
-    if (traducir_bloque_inodo(inodox, 30004, 1) == FALLO)
+    if (traducir_bloque_inodo(inodoReservado, 30004, 1) == FALLO)
     {
         perror("Error main traducir_bloque_inodo (30.004)");
         return FALLO;
     }
-    if (traducir_bloque_inodo(inodox, 400004, 1) == FALLO)
+    if (traducir_bloque_inodo(inodoReservado, 400004, 1) == FALLO)
     {
         perror("Error main traducir_bloque_inodo (400.004)");
         return FALLO;
     }
-    if (traducir_bloque_inodo(inodox, 468750, 1) == FALLO)
+    if (traducir_bloque_inodo(inodoReservado, 468750, 1) == FALLO)
     {
         perror("Error main traducir_bloque_inodo (468.750)");
         return FALLO;
     }
 
     printf("\nDATOS DEL INODO RESERVADO: %d\n", inodoReservado);
+    if (leer_inodo(inodoReservado, &inodo) == FALLO)
+    {
+        perror("Error main bread (traducción bloque lógicos)");
+        return FALLO;
+    }
     ts = localtime(&inodo.atime);
     strftime(atime, sizeof(atime), "%a %Y-%m-%d %H:%M:%S", ts);
     ts = localtime(&inodo.mtime);

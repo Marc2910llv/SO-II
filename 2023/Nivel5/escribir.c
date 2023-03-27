@@ -23,56 +23,56 @@ int main(int argc, char *argv[])
 
     if (bmount(argv[1]) == FALLO)
     {
-        perror("Error main bmount");
+        fprintf(stderr, RED "Error main bmount");
         return FALLO;
     }
 
     int ninodo = reservar_inodo('f', 6);
     if (ninodo == FALLO)
     {
-        perror("Error main reservar_inodo");
+        fprintf(stderr, RED "Error main reservar_inodo");
         return FALLO;
     }
     if (ninodo == -2)
     {
-        perror("Error main reservar_inodo (no quedan bloques libres)");
+        fprintf(stderr, RED "Error main reservar_inodo (no quedan bloques libres)");
         return FALLO;
     }
 
     for (int i = 0; i < (sizeof(offset) / sizeof(int)); i++)
     {
-        size_t bytesEscritos = mi_write_f(ninodo, argv[2], offset[i], strlen(argv[2]));
+        printf("Numero inodo reservado: %d\n", ninodo);
+        printf("Offset: %d\n", offset[i]);
+
+        int bytesEscritos = mi_write_f(ninodo, argv[2], offset[i], strlen(argv[2]));
         if (bytesEscritos == FALLO)
         {
-            perror("Error main mi_write_f");
+            fprintf(stderr, RED "Error main mi_write_f");
             return FALLO;
         }
 
         struct STAT stat;
         if (mi_stat_f(ninodo, &stat) == FALLO)
         {
-            perror("Error main mi_stat_f");
+            fprintf(stderr, RED "Error main mi_stat_f");
             return FALLO;
         }
 
-        printf("Numero inodo reservado: %d\n", ninodo);
-        printf("Offset: %d\n", offset[i]);
-        printf("Bytes escritos: %ld \n", bytesEscritos);
+        printf("Bytes escritos: %d \n", bytesEscritos);
         printf("stat.tamEnBytesLog = %d\n", stat.tamEnBytesLog);
-        printf("stat.numBloquesOcupados = %d\n", stat.numBloquesOcupados);
-        printf("\n");
+        printf("stat.numBloquesOcupados = %d\n\n", stat.numBloquesOcupados);
 
-        if (atoi(argv[3]) != 0)
+        if (strcmp(argv[3], "0"))
         {
             ninodo = reservar_inodo('f', 6);
             if (ninodo == FALLO)
             {
-                perror("Error main reservar_inodo");
+                fprintf(stderr, RED "Error main reservar_inodo");
                 return FALLO;
             }
             if (ninodo == -2)
             {
-                perror("Error main reservar_inodo (no quedan bloques libres)");
+                fprintf(stderr, RED "Error main reservar_inodo (no quedan bloques libres)");
                 return FALLO;
             }
         }
@@ -80,6 +80,6 @@ int main(int argc, char *argv[])
 
     if (bumount() == FALLO)
     {
-        perror("Error main bumount");
+        fprintf(stderr, RED "Error main bumount");
     }
 }

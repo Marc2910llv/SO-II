@@ -24,10 +24,10 @@ int main(int argc, char const *argv[])
     }
 
     struct superbloque SB;
-    if (bread(0, &SB) == EXIT_FAILURE)
+    if (bread(0, &SB) == FALLO)
     {
-        fprintf(stderr, "leer.c: Error de lectura del superbloque.\n");
-        return EXIT_FAILURE;
+        fprintf(stderr, "Error main bread");
+        return FALLO;
     }
 
     int ninodo = atoi(argv[2]);

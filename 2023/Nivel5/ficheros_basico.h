@@ -69,4 +69,4 @@ int leer_inodo(unsigned int ninodo, union _inodo *inodo);
 int reservar_inodo(unsigned char tipo, unsigned char permisos);
 int obtener_nRangoBL(union _inodo *inodo, unsigned int nblogico, unsigned int *ptr);
 int obtener_indice(unsigned int nblogico, int nivel_punteros);
-int traducir_bloque_inodo(unsigned int ninodo, unsigned int nblogico, unsigned char reservar);
+int traducir_bloque_inodo(unsigned int ninodo, unsigned int nblogico, char reservar);
