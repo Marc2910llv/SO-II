@@ -344,4 +344,6 @@ int mi_chmod_f(unsigned int ninodo, unsigned char permisos)
 /// @param ninodo
 /// @param nbytes
 /// @return
-int mi_truncar_f(unsigned int ninodo, unsigned int nbytes) {}
+int mi_truncar_f(unsigned int ninodo, unsigned int nbytes)
+{
+}
