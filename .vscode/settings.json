@@ -3,6 +3,7 @@
     "files.associations": {
         "bloques.h": "c",
         "ficheros_basico.h": "c",
-        "ficheros.h": "c"
+        "ficheros.h": "c",
+        "stdlib.h": "c"
     }
 }

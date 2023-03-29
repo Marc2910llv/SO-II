@@ -1,3 +1,5 @@
+#Marc Llobera Villalonga
+
 CC=gcc
 CFLAGS=-c -g -Wall -std=gnu99
 #LDFLAGS=-pthread
