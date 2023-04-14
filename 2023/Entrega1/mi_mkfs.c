@@ -8,7 +8,7 @@ int main(int argc, char **argv)
 {
     if (argc != 3)
     {
-        perror("Error Sintaxis");
+        printf("Sintaxisc corrrecta: mi_mkfs <nombre_dispositivo> <tamaño>\n");
         return FALLO;
     }
 

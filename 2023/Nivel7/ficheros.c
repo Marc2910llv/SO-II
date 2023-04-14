@@ -176,7 +176,7 @@ int mi_read_f(unsigned int ninodo, void *buf_original, unsigned int offset, unsi
 
     if ((inodo.permisos & 4) != 4)
     {
-        fprintf(stderr, "El inodo no tiene permisos para escribir\n");
+        fprintf(stderr, RED "No hay permisos de lectura\n" RESET);
         return FALLO;
     }
 

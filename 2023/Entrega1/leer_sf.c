@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
 {
     if (argc != 2)
     {
-        perror("Error Sintaxis");
+        printf("Sintaxis correcta: <nombre_dispositivo>");
         return FALLO;
     }
 

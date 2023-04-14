@@ -10,7 +10,7 @@ int main(int argc, char const *argv[])
     int permisos = atoi(argv[3]);
     if (argc != 4)
     {
-        printf("Sintaxis: permitir <nombre_dispositivo> <ninodo> <permisos>\n");
+        printf("Sintaxisc corrrecta: permitir <nombre_dispositivo> <ninodo> <permisos>\n");
         return FALLO;
     }
 

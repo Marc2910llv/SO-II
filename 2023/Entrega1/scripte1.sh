@@ -1,4 +1,4 @@
-# Adelaida
+# Marc Llobera Villalonga
 # scripte1.sh
 
 clear

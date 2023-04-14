@@ -4,7 +4,6 @@
 
 #include <stdio.h>
 #include "ficheros.h"
-#define RED "\x1b[31m"
 
 int main(int argc, char *argv[])
 {
@@ -12,7 +11,7 @@ int main(int argc, char *argv[])
     {
         fprintf(stderr, RED "Sintaxis: escribir <nombre_dispositivo> <'$(cat fichero)'> <diferentes_inodos>\n");
         fprintf(stderr, RED "Offsets: 9000, 209000, 30725000, 409605000, 480000000 \n");
-        fprintf(stderr, RED "Si diferentes_inodos=0 se reserva un solo inodo para todos los offsets\n");
+        fprintf(stderr, RED "Si diferentes_inodos=0 se reserva un solo inodo para todos los offsets\n" RESET);
         return FALLO;
     }
     int offset[5] = {9000, 209000, 30725000, 409605000, 480000000}; // offsets

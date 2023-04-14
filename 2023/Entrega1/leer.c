@@ -11,7 +11,7 @@ int main(int argc, char const *argv[])
 
     if (argc != 3)
     {
-        fprintf(stderr, "Sintaxis : leer <nombre_dispositivo> <ninodo>\n ");
+        fprintf(stderr, "Sintaxis correcta: leer <nombre_dispositivo> <ninodo>\n ");
         return FALLO;
     }
 
@@ -35,6 +35,11 @@ int main(int argc, char const *argv[])
 
     memset(buffer_texto, 0, tambuffer);
     int leidos = mi_read_f(ninodo, buffer_texto, offset, tambuffer);
+    if (leidos == FALLO)
+    {
+        fprintf(stderr, "Error main mi_read_f (fuera del bucle)");
+        return FALLO;
+    }
 
     while (leidos > 0)
     {

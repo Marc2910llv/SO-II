@@ -4,6 +4,9 @@
 
 #include "ficheros_basico.h"
 
+#define RED "\x1b[31m"
+#define RESET "\x1b[0m"
+
 struct STAT
 {                  // comprobar que ocupa 128 bytes haciendo un sizeof(inodo)!!!
     char tipo;     // Tipo ('l':libre, 'd':directorio o 'f':fichero)
