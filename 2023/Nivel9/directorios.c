@@ -527,3 +527,23 @@ int mi_stat(const char *camino, struct STAT *p_stat)
 
     return EXITO;
 }
+
+/// @brief
+/// @param camino
+/// @param buf
+/// @param offset
+/// @param nbytes
+/// @return
+int mi_write(const char *camino, const void *buf, unsigned int offset, unsigned int nbytes)
+{
+}
+
+/// @brief
+/// @param camino
+/// @param buf
+/// @param offset
+/// @param nbytes
+/// @return
+int mi_read(const char *camino, void *buf, unsigned int offset, unsigned int nbytes)
+{
+}
