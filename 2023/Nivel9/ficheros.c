@@ -23,8 +23,8 @@ int mi_write_f(unsigned int ninodo, const void *buf_original, unsigned int offse
 
     if ((inodo.permisos & 2) != 2)
     {
-        fprintf(stderr, "El inodo no tiene permisos para escribir\n");
-        return FALLO;
+        fprintf(stderr, RED "No hay permisos de escritura\n" RESET);
+        return -2;
     }
 
     unsigned int primerBL = offset / BLOCKSIZE;
@@ -177,7 +177,7 @@ int mi_read_f(unsigned int ninodo, void *buf_original, unsigned int offset, unsi
     if ((inodo.permisos & 4) != 4)
     {
         fprintf(stderr, RED "No hay permisos de lectura\n" RESET);
-        return FALLO;
+        return -2;
     }
 
     int bytesleidos = 0;

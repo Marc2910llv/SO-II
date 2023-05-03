@@ -7,7 +7,7 @@
 #define DEBUGN1 0 // Lista enlazada de inodos
 #define DEBUGN2 0 // Reservar y liberar un bloque, mapa de bits y directorio raíz
 #define DEBUGN3 0 // Reservar inodo y traducir_bloque_inodo()
-#define DEBUGN4 1 // buscar_entrada()
+#define DEBUGN4 0 // buscar_entrada()
 
 void mostrar_buscar_entrada(char *camino, char reservar)
 {
