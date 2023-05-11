@@ -12,7 +12,6 @@ int main(int argc, char const *argv[])
         return FALLO;
     }
 
-    char const *permisos = argv[2];
     if (atoi(argv[2]) < 0 || atoi(argv[2]) > 7)
     {
         fprintf(stderr, RED "Permisos incorrectos, debe ser nº válido (0-7)\n" RESET);
@@ -38,7 +37,7 @@ int main(int argc, char const *argv[])
         return FALLO;
     }
 
-    int error = mi_creat(ruta, permisos[0]);
+    int error = mi_creat(ruta, atoi(argv[2]));
     if (error == FALLO)
     {
         perror("Error main mi_creat");

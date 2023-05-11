@@ -566,7 +566,6 @@ int liberar_inodo(unsigned int ninodo)
         perror("ERROR EN liberar_inodo AL LIBERAR LOS BLOQUES OCUPADOS");
         return -1;
     }
-
     inodo.numBloquesOcupados = inodo.numBloquesOcupados - bloquesLiberados;
 
     inodo.tipo = 'l';
