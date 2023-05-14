@@ -8,13 +8,13 @@ int main(int argc, char const *argv[])
 {
     if (argc != 4)
     {
-        fprintf(stderr, RED "Sintaxis: ./mi_mkdir <disco> <permisos> </ruta>\n" RESET);
+        fprintf(stderr, RED "Sintaxis: ./mi_touch <disco> <permisos> </ruta>\n" RESET);
         return FALLO;
     }
 
     if (atoi(argv[2]) < 0 || atoi(argv[2]) > 7)
     {
-        fprintf(stderr, RED "Error: modo inválido: <<9>>\n" RESET);
+        fprintf(stderr, RED "Permisos incorrectos, debe ser nº válido (0-7)\n" RESET);
         return FALLO;
     }
 
@@ -25,7 +25,7 @@ int main(int argc, char const *argv[])
         return FALLO;
     }
 
-    if (ruta[strlen(ruta) - 1] != '/')
+    if (ruta[strlen(ruta) - 1] == '/')
     {
         fprintf(stderr, RED "Error: No es fichero\n" RESET);
         return FALLO;

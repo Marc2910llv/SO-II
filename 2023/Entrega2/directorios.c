@@ -55,7 +55,7 @@ int extraer_camino(const char *camino, char *inicial, char *final, char *tipo)
 int buscar_entrada(const char *camino_parcial, unsigned int *p_inodo_dir,
                    unsigned int *p_inodo, unsigned int *p_entrada, char reservar, unsigned char permisos)
 {
-     struct entrada entrada;
+    struct entrada entrada;
     union _inodo inodo;
     char inicial[sizeof(entrada.nombre)];
     char final[strlen(camino_parcial)];
@@ -667,17 +667,13 @@ int mi_link(const char *camino1, const char *camino2)
     unsigned int p_inodo1 = 0;
     unsigned int p_entrada1 = 0;
 
-    unsigned int p_inodo_dir2 = 0;
-    unsigned int p_inodo2 = 0;
-    unsigned int p_entrada2 = 0;
-
-    union _inodo inodo;
-
     int error = buscar_entrada(camino1, &p_inodo_dir1, &p_inodo1, &p_entrada1, 0, 4);
     if (error < EXITO)
     {
         return error;
     }
+
+    union _inodo inodo;
 
     if (leer_inodo(p_inodo1, &inodo) < EXITO)
     {
@@ -696,6 +692,10 @@ int mi_link(const char *camino1, const char *camino2)
         fprintf(stderr, RED "Error: no se tienen los permisos de lectura\n" RESET);
         return ERROR_PERMISO_LECTURA;
     }
+
+    unsigned int p_inodo_dir2 = 0;
+    unsigned int p_inodo2 = 0;
+    unsigned int p_entrada2 = 0;
 
     error = buscar_entrada(camino2, &p_inodo_dir2, &p_inodo2, &p_entrada2, 1, 6);
     if (error < EXITO)
