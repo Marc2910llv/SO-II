@@ -5,6 +5,7 @@
         "ficheros_basico.h": "c",
         "ficheros.h": "c",
         "stdlib.h": "c",
-        "directorios.h": "c"
+        "directorios.h": "c",
+        "semaforo_mutex_posix.h": "c"
     }
 }
