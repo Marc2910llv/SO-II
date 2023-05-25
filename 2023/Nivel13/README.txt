@@ -108,7 +108,7 @@ Ficheros:
     - simulacion.h
 
     - verificacion.c
-        > MEJORA: leer entradas de golpe *NO REALIZADA
+        > MEJORA: leer entradas de golpe <REALIZADA>
 
     - verificacion.h
 
