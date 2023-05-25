@@ -4,7 +4,7 @@
 
 #include "directorios.h"
 #define DEBUG1 0 // buscar_entrada
-#define DEBUG2 0 // mi_write
+#define DEBUG2 2 // mi_write
 #define DEBUG3 0 // mi_read
 static struct UltimaEntrada UltimaEntradaEscritura[CACHE];
 
