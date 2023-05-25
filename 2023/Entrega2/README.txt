@@ -94,3 +94,21 @@ Ficheros:
     - mi_rm.c
 
     - mi_rmdir.c *uso opcional*
+
+*********************************************************************************************************
+******************************************FUNCIONALIDADES EXTRA******************************************
+*********************************************************************************************************
+
+    - mi_rn.c (Renombrar un fichero o directorio dentro de un mismo directorio) *NO REALIZADA
+
+    - mi_mv.c (Mover un fichero o directorio a otro directorio) *NO REALIZADA
+
+    - mi_cp_f.c (Copiar un fichero en otro directorio) *NO REALIZADA
+
+    - mi_cp.c (Copiar un fichero o directorio) *NO REALIZADA
+
+    - mi_rm_r.c (Borrar recursivamente un directorio no vacío) *NO REALIZADA
+
+*********************************************************************************************************
+*********************************************************************************************************
+*********************************************************************************************************
