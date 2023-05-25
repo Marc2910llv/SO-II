@@ -28,10 +28,10 @@ Ficheros:
         · int traducir_bloque_inodo(unsigned int ninodo, unsigned int nblogico, char reservar);
         · int liberar_inodo(unsigned int ninodo);
         · int liberar_bloques_inodo(unsigned int primerBL, union _inodo *inodo);
-            * MEJORA: x
+            > MEJORA: *NO REALIZADA
 
     - ficheros_basico.h
-        * MEJORA: uso de 'typedef union _inodo' en vez de 'struct inodo'
+        > MEJORA: uso de 'typedef union _inodo' en vez de 'struct inodo' <REALIZADA>
 
     - ficheros.c
         · int mi_write_f(unsigned int ninodo, const void *buf_original, unsigned int offset, unsigned int nbytes);
@@ -45,7 +45,7 @@ Ficheros:
     - directorios.c
         · int extraer_camino(const char *camino, char *inicial, char *final, char *tipo);
         · int buscar_entrada(const char *camino_parcial, unsigned int *p_inodo_dir, unsigned int *p_inodo, unsigned int *p_entrada, char reservar, unsigned char permisos);
-            * MEJORA: x
+            > MEJORA: *NO REALIZADA
         · void mostrar_error_buscar_entrada(int error);
         · int mi_creat(const char *camino, unsigned char permisos);
         · int mi_dir(const char *camino, char *buffer, char tipo);
@@ -75,7 +75,11 @@ Ficheros:
     - mi_touch.c *uso opcional*
 
     - mi_ls.c
-        * MEJORA: x
+        > MEJORAS:
+            · Listar datos del inodo <REALIZADA>
+            · Utilizar colores <REALIZADA>
+            · Admitir comando mi_ls para ficheros <REALIZADA>
+            · Distinguir entre formato simple o expandido *NO REALIZADA
 
     - mi_chmod.c
 
