@@ -122,7 +122,7 @@ int main(int argc, char const *argv[])
                 fprintf(stderr, "[simulación.c → Escritura %i en %s]\n", nescritura, fic);
 #endif
 
-                my_sleep(50);
+                usleep(50000);
             }
             fprintf(stderr, "[Proceso %d: Completadas %d escrituras en %s]\n", proceso, NUMESCRITURAS, fic);
             if (bumount() == FALLO) // hijo
@@ -132,7 +132,7 @@ int main(int argc, char const *argv[])
             }
             exit(0); // Necesario para que se emita la señal SIGCHLD
         }
-        my_sleep(150);
+        usleep(150000);
     }
 
     // Permitir que el padre espere por todos los hijos :
@@ -162,6 +162,7 @@ void reaper()
     }
 }
 
+/*
 void my_sleep(unsigned msec)
 { // recibe tiempo en milisegundos
     struct timespec req, rem;
@@ -183,3 +184,4 @@ void my_sleep(unsigned msec)
         }
     }
 }
+*/

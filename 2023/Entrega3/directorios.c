@@ -4,7 +4,7 @@
 
 #include "directorios.h"
 #define DEBUG1 0 // buscar_entrada
-#define DEBUG2 0 // caché
+#define DEBUG2 1 // caché
 
 /// @brief dada una cadena de caracteres camino, separa su contenido en dos
 /// @param camino
@@ -526,7 +526,7 @@ int mi_stat(const char *camino, struct STAT *p_stat)
 
 static struct UltimaEntrada UltimaEntradaEscritura[CACHE];
 int auxCACHE = CACHE;
-
+int pos = 0;
 /// @brief escribir contenido en un fichero
 /// @param camino
 /// @param buf
@@ -547,7 +547,7 @@ int mi_write(const char *camino, const void *buf, unsigned int offset, unsigned 
             p_inodo = UltimaEntradaEscritura[i].p_inodo;
             diferenteInodo = 0;
 #if DEBUG2
-            fprintf(stderr, RED "[mi_write() → Usamos CACHÉ[%i]]\n" RESET, i);
+            fprintf(stderr, BLUE "[mi_write() → Utilizamos cache[%i]: %s]\n" RESET, i, camino);
 #endif
             break;
         }
@@ -555,6 +555,8 @@ int mi_write(const char *camino, const void *buf, unsigned int offset, unsigned 
 
     if (diferenteInodo)
     {
+        pos = pos + 1;
+
         int error = buscar_entrada(camino, &p_inodo_dir, &p_inodo, &p_entrada, 0, 4);
         if (error < FALLO)
         {
@@ -569,27 +571,30 @@ int mi_write(const char *camino, const void *buf, unsigned int offset, unsigned 
         if (auxCACHE > 0)
         {
 #if DEBUG2
-            fprintf(stderr, RED "[mi_write() --> Hemos añadido una entrada en CACHÉ[%i]]\n" RESET, CACHE - auxCACHE);
+            fprintf(stderr, RED "[mi_write() → Reemplazamos cache[%i]: %s]\n" RESET, CACHE - auxCACHE, camino);
 #endif
             strcpy(UltimaEntradaEscritura[CACHE - auxCACHE].camino, camino);
             UltimaEntradaEscritura[CACHE - auxCACHE].p_inodo = p_inodo;
+            UltimaEntradaEscritura[CACHE - auxCACHE].pos = pos;
             auxCACHE--;
         }
         else
         {
-            for (int i = 0; i < CACHE - 1; i++)
+            int posMenor = UltimaEntradaEscritura[0].pos;
+            int index = 0;
+            for (int i = 1; i < CACHE - 1; i++)
             {
-#if DEBUG2
-                fprintf(stderr, RED "[mi_write() --> Pasamos contenido de CACHÉ[%i] a CACHÉ[%i]]\n" RESET, i + 1, i);
-#endif
-                strcpy(UltimaEntradaEscritura[i].camino, UltimaEntradaEscritura[i + 1].camino);
-                UltimaEntradaEscritura[i].p_inodo = UltimaEntradaEscritura[i + 1].p_inodo;
+                if (UltimaEntradaEscritura[i].pos < posMenor)
+                {
+                    index = i;
+                }
             }
 #if DEBUG2
-            fprintf(stderr, RED "[mi_write() --> Hemos añadido una entrada en CACHÉ[%i]]\n" RESET, CACHE - auxCACHE);
+            fprintf(stderr, RED "[mi_write() --> Reemplazamos cache[%i]: %s]\n" RESET, index, camino);
 #endif
-            strcpy(UltimaEntradaEscritura[CACHE - 1].camino, camino);
-            UltimaEntradaEscritura[CACHE - 1].p_inodo = p_inodo;
+            strcpy(UltimaEntradaEscritura[index].camino, camino);
+            UltimaEntradaEscritura[index].p_inodo = p_inodo;
+            UltimaEntradaEscritura[index].pos = pos;
         }
     }
 
