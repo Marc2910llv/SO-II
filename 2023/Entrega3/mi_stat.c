@@ -31,14 +31,14 @@ int main(int argc, char const *argv[])
     char ctime[80];
     char mtime[80];
 
-    struct tm *t;
+    struct tm *tm;
 
-    t = localtime(&stat.atime);
-    strftime(atime, 80, "%a %Y-%m-%d %H:%M:%S", t);
-    t = localtime(&stat.ctime);
-    strftime(ctime, 80, "%a %Y-%m-%d %H:%M:%S", t);
-    t = localtime(&stat.mtime);
-    strftime(mtime, 80, "%a %Y-%m-%d %H:%M:%S", t);
+    tm = localtime(&stat.atime);
+    strftime(atime, 80, "%a %Y-%m-%d %H:%M:%S", tm);
+    tm = localtime(&stat.ctime);
+    strftime(ctime, 80, "%a %Y-%m-%d %H:%M:%S", tm);
+    tm = localtime(&stat.mtime);
+    strftime(mtime, 80, "%a %Y-%m-%d %H:%M:%S", tm);
 
     printf("DATOS INODO %d\n", error);
     printf("tipo= %c\n", stat.tipo);
