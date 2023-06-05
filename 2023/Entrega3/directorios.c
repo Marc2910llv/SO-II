@@ -4,7 +4,7 @@
 
 #include "directorios.h"
 #define DEBUG1 0 // buscar_entrada
-#define DEBUG2 1 // caché
+#define DEBUG2 0 // caché
 
 /// @brief dada una cadena de caracteres camino, separa su contenido en dos
 /// @param camino
